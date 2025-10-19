@@ -119,6 +119,54 @@ const themes = {
         accent1Rgb: '2, 132, 199',
         accent2Rgb: '3, 105, 161',
         accent3Rgb: '7, 89, 133'
+    },
+    'forest-emerald': {
+        gradientStart: '#065f46',
+        gradientMiddle: '#059669',
+        gradientEnd: '#10b981',
+        sidebarTextColor: 'white',
+        accent1: '#065f46',
+        accent2: '#059669',
+        accent3: '#10b981',
+        accent1Rgb: '6, 95, 70',
+        accent2Rgb: '5, 150, 105',
+        accent3Rgb: '16, 185, 129'
+    },
+    'sage-mint': {
+        gradientStart: '#d1fae5',
+        gradientMiddle: '#a7f3d0',
+        gradientEnd: '#6ee7b7',
+        sidebarTextColor: '#064e3b',
+        accent1: '#10b981',
+        accent2: '#059669',
+        accent3: '#047857',
+        accent1Rgb: '16, 185, 129',
+        accent2Rgb: '5, 150, 105',
+        accent3Rgb: '4, 120, 87'
+    },
+    'lime-spring': {
+        gradientStart: '#ecfccb',
+        gradientMiddle: '#d9f99d',
+        gradientEnd: '#bef264',
+        sidebarTextColor: '#365314',
+        accent1: '#84cc16',
+        accent2: '#65a30d',
+        accent3: '#4d7c0f',
+        accent1Rgb: '132, 204, 22',
+        accent2Rgb: '101, 163, 13',
+        accent3Rgb: '77, 124, 15'
+    },
+    'sky-ocean': {
+        gradientStart: '#e0f2fe',
+        gradientMiddle: '#7dd3fc',
+        gradientEnd: '#38bdf8',
+        sidebarTextColor: '#0c4a6e',
+        accent1: '#0ea5e9',
+        accent2: '#0284c7',
+        accent3: '#0369a1',
+        accent1Rgb: '14, 165, 233',
+        accent2Rgb: '2, 132, 199',
+        accent3Rgb: '3, 105, 161'
     }
 };
 
