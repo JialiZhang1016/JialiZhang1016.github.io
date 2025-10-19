@@ -1,3 +1,195 @@
+/* ============================================
+   THEME CONFIGURATION - SWITCH THEMES HERE
+   ============================================ */
+
+/*
+   Instructions:
+   1. Choose ONE theme below by uncommenting it (remove the comment markers)
+   2. Make sure all other themes are commented out
+   3. Each theme includes:
+      - gradient-start, gradient-middle, gradient-end (background colors)
+      - sidebar-text-color (text color for sidebar)
+      - accent-colors (used in decorative elements)
+*/
+
+/* ========== CURRENT THEME: Purple to Pink (Original) ========== */
+:root {
+    /* Background Gradient */
+    --gradient-start: #667eea;
+    --gradient-middle: #764ba2;
+    --gradient-end: #f093fb;
+
+    /* Sidebar Text Color */
+    --sidebar-text-color: white;
+
+    /* Accent Colors (for decorative elements) */
+    --accent-1: #667eea;
+    --accent-2: #764ba2;
+    --accent-3: #f093fb;
+
+    /* RGB values for transparency effects */
+    --accent-1-rgb: 102, 126, 234;
+    --accent-2-rgb: 118, 75, 162;
+    --accent-3-rgb: 240, 147, 251;
+}
+
+/* ========== THEME 1: Deep Blue to Cyan (Professional AI/Tech) ========== */
+/* :root {
+    --gradient-start: #1e3a8a;
+    --gradient-middle: #3b82f6;
+    --gradient-end: #06b6d4;
+
+    --sidebar-text-color: white;
+
+    --accent-1: #1e3a8a;
+    --accent-2: #3b82f6;
+    --accent-3: #06b6d4;
+
+    --accent-1-rgb: 30, 58, 138;
+    --accent-2-rgb: 59, 130, 246;
+    --accent-3-rgb: 6, 182, 212;
+} */
+
+/* ========== THEME 2: Navy to Electric Blue (Data Science Standard) ========== */
+/* :root {
+    --gradient-start: #0f172a;
+    --gradient-middle: #1e40af;
+    --gradient-end: #3b82f6;
+
+    --sidebar-text-color: white;
+
+    --accent-1: #0f172a;
+    --accent-2: #1e40af;
+    --accent-3: #3b82f6;
+
+    --accent-1-rgb: 15, 23, 42;
+    --accent-2-rgb: 30, 64, 175;
+    --accent-3-rgb: 59, 130, 246;
+} */
+
+/* ========== THEME 3: Teal to Emerald (Research & Innovation) ========== */
+/* :root {
+    --gradient-start: #0d9488;
+    --gradient-middle: #14b8a6;
+    --gradient-end: #10b981;
+
+    --sidebar-text-color: white;
+
+    --accent-1: #0d9488;
+    --accent-2: #14b8a6;
+    --accent-3: #10b981;
+
+    --accent-1-rgb: 13, 148, 136;
+    --accent-2-rgb: 20, 184, 166;
+    --accent-3-rgb: 16, 185, 129;
+} */
+
+/* ========== THEME 4: Indigo to Purple (Refined Tech) ========== */
+/* :root {
+    --gradient-start: #4c1d95;
+    --gradient-middle: #6366f1;
+    --gradient-end: #8b5cf6;
+
+    --sidebar-text-color: white;
+
+    --accent-1: #4c1d95;
+    --accent-2: #6366f1;
+    --accent-3: #8b5cf6;
+
+    --accent-1-rgb: 76, 29, 149;
+    --accent-2-rgb: 99, 102, 241;
+    --accent-3-rgb: 139, 92, 246;
+} */
+
+/* ========== LIGHT THEME 1: Soft Blue to Sky (Light & Professional) ========== */
+/* :root {
+    --gradient-start: #dbeafe;
+    --gradient-middle: #bfdbfe;
+    --gradient-end: #93c5fd;
+
+    --sidebar-text-color: #1e3a8a;
+
+    --accent-1: #3b82f6;
+    --accent-2: #2563eb;
+    --accent-3: #1d4ed8;
+
+    --accent-1-rgb: 59, 130, 246;
+    --accent-2-rgb: 37, 99, 235;
+    --accent-3-rgb: 29, 78, 216;
+} */
+
+/* ========== LIGHT THEME 2: Lavender to Periwinkle (Soft Purple Tones) ========== */
+/* :root {
+    --gradient-start: #e0e7ff;
+    --gradient-middle: #c7d2fe;
+    --gradient-end: #a5b4fc;
+
+    --sidebar-text-color: #312e81;
+
+    --accent-1: #6366f1;
+    --accent-2: #4f46e5;
+    --accent-3: #4338ca;
+
+    --accent-1-rgb: 99, 102, 241;
+    --accent-2-rgb: 79, 70, 229;
+    --accent-3-rgb: 67, 56, 202;
+} */
+
+/* ========== LIGHT THEME 3: Mint to Aqua (Fresh & Light) ========== */
+/* :root {
+    --gradient-start: #ccfbf1;
+    --gradient-middle: #99f6e4;
+    --gradient-end: #5eead4;
+
+    --sidebar-text-color: #134e4a;
+
+    --accent-1: #14b8a6;
+    --accent-2: #0d9488;
+    --accent-3: #0f766e;
+
+    --accent-1-rgb: 20, 184, 166;
+    --accent-2-rgb: 13, 148, 136;
+    --accent-3-rgb: 15, 118, 110;
+} */
+
+/* ========== LIGHT THEME 4: Peach to Rose (Warm & Inviting) ========== */
+/* :root {
+    --gradient-start: #fed7aa;
+    --gradient-middle: #fbbf24;
+    --gradient-end: #fb923c;
+
+    --sidebar-text-color: #78350f;
+
+    --accent-1: #f59e0b;
+    --accent-2: #d97706;
+    --accent-3: #b45309;
+
+    --accent-1-rgb: 245, 158, 11;
+    --accent-2-rgb: 217, 119, 6;
+    --accent-3-rgb: 180, 83, 9;
+} */
+
+/* ========== LIGHT THEME 5: Pearl to Silver Blue (Elegant & Subtle) ========== */
+/* :root {
+    --gradient-start: #f0f9ff;
+    --gradient-middle: #e0f2fe;
+    --gradient-end: #bae6fd;
+
+    --sidebar-text-color: #0c4a6e;
+
+    --accent-1: #0284c7;
+    --accent-2: #0369a1;
+    --accent-3: #075985;
+
+    --accent-1-rgb: 2, 132, 199;
+    --accent-2-rgb: 3, 105, 161;
+    --accent-3-rgb: 7, 89, 133;
+} */
+
+/* ============================================
+   BASE STYLES (DO NOT MODIFY)
+   ============================================ */
+
 /* Reset and Base Styles */
 * {
     margin: 0;
@@ -26,7 +218,7 @@ body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
     line-height: 1.6;
     color: var(--text-color);
-    background: linear-gradient(180deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+    background: linear-gradient(180deg, var(--gradient-start) 0%, var(--gradient-middle) 50%, var(--gradient-end) 100%);
     background-attachment: fixed;
 }
 
@@ -40,7 +232,7 @@ body {
 .sidebar {
     width: var(--sidebar-width);
     background: transparent;
-    color: white;
+    color: var(--sidebar-text-color);
     position: fixed;
     height: 100vh;
     overflow: hidden;
@@ -111,7 +303,7 @@ body {
 .sidebar-nav a {
     display: block;
     padding: 12px 20px;
-    color: white;
+    color: var(--sidebar-text-color);
     text-decoration: none;
     border-radius: 6px;
     transition: all 0.3s ease;
@@ -210,7 +402,7 @@ body {
     margin-bottom: 30px;
     padding-bottom: 10px;
     border-bottom: 3px solid transparent;
-    border-image: linear-gradient(90deg, #667eea, #764ba2, #f093fb) 1;
+    border-image: linear-gradient(90deg, var(--accent-1), var(--accent-2), var(--accent-3)) 1;
 }
 
 .section h3 {
@@ -234,10 +426,10 @@ body {
 
 .research-card {
     padding: 25px;
-    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 50%, rgba(240, 147, 251, 0.1) 100%);
+    background: linear-gradient(135deg, rgba(var(--accent-1-rgb), 0.1) 0%, rgba(var(--accent-2-rgb), 0.1) 50%, rgba(var(--accent-3-rgb), 0.1) 100%);
     border-radius: 8px;
     border-left: 4px solid transparent;
-    border-image: linear-gradient(180deg, #667eea, #764ba2, #f093fb) 1;
+    border-image: linear-gradient(180deg, var(--accent-1), var(--accent-2), var(--accent-3)) 1;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -268,15 +460,15 @@ body {
     display: flex;
     gap: 10px;
     padding: 15px;
-    background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 50%, rgba(240, 147, 251, 0.05) 100%);
+    background: linear-gradient(135deg, rgba(var(--accent-1-rgb), 0.05) 0%, rgba(var(--accent-2-rgb), 0.05) 50%, rgba(var(--accent-3-rgb), 0.05) 100%);
     border-radius: 8px;
     border-left: 3px solid transparent;
-    border-image: linear-gradient(180deg, #667eea, #764ba2, #f093fb) 1;
+    border-image: linear-gradient(180deg, var(--accent-1), var(--accent-2), var(--accent-3)) 1;
 }
 
 .skill-label {
     font-weight: 600;
-    background: linear-gradient(135deg, #667eea, #764ba2, #f093fb);
+    background: linear-gradient(135deg, var(--accent-1), var(--accent-2), var(--accent-3));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -293,10 +485,10 @@ body {
 .project {
     margin-bottom: 35px;
     padding: 25px;
-    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 50%, rgba(240, 147, 251, 0.1) 100%);
+    background: linear-gradient(135deg, rgba(var(--accent-1-rgb), 0.1) 0%, rgba(var(--accent-2-rgb), 0.1) 50%, rgba(var(--accent-3-rgb), 0.1) 100%);
     border-radius: 8px;
     border: 2px solid transparent;
-    border-image: linear-gradient(135deg, #667eea, #764ba2, #f093fb) 1;
+    border-image: linear-gradient(135deg, var(--accent-1), var(--accent-2), var(--accent-3)) 1;
     transition: box-shadow 0.3s ease;
 }
 
@@ -342,7 +534,7 @@ body {
 .btn-link {
     display: inline-block;
     padding: 6px 16px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+    background: linear-gradient(135deg, var(--accent-1) 0%, var(--accent-2) 50%, var(--accent-3) 100%);
     color: white;
     text-decoration: none;
     border-radius: 4px;
@@ -352,7 +544,7 @@ body {
 
 .btn-link:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+    box-shadow: 0 4px 12px rgba(var(--accent-1-rgb), 0.4);
 }
 
 /* Publications */
@@ -421,10 +613,10 @@ body {
     display: flex;
     gap: 30px;
     padding: 20px;
-    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 50%, rgba(240, 147, 251, 0.1) 100%);
+    background: linear-gradient(135deg, rgba(var(--accent-1-rgb), 0.1) 0%, rgba(var(--accent-2-rgb), 0.1) 50%, rgba(var(--accent-3-rgb), 0.1) 100%);
     border-radius: 8px;
     border-left: 4px solid transparent;
-    border-image: linear-gradient(180deg, #667eea, #764ba2, #f093fb) 1;
+    border-image: linear-gradient(180deg, var(--accent-1), var(--accent-2), var(--accent-3)) 1;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -437,7 +629,7 @@ body {
     flex-shrink: 0;
     font-size: 1.2rem;
     font-weight: 700;
-    background: linear-gradient(135deg, #667eea, #764ba2, #f093fb);
+    background: linear-gradient(135deg, var(--accent-1), var(--accent-2), var(--accent-3));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -502,7 +694,7 @@ body {
 .news-date {
     flex-shrink: 0;
     font-weight: 600;
-    background: linear-gradient(135deg, #667eea, #764ba2, #f093fb);
+    background: linear-gradient(135deg, var(--accent-1), var(--accent-2), var(--accent-3));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -526,9 +718,9 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 40px;
-    height: 40px;
-    color: white;
+    width: 50px;
+    height: 50px;
+    color: var(--sidebar-text-color);
     text-decoration: none;
     transition: all 0.3s ease;
 }
@@ -539,13 +731,13 @@ body {
 }
 
 .contact-item i {
-    font-size: 1.5rem;
+    font-size: 2rem;
 }
 
 /* Footer */
 footer {
     background-color: transparent;
-    color: white;
+    color: var(--sidebar-text-color);
     text-align: center;
     padding: 20px;
     margin-left: var(--sidebar-width);
@@ -685,5 +877,215 @@ footer p {
         border: 1px solid var(--primary-color);
         background: transparent;
         color: var(--primary-color);
+    }
+
+    .theme-toggle-btn {
+        display: none;
+    }
+}
+
+/* ============================================
+   THEME SELECTOR BUTTON & MODAL
+   ============================================ */
+
+/* Floating theme toggle button */
+.theme-toggle-btn {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent-1) 0%, var(--accent-2) 50%, var(--accent-3) 100%);
+    color: white;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    z-index: 1000;
+}
+
+.theme-toggle-btn:hover {
+    transform: scale(1.1) rotate(15deg);
+    box-shadow: 0 6px 30px rgba(0, 0, 0, 0.3);
+}
+
+.theme-toggle-btn:active {
+    transform: scale(0.95);
+}
+
+/* Theme modal overlay */
+.theme-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 2000;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.theme-modal.active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 1;
+}
+
+/* Modal content */
+.theme-modal-content {
+    background: white;
+    border-radius: 16px;
+    padding: 30px;
+    max-width: 800px;
+    width: 90%;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 10px 50px rgba(0, 0, 0, 0.3);
+    transform: scale(0.9);
+    transition: transform 0.3s ease;
+}
+
+.theme-modal.active .theme-modal-content {
+    transform: scale(1);
+}
+
+/* Modal header */
+.theme-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.theme-modal-header h3 {
+    font-size: 1.5rem;
+    color: var(--primary-color);
+    margin: 0;
+}
+
+.theme-modal-close {
+    background: none;
+    border: none;
+    font-size: 2rem;
+    color: var(--text-light);
+    cursor: pointer;
+    transition: color 0.3s ease, transform 0.3s ease;
+    padding: 0;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.theme-modal-close:hover {
+    color: var(--primary-color);
+    transform: rotate(90deg);
+}
+
+/* Theme categories */
+.theme-category {
+    margin-bottom: 30px;
+}
+
+.theme-category:last-child {
+    margin-bottom: 0;
+}
+
+.theme-category h4 {
+    font-size: 1.2rem;
+    color: var(--primary-color);
+    margin-bottom: 15px;
+    padding-left: 5px;
+}
+
+/* Theme grid */
+.theme-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 15px;
+}
+
+/* Individual theme option */
+.theme-option {
+    background: white;
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+    padding: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.theme-option:hover {
+    border-color: var(--accent-2);
+    transform: translateY(-3px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.theme-option.active {
+    border-color: var(--accent-2);
+    border-width: 3px;
+    background: linear-gradient(135deg, rgba(var(--accent-1-rgb), 0.05) 0%, rgba(var(--accent-2-rgb), 0.05) 50%, rgba(var(--accent-3-rgb), 0.05) 100%);
+}
+
+/* Theme preview color box */
+.theme-preview {
+    width: 100%;
+    height: 60px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.theme-option span {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+.theme-option small {
+    font-size: 0.75rem;
+    color: var(--text-light);
+    font-weight: normal;
+}
+
+/* Responsive adjustments for theme modal */
+@media (max-width: 768px) {
+    .theme-modal-content {
+        padding: 20px;
+        width: 95%;
+    }
+
+    .theme-grid {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        gap: 10px;
+    }
+
+    .theme-toggle-btn {
+        width: 50px;
+        height: 50px;
+        font-size: 20px;
+        bottom: 20px;
+        right: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .theme-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .theme-modal-header h3 {
+        font-size: 1.2rem;
     }
 }
