@@ -827,6 +827,7 @@ footer p {
 
     .section {
         margin-bottom: 40px;
+        padding: 25px 20px;
     }
 
     .project {
@@ -839,6 +840,22 @@ footer p {
 
     .btn-link {
         text-align: center;
+    }
+
+    /* Make skills stack vertically on mobile */
+    .skill-item {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .skill-label {
+        min-width: auto;
+        width: 100%;
+        text-align: left;
+    }
+
+    .skill-value {
+        width: 100%;
     }
 }
 
