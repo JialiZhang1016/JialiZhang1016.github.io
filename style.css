@@ -578,35 +578,45 @@ body {
 }
 
 /* Skills Section */
-.skills-grid {
+.skills-list {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 20px;
 }
 
 .skill-item {
     display: flex;
-    gap: 10px;
-    padding: 15px;
-    background: linear-gradient(135deg, rgba(var(--accent-1-rgb), 0.05) 0%, rgba(var(--accent-2-rgb), 0.05) 50%, rgba(var(--accent-3-rgb), 0.05) 100%);
+    gap: 30px;
+    padding: 20px;
+    background: linear-gradient(135deg, rgba(var(--accent-1-rgb), 0.1) 0%, rgba(var(--accent-2-rgb), 0.1) 50%, rgba(var(--accent-3-rgb), 0.1) 100%);
     border-radius: 8px;
-    border-left: 3px solid transparent;
+    border-left: 4px solid transparent;
     border-image: linear-gradient(180deg, var(--accent-1), var(--accent-2), var(--accent-3)) 1;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.skill-label {
-    font-weight: 600;
+.skill-item:hover {
+    transform: translateX(5px);
+    box-shadow: var(--shadow);
+}
+
+.skill-category {
+    flex-shrink: 0;
+    font-size: 1.1rem;
+    font-weight: 700;
     background: linear-gradient(135deg, var(--accent-1), var(--accent-2), var(--accent-3));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
     min-width: 180px;
-    flex-shrink: 0;
+    padding-top: 2px;
 }
 
-.skill-value {
+.skill-content p {
     color: var(--text-color);
+    font-size: 0.95rem;
     line-height: 1.6;
+    margin: 0;
 }
 
 /* Projects */
@@ -778,6 +788,89 @@ body {
     margin: 0;
 }
 
+/* Work Experience Section */
+.experience-item {
+    margin-bottom: 30px;
+    padding: 25px;
+    background: linear-gradient(135deg, rgba(var(--accent-1-rgb), 0.1) 0%, rgba(var(--accent-2-rgb), 0.1) 50%, rgba(var(--accent-3-rgb), 0.1) 100%);
+    border-radius: 8px;
+    border-left: 4px solid transparent;
+    border-image: linear-gradient(180deg, var(--accent-1), var(--accent-2), var(--accent-3)) 1;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.experience-item:hover {
+    transform: translateX(5px);
+    box-shadow: var(--shadow);
+}
+
+.experience-item:last-child {
+    margin-bottom: 0;
+}
+
+.experience-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 15px;
+    gap: 20px;
+}
+
+.experience-title h3 {
+    font-size: 1.2rem;
+    color: var(--primary-color);
+    margin-bottom: 5px;
+}
+
+.experience-title .company {
+    font-size: 1rem;
+    color: var(--text-light);
+    font-weight: 600;
+    margin: 0;
+}
+
+.experience-meta {
+    text-align: right;
+    flex-shrink: 0;
+}
+
+.experience-meta .duration {
+    display: block;
+    font-weight: 600;
+    background: linear-gradient(135deg, var(--accent-1), var(--accent-2), var(--accent-3));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 3px;
+}
+
+.experience-meta .location {
+    display: block;
+    font-size: 0.9rem;
+    color: var(--text-light);
+}
+
+.experience-details {
+    list-style-position: outside;
+    padding-left: 20px;
+    margin: 0;
+}
+
+.experience-details li {
+    margin-bottom: 12px;
+    line-height: 1.7;
+    color: var(--text-color);
+}
+
+.experience-details li:last-child {
+    margin-bottom: 0;
+}
+
+.experience-details strong {
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
 /* News Section */
 .news-list {
     display: flex;
@@ -946,6 +1039,33 @@ footer p {
     .news-date {
         min-width: auto;
     }
+
+    .experience-header {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .experience-meta {
+        text-align: left;
+    }
+
+    .award-item {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .award-year {
+        min-width: auto;
+    }
+
+    .skill-item {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .skill-category {
+        min-width: auto;
+    }
 }
 
 @media (max-width: 480px) {
@@ -968,22 +1088,6 @@ footer p {
 
     .btn-link {
         text-align: center;
-    }
-
-    /* Make skills stack vertically on mobile */
-    .skill-item {
-        flex-direction: column;
-        gap: 8px;
-    }
-
-    .skill-label {
-        min-width: auto;
-        width: 100%;
-        text-align: left;
-    }
-
-    .skill-value {
-        width: 100%;
     }
 }
 

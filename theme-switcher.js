@@ -217,7 +217,7 @@ function updateActiveTheme(themeName) {
 // Initialize theme on page load
 document.addEventListener('DOMContentLoaded', function() {
     // Load saved theme or use default
-    const savedTheme = localStorage.getItem('selectedTheme') || 'purple-pink';
+    const savedTheme = localStorage.getItem('selectedTheme') || 'pearl-blue';
     applyTheme(savedTheme);
 
     // Theme toggle button
