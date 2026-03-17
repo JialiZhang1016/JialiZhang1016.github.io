@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="PhD with AI #1: The Night Before My Presentation, I Had Zero Slides - Captain Zhang">
+    <title>PhD with AI #1: The Night Before My Presentation - Captain Zhang</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        /* Language switcher */
+        .lang-switch {
+            display: inline-flex;
+            gap: 0;
+            border: 1.5px solid var(--accent-1, #0066CC);
+            border-radius: 6px;
+            overflow: hidden;
+            font-size: 0.8rem;
+            margin-left: 12px;
+            vertical-align: middle;
+        }
+        .lang-switch button {
+            background: none;
+            border: none;
+            padding: 4px 12px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.8rem;
+            color: var(--accent-1, #0066CC);
+            transition: all 0.2s;
+        }
+        .lang-switch button.active {
+            background: var(--accent-1, #0066CC);
+            color: white;
+        }
+        .lang-switch button:hover:not(.active) {
+            background: rgba(var(--accent-1-rgb, 0,102,204), 0.1);
+        }
+
+        /* Hide inactive language */
+        .lang-zh { display: none; }
+        body.zh .lang-zh { display: block; }
+        body.zh .lang-en { display: none; }
+
+        /* Series badge */
+        .series-badge {
+            display: inline-block;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            color: var(--accent-1, #0066CC);
+            border: 1.5px solid var(--accent-1, #0066CC);
+            border-radius: 4px;
+            padding: 2px 8px;
+            margin-bottom: 8px;
+        }
+
+        /* Signature */
+        .blog-signature {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(var(--accent-1-rgb, 0,102,204), 0.15);
+            font-style: italic;
+            color: #666;
+            line-height: 1.8;
+        }
+        .blog-signature strong {
+            font-style: normal;
+            color: #333;
+        }
+
+        /* Demo container */
+        .demo-container {
+            margin: 2rem 0;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            border: 1px solid rgba(var(--accent-1-rgb, 0,102,204), 0.15);
+        }
+        .demo-container iframe {
+            width: 100%;
+            height: 480px;
+            border: none;
+            display: block;
+        }
+        .demo-hint {
+            text-align: center;
+            font-size: 0.8rem;
+            color: #888;
+            padding: 8px;
+            background: rgba(var(--accent-1-rgb, 0,102,204), 0.03);
+        }
+
+        /* Highlight box */
+        .highlight-box {
+            background: rgba(var(--accent-1-rgb, 0,102,204), 0.05);
+            border-left: 3px solid var(--accent-1, #0066CC);
+            padding: 1rem 1.2rem;
+            margin: 1.5rem 0;
+            border-radius: 0 6px 6px 0;
+            font-size: 0.95rem;
+        }
+
+        /* Series nav */
+        .series-nav {
+            margin-top: 2rem;
+            padding: 1rem 1.2rem;
+            background: rgba(var(--accent-1-rgb, 0,102,204), 0.03);
+            border-radius: 8px;
+            font-size: 0.85rem;
+            color: #666;
+        }
+        .series-nav strong {
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="page-layout">
+        <!-- Left Sidebar (30%) -->
+        <aside class="sidebar">
+            <div class="sidebar-content">
+                <div class="profile-section">
+                    <div class="profile-image">
+                        <img src="../profile.jpg" alt="Captain Zhang" onerror="this.style.display='none'">
+                    </div>
+                    <h1>Jiali Zhang</h1>
+                    <p class="subtitle">PhD Candidate in Statistics</p>
+
+                    <div class="contact-links">
+                        <a href="mailto:jztk7@mst.edu" class="contact-item" title="Email: jztk7@mst.edu">
+                            <i class="fas fa-envelope"></i>
+                        </a>
+                        <a href="https://scholar.google.com/citations?user=5T9X91sAAAAJ&hl=zh-CN&oi=sra" class="contact-item" target="_blank" title="Google Scholar">
+                            <i class="fas fa-graduation-cap"></i>
+                        </a>
+                        <a href="https://github.com/JialiZhang1016" class="contact-item" target="_blank" title="GitHub">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/in/jiali-zhang-151379292/" class="contact-item" target="_blank" title="LinkedIn">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <nav class="sidebar-nav">
+                    <ul>
+                        <li><a href="../index.html#about">About</a></li>
+                        <li><a href="../index.html#news">News</a></li>
+                        <li><a href="../index.html#research">Research</a></li>
+                        <li><a href="../index.html#experience">Work Experience</a></li>
+                        <li><a href="../index.html#projects">Projects</a></li>
+                        <li><a href="../index.html#publications">Publications</a></li>
+                        <li><a href="../index.html#awards">Awards</a></li>
+                        <li><a href="../index.html#skills">Skills</a></li>
+                        <li><a href="../blog.html" class="active">Blog</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </aside>
+
+        <!-- Right Main Content (70%) -->
+        <main class="main-content">
+            <article class="section blog-article">
+                <div class="projects-page-header">
+                    <a href="../blog.html" class="back-link"><i class="fas fa-arrow-left"></i> Back to Blog</a>
+                </div>
+
+                <div class="blog-article-header">
+                    <div class="series-badge">PhD with AI &middot; Captain's Log #1</div>
+                    <h1 class="lang-en">The Night Before My Presentation, I Had Zero Slides</h1>
+                    <h1 class="lang-zh">汇报前一晚，我的 Slides 还是空的</h1>
+                    <div class="blog-article-meta">
+                        <span class="blog-date">Mar 17, 2026</span>
+                        <div class="project-tags">
+                            <span class="tag tag-llm">LLM</span>
+                            <span class="tag tag-cv">Slides</span>
+                            <span class="tag tag-rl">Academic</span>
+                        </div>
+                        <div class="lang-switch">
+                            <button class="active" onclick="switchLang('en')">EN</button>
+                            <button onclick="switchLang('zh')">ZH</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="blog-body">
+
+                    <!-- ==================== ENGLISH ==================== -->
+                    <div class="lang-en">
+                        <p>
+                            It's 10 PM. I'm at home, scrolling through my phone, when a calendar notification pops up: <em>Group meeting tomorrow — RL project update.</em>
+                        </p>
+                        <p>
+                            My slides? Zero. Not a single one.
+                        </p>
+                        <p>
+                            For about three seconds, I panic. Then I remember — I have a tool for this. And I stop panicking entirely.
+                        </p>
+
+                        <h2>The Old Pain</h2>
+                        <p>
+                            Every PhD student knows the drill. You need to present your reinforcement learning project tomorrow. There are Bellman equations to typeset, architecture diagrams to draw, and results to format. In PowerPoint, you fight with equation editors that never quite look right. In Beamer, you spend 40 minutes adjusting one formula's alignment. And the worst part: copying content from your codebase to ChatGPT for an outline, then pasting into Overleaf, then exporting to PDF, then realizing the formatting broke — the endless back-and-forth.
+                        </p>
+                        <p>
+                            I've been that person. I'm someone who is obsessively particular about slides — color harmony, font consistency, saturation, spacing. Every detail matters to me. And that used to mean hours of manual work.
+                        </p>
+
+                        <h2>What Actually Happened</h2>
+                        <p>
+                            I opened my terminal and launched the tool. But it didn't just start generating slides. It asked me questions first:
+                        </p>
+
+                        <div class="highlight-box">
+                            <em>What style do you prefer? What content should we cover? How long is your talk? What's the audience?</em>
+                        </div>
+
+                        <p>
+                            An interactive conversation — like briefing a collaborator who actually listens. I told it: minimal, academic, light color palette. Once we agreed on the plan, it generated everything in one shot.
+                        </p>
+                        <p>
+                            When I saw the result, I hadn't even checked the content yet. But the colors, the layout, the typography — it all just <em>felt right</em>. The palette was exactly the kind of soft, academic warmth I love. The saturation, the contrast, the spacing — all balanced in ways I'd normally spend an hour tweaking by hand.
+                        </p>
+                        <p>
+                            I sat there for a moment, genuinely moved. <strong>It understood me.</strong>
+                        </p>
+
+                        <h2>See for Yourself</h2>
+                        <p>
+                            Here's what the output looks like. This is a real presentation built with the tool — with LaTeX formulas, inline SVG diagrams, and smooth animations. Click through it:
+                        </p>
+                    </div>
+
+                    <!-- ==================== CHINESE ==================== -->
+                    <div class="lang-zh">
+                        <p>
+                            晚上十点，我窝在家里刷手机，一条日历提醒弹了出来：<em>明天组会 — 强化学习项目汇报。</em>
+                        </p>
+                        <p>
+                            我的 slides？一张都没有。
+                        </p>
+                        <p>
+                            慌了大概三秒钟。然后我想起来 — 我有一个工具。于是我彻底不慌了。
+                        </p>
+
+                        <h2>老问题</h2>
+                        <p>
+                            每个 PhD 都经历过。明天要汇报强化学习项目，有 Bellman 方程要排版，有架构图要画，有结果要展示。PowerPoint 里的公式编辑器永远不对劲。Beamer 里调一个公式的对齐，调了 40 分钟。最崩溃的是：从代码库复制内容到 ChatGPT 生成大纲，再粘贴到 Overleaf，再导出 PDF，再发现格式又乱了 — 这种来回倒腾，无穷无尽。
+                        </p>
+                        <p>
+                            我就是那种人 — 对 slides 的美感吹毛求疵。配色是否和谐，字体是否统一，饱和度、明暗度、间距，每一个细节我都在意。这意味着以前每次做 slides 都是几个小时的手工劳动。
+                        </p>
+
+                        <h2>那天晚上实际发生了什么</h2>
+                        <p>
+                            我打开终端，启动了工具。但它没有直接生成 slides，而是先问我问题：
+                        </p>
+
+                        <div class="highlight-box">
+                            <em>你喜欢什么风格？要包含哪些内容？演讲多长时间？听众是谁？</em>
+                        </div>
+
+                        <p>
+                            一场交互式对话 — 像在给一个真正会听的合作者做 briefing。我说：简约、学术、浅色系。确定好方案后，一次生成。
+                        </p>
+                        <p>
+                            当我看到结果的时候，我还没来得及看内容。但那个配色、那个排版、那个字体 — 一切都刚刚好。那个色调正是我喜欢的那种柔和的学院风，饱和度、对比度、间距 — 全部平衡到位，是我平时要手动调一个小时才能达到的效果。
+                        </p>
+                        <p>
+                            我愣了一下，真的有点感动。<strong>它好懂我。</strong>
+                        </p>
+
+                        <h2>你自己感受一下</h2>
+                        <p>
+                            下面是工具生成的真实演示文稿 — 包含 LaTeX 公式、内联 SVG 图表和流畅动画。点击翻页试试：
+                        </p>
+                    </div>
+
+                    <!-- ==================== SHARED DEMO ==================== -->
+                    <div class="demo-container">
+                        <iframe src="demos/light-academic.html" loading="lazy" title="Academic Slides Demo"></iframe>
+                        <p class="demo-hint lang-en"><i class="fas fa-hand-pointer"></i> Click inside and use arrow keys or click to navigate slides</p>
+                        <p class="demo-hint lang-zh"><i class="fas fa-hand-pointer"></i> &#x70B9;&#x51FB;&#x5185;&#x90E8;&#xFF0C;&#x7528;&#x65B9;&#x5411;&#x952E;&#x6216;&#x70B9;&#x51FB;&#x7FFB;&#x9875;</p>
+                    </div>
+
+                    <!-- ==================== ENGLISH (continued) ==================== -->
+                    <div class="lang-en">
+                        <h2>What's Next</h2>
+                        <p>
+                            This tool started as someone else's open-source project for general presentations. I adapted it for academia — adding LaTeX rendering, academic color palettes, and the ability for AI to read your codebase and generate slides directly from your work. No more copy-pasting between five different apps.
+                        </p>
+                        <p>
+                            But it's not done. I'm working on two more pieces: <strong>research figure generation</strong> (both result plots from code and architecture diagrams) and <strong>a local Overleaf + LLM paper-writing workflow</strong>. When they're ready, they'll join this series.
+                        </p>
+                        <p>
+                            This is the Tangocene — an era where carbon-based life and silicon-based intelligence learn to dance together. Not as master and tool. As partners.
+                        </p>
+                        <p>
+                            Tomorrow's presentation? I'm not worried at all.
+                        </p>
+                    </div>
+
+                    <!-- ==================== CHINESE (continued) ==================== -->
+                    <div class="lang-zh">
+                        <h2>后面的事</h2>
+                        <p>
+                            这个工具最初是别人做的开源项目，面向通用演示场景。我把它适配到了学术领域 — 加入 LaTeX 公式渲染、学术配色方案，以及让 AI 直接读取你的代码库来生成 slides 的能力。再也不用在五个应用之间来回复制粘贴了。
+                        </p>
+                        <p>
+                            但还没完。我正在开发两个新模块：<strong>科研配图生成</strong>（从代码库读取结果生成图表，以及项目架构图）和<strong>本地 Overleaf + LLM 论文写作工作流</strong>。做好了会继续在这个系列里更新。
+                        </p>
+                        <p>
+                            这就是碳硅纪 — 碳基生命和硅基智能学会共舞的时代。不是主人和工具的关系，是搭档。
+                        </p>
+                        <p>
+                            明天的汇报？我一点都不担心。
+                        </p>
+                    </div>
+
+                    <!-- ==================== SHARED SIGNATURE ==================== -->
+                    <div class="blog-signature">
+                        <strong>— Captain Zhang</strong><br>
+                        Tangocene · Log #1
+                    </div>
+
+                    <div class="series-nav">
+                        <strong>PhD with AI</strong> — <span class="lang-en">A PhD's real record of reshaping academic workflows with AI. Not a tutorial — a story of co-evolution.</span><span class="lang-zh">一个 PhD 探索 AI 重塑学术工作流的真实记录。不是教程，是一个人和 AI 共同进化的故事。</span>
+                        <br><br>
+                        <span class="lang-en">Next: research figures, paper writing, and more.</span>
+                        <span class="lang-zh">下一篇：科研配图、论文写作，敬请期待。</span>
+                    </div>
+                </div>
+            </article>
+        </main>
+    </div>
+
+    <footer>
+        <p class="footer-tagline">Co-evolving with LLMs — exploring the frontier of human-AI collaboration.</p>
+        <p>&copy; 2026 Captain Zhang. Last updated: March 2026.</p>
+    </footer>
+
+    <button id="theme-toggle" class="theme-toggle-btn" title="Change Theme">
+        <i class="fas fa-palette"></i>
+    </button>
+
+    <div id="theme-modal" class="theme-modal">
+        <div class="theme-modal-content">
+            <div class="theme-modal-header">
+                <h3>Choose Your Theme</h3>
+                <button class="theme-modal-close">&times;</button>
+            </div>
+            <div class="theme-options">
+                <div class="theme-category">
+                    <h4>Color Theme</h4>
+                    <div class="theme-grid">
+                        <button class="theme-option" data-theme="pearl-blue">
+                            <div class="theme-preview" style="background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 50%, #bae6fd 100%);"></div>
+                            <span>Pearl Blue</span>
+                        </button>
+                        <button class="theme-option" data-theme="mst-green">
+                            <div class="theme-preview" style="background: linear-gradient(135deg, #E6F0EC 0%, #D4E5DD 50%, #C2DACE 100%);"></div>
+                            <span>MST Green</span>
+                        </button>
+                        <button class="theme-option" data-theme="light-academic">
+                            <div class="theme-preview" style="background: linear-gradient(135deg, #E8F0FE 0%, #D0E2FF 50%, #B8D4FE 100%);"></div>
+                            <span>Light Academic</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="theme-category">
+                    <h4>Background Pattern</h4>
+                    <div class="theme-grid">
+                        <button class="pattern-option" data-pattern="none">
+                            <div class="theme-preview" style="background: #f5f5f5;"></div>
+                            <span>None</span>
+                        </button>
+                        <button class="pattern-option" data-pattern="topographic">
+                            <div class="theme-preview pattern-demo-topo"></div>
+                            <span>Topographic</span>
+                        </button>
+                        <button class="pattern-option" data-pattern="dots">
+                            <div class="theme-preview pattern-demo-dots"></div>
+                            <span>Dot Grid</span>
+                        </button>
+                        <button class="pattern-option" data-pattern="waves">
+                            <div class="theme-preview pattern-demo-waves"></div>
+                            <span>Waves</span>
+                        </button>
+                        <button class="pattern-option" data-pattern="hexagons">
+                            <div class="theme-preview pattern-demo-hex"></div>
+                            <span>Hexagons</span>
+                        </button>
+                        <button class="pattern-option" data-pattern="grid">
+                            <div class="theme-preview pattern-demo-grid"></div>
+                            <span>Grid</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../theme-switcher.js"></script>
+    <script>
+    function switchLang(lang) {
+        document.body.classList.toggle('zh', lang === 'zh');
+        document.querySelectorAll('.lang-switch button').forEach(function(btn) {
+            btn.classList.toggle('active', btn.textContent.trim() === lang.toUpperCase());
+        });
+        localStorage.setItem('blog-lang', lang);
+    }
+    // Restore saved language preference
+    (function() {
+        var saved = localStorage.getItem('blog-lang');
+        if (saved === 'zh') switchLang('zh');
+    })();
+    </script>
+</body>
+</html>

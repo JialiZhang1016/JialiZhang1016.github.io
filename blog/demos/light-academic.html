@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attention Is All You Need — Understanding the Transformer Architecture</title>
+
+    <!-- =============================================
+         FONTS
+         - Source Serif 4: 标题（学术衬线）
+         - Inter: 正文（清晰无衬线）
+         - JetBrains Mono: 代码/标签（等宽）
+         ============================================= -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <!-- =============================================
+         KATEX (数学公式渲染)
+         用法：行内 $x^2$ 或独立块 $$\sum_{i=1}^n x_i$$
+         如果不需要数学公式，可以删除这三行
+         ============================================= -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+        onload="renderMathInElement(document.body, {delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});"></script>
+
+    <style>
+        /* ===========================================
+           主题变量 — 修改这里即可改变整体风格
+           ===========================================
+
+           快速换色方案：
+           - 蓝色学术（默认）: --accent: #0066CC
+           - 绿色自然:         --accent: #2D7D46
+           - 紫色优雅:         --accent: #6B46C1
+           - 红色活力:         --accent: #C53030
+           =========================================== */
+        :root {
+            /* --- 颜色 --- */
+            --bg-primary: #FAFBFC;       /* 页面底色 */
+            --bg-slide: #FFFFFF;         /* 每页背景 */
+            --bg-accent: #F0F4F8;        /* 卡片/代码块背景 */
+            --bg-code: #F6F8FA;          /* 代码背景 */
+            --text-primary: #1A2332;     /* 主文字 */
+            --text-secondary: #4A5568;   /* 次要文字 */
+            --text-muted: #8896A6;       /* 灰色辅助文字 */
+            --accent: #0066CC;           /* ★ 主强调色 — 改这一个即可换主题 */
+            --accent-light: #E8F0FE;     /* 强调色浅色（高亮框背景） */
+            --accent-dark: #004499;      /* 强调色深色（高亮框文字） */
+            --success: #009E73;          /* 成功/正面（色盲友好绿） */
+            --warning: #E69F00;          /* 警告/中性（色盲友好橙） */
+            --danger: #D55E00;           /* 危险/负面（色盲友好红橙） */
+            --border: #E2E8F0;           /* 边框色 */
+            --shadow: rgba(0,0,0,0.06);  /* 阴影色 */
+
+            /* --- 字体 --- */
+            --font-display: 'Source Serif 4', Georgia, serif;
+            --font-body: 'Inter', -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+
+            /* --- 字号（clamp 自适应屏幕） --- */
+            --title-size: clamp(1.8rem, 4.5vw, 3.2rem);
+            --h2-size: clamp(1.3rem, 3vw, 2rem);
+            --h3-size: clamp(1rem, 2vw, 1.4rem);
+            --body-size: clamp(0.8rem, 1.4vw, 1.05rem);
+            --small-size: clamp(0.65rem, 1vw, 0.85rem);
+            --caption-size: clamp(0.6rem, 0.9vw, 0.78rem);
+
+            /* --- 间距 --- */
+            --slide-padding: clamp(1.5rem, 4vw, 4rem);
+            --content-gap: clamp(0.8rem, 2vw, 1.8rem);
+            --element-gap: clamp(0.3rem, 0.8vw, 0.7rem);
+
+            /* --- 动画 --- */
+            --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+            --duration: 0.55s;
+        }
+
+        /* ===========================================
+           基础样式（不需要修改）
+           =========================================== */
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; scroll-snap-type: y mandatory; height: 100%; overflow-x: hidden; }
+        body { font-family: var(--font-body); background: var(--bg-primary); color: var(--text-primary); height: 100%; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+
+        /* ===========================================
+           SLIDE 容器 — 每页精确占满一屏
+           =========================================== */
+        .slide {
+            width: 100vw;
+            height: 100vh;
+            height: 100dvh;
+            scroll-snap-align: start;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            background: var(--bg-slide);
+        }
+        .slide::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 1px; background: var(--border); }
+
+        .slide-content {
+            width: 100%; max-width: 1100px;
+            padding: var(--slide-padding);
+            display: flex; flex-direction: column; justify-content: center;
+            flex: 1; overflow: hidden;
+        }
+
+        .slide-number {
+            position: absolute;
+            bottom: clamp(0.5rem, 1.5vw, 1.2rem);
+            right: clamp(1rem, 2vw, 2rem);
+            font-family: var(--font-mono);
+            font-size: var(--caption-size);
+            color: var(--text-muted);
+        }
+
+        /* ===========================================
+           排版
+           =========================================== */
+        h1 { font-family: var(--font-display); font-size: var(--title-size); font-weight: 700; line-height: 1.15; letter-spacing: -0.02em; }
+        h2 { font-family: var(--font-display); font-size: var(--h2-size); font-weight: 600; line-height: 1.25; margin-bottom: var(--content-gap); padding-bottom: clamp(0.3rem, 0.8vw, 0.6rem); border-bottom: 2px solid var(--accent); display: inline-block; }
+        h3 { font-family: var(--font-body); font-size: var(--h3-size); font-weight: 600; margin-bottom: var(--element-gap); }
+        p, li { font-size: var(--body-size); line-height: 1.55; color: var(--text-secondary); }
+        strong { color: var(--text-primary); font-weight: 600; }
+
+        .subtitle { font-size: clamp(0.85rem, 1.5vw, 1.1rem); color: var(--text-secondary); margin-top: clamp(0.3rem, 0.8vw, 0.6rem); }
+        .label { font-family: var(--font-mono); font-size: var(--small-size); text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent); font-weight: 500; margin-bottom: clamp(0.2rem, 0.5vw, 0.4rem); }
+
+        /* ===========================================
+           列表
+           =========================================== */
+        ul.content-list { list-style: none; display: flex; flex-direction: column; gap: var(--element-gap); }
+        ul.content-list li { padding-left: 1.4em; position: relative; }
+        ul.content-list li::before { content: ''; position: absolute; left: 0; top: 0.55em; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+
+        /* ===========================================
+           网格布局
+           用法: <div class="grid-2"> 两列
+                 <div class="grid-3"> 三列
+                 <div class="grid-4"> 四列
+           =========================================== */
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: var(--content-gap); }
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(0.5rem, 1.2vw, 1rem); }
+        .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: clamp(0.4rem, 1vw, 0.8rem); }
+
+        /* ===========================================
+           卡片
+           用法: <div class="card card-accent">  蓝色左边框
+                 <div class="card card-success">  绿色左边框
+                 <div class="card card-warning">  橙色左边框
+                 <div class="card card-danger">   红色左边框
+           =========================================== */
+        .card { background: var(--bg-accent); border-radius: 8px; padding: clamp(0.6rem, 1.5vw, 1.2rem); border: 1px solid var(--border); }
+        .card h3 { font-size: clamp(0.85rem, 1.3vw, 1.05rem); }
+        .card p { font-size: var(--small-size); }
+        .card-accent { border-left: 3px solid var(--accent); }
+        .card-success { border-left: 3px solid var(--success); }
+        .card-warning { border-left: 3px solid var(--warning); }
+        .card-danger { border-left: 3px solid var(--danger); }
+
+        /* ===========================================
+           表格
+           用法: <div class="table-container"><table>...</table></div>
+           高亮行: <tr class="highlight-row">
+           =========================================== */
+        .table-container { overflow: hidden; border-radius: 6px; border: 1px solid var(--border); }
+        table { width: 100%; border-collapse: collapse; font-size: var(--small-size); }
+        th { background: var(--accent); color: white; font-weight: 600; text-align: left; padding: clamp(0.3rem, 0.7vw, 0.6rem) clamp(0.4rem, 1vw, 0.8rem); font-size: var(--small-size); }
+        td { padding: clamp(0.25rem, 0.6vw, 0.5rem) clamp(0.4rem, 1vw, 0.8rem); border-bottom: 1px solid var(--border); color: var(--text-secondary); }
+        tr:last-child td { border-bottom: none; }
+        tr:nth-child(even) { background: var(--bg-accent); }
+        .highlight-row { background: var(--accent-light) !important; font-weight: 600; }
+        .highlight-row td { color: var(--accent-dark); }
+
+        /* ===========================================
+           图片/图表
+           用法: <div class="figure"><img src="..."><p class="figure-caption">说明</p></div>
+                 大图: <div class="figure figure-wide">
+                 双图: <div class="figures-row"><div class="figure">...</div><div class="figure">...</div></div>
+           =========================================== */
+        .figure { text-align: center; }
+        .figure img { max-width: 100%; max-height: min(52vh, 450px); object-fit: contain; border-radius: 6px; border: 1px solid var(--border); box-shadow: 0 2px 12px var(--shadow); }
+        .figure-wide img { max-height: min(58vh, 520px); }
+        .figure-caption { font-size: var(--caption-size); color: var(--text-muted); margin-top: clamp(0.2rem, 0.5vw, 0.5rem); font-style: italic; }
+        .figures-row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--content-gap); align-items: center; }
+        .figures-row img { max-height: min(45vh, 380px); }
+
+        /* ===========================================
+           数学公式块
+           用法: <div class="math-block">$$公式$$</div>
+           =========================================== */
+        .math-block { background: var(--bg-accent); border-radius: 6px; padding: clamp(0.6rem, 1.5vw, 1.2rem); border: 1px solid var(--border); overflow-x: auto; font-size: clamp(0.8rem, 1.2vw, 1rem); }
+        .katex { font-size: 1em !important; }
+
+        /* ===========================================
+           高亮框
+           用法: <div class="highlight-box"><p>重要信息</p></div>
+           =========================================== */
+        .highlight-box { background: var(--accent-light); border-left: 4px solid var(--accent); padding: clamp(0.5rem, 1vw, 1rem); border-radius: 0 6px 6px 0; margin-top: var(--element-gap); }
+        .highlight-box p { color: var(--accent-dark); font-weight: 500; font-size: var(--small-size); }
+
+        /* ===========================================
+           标签/徽章
+           用法: <span class="badge badge-green">OK</span>
+           =========================================== */
+        .badge { display: inline-block; padding: 0.1em 0.5em; border-radius: 4px; font-size: var(--caption-size); font-weight: 600; font-family: var(--font-mono); }
+        .badge-green { background: #D1FAE5; color: #065F46; }
+        .badge-red { background: #FEE2E2; color: #991B1B; }
+        .badge-blue { background: #DBEAFE; color: #1E40AF; }
+        .badge-yellow { background: #FEF3C7; color: #92400E; }
+
+        /* ===========================================
+           特殊页面类型
+           =========================================== */
+
+        /* 标题页: <section class="slide title-slide"> */
+        .title-slide { background: linear-gradient(135deg, #FAFBFC 0%, #E8F0FE 100%); text-align: center; }
+        .title-slide .slide-content { align-items: center; }
+        .title-slide .affiliation { font-size: var(--small-size); color: var(--text-muted); margin-top: clamp(0.8rem, 2vw, 1.5rem); line-height: 1.6; text-align: center; }
+
+        /* 章节分隔页: <section class="slide section-slide"> */
+        .section-slide { background: var(--accent); text-align: center; }
+        .section-slide h2 { color: white; border-bottom-color: rgba(255,255,255,0.3); font-size: var(--title-size); }
+        .section-slide .subtitle { color: rgba(255,255,255,0.8); }
+        .section-slide .slide-number { color: rgba(255,255,255,0.5); }
+
+        /* 结束页: <section class="slide thankyou-slide"> */
+        .thankyou-slide { background: linear-gradient(135deg, #FAFBFC 0%, #E8F0FE 100%); text-align: center; }
+        .thankyou-slide .slide-content { align-items: center; }
+
+        /* 左文右图: <div class="col-text-fig"><div>文字</div><div class="figure">图</div></div> */
+        .col-text-fig { display: grid; grid-template-columns: 1fr 1fr; gap: var(--content-gap); align-items: center; }
+        .col-text-fig .figure img { max-height: min(55vh, 420px); }
+
+        /* 大纲列表: <ol class="outline-list"><li>项目</li></ol> */
+        .outline-list { list-style: none; display: flex; flex-direction: column; gap: clamp(0.4rem, 1vw, 0.8rem); counter-reset: outline; }
+        .outline-list li { counter-increment: outline; display: flex; align-items: center; gap: clamp(0.5rem, 1vw, 1rem); font-size: clamp(0.9rem, 1.5vw, 1.15rem); color: var(--text-secondary); }
+        .outline-list li::before { content: counter(outline); display: flex; align-items: center; justify-content: center; width: clamp(1.4rem, 2.5vw, 2rem); height: clamp(1.4rem, 2.5vw, 2rem); background: var(--accent); color: white; border-radius: 50%; font-size: var(--small-size); font-weight: 700; flex-shrink: 0; }
+
+        /* ===========================================
+           动画
+           用法: class="reveal"           淡入上移
+                 class="reveal reveal-d1"  延迟 0.08s
+                 class="reveal reveal-d2"  延迟 0.16s（以此类推到 d6）
+                 class="reveal-scale"      缩放淡入
+                 class="reveal-fade"       纯淡入
+           =========================================== */
+        .reveal { opacity: 0; transform: translateY(20px); transition: opacity var(--duration) var(--ease-out), transform var(--duration) var(--ease-out); }
+        .slide.visible .reveal { opacity: 1; transform: translateY(0); }
+        .reveal-d1 { transition-delay: 0.08s; } .reveal-d2 { transition-delay: 0.16s; }
+        .reveal-d3 { transition-delay: 0.24s; } .reveal-d4 { transition-delay: 0.32s; }
+        .reveal-d5 { transition-delay: 0.40s; } .reveal-d6 { transition-delay: 0.48s; }
+        .reveal-fade { opacity: 0; transition: opacity 0.7s var(--ease-out); }
+        .slide.visible .reveal-fade { opacity: 1; }
+        .reveal-scale { opacity: 0; transform: scale(0.95); transition: opacity var(--duration) var(--ease-out), transform var(--duration) var(--ease-out); }
+        .slide.visible .reveal-scale { opacity: 1; transform: scale(1); }
+
+        /* ===========================================
+           进度条 & 导航点
+           =========================================== */
+        .progress-bar { position: fixed; top: 0; left: 0; height: 3px; background: var(--accent); z-index: 1000; transition: width 0.3s ease; }
+        .nav-dots { position: fixed; right: clamp(0.5rem, 1.5vw, 1.2rem); top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 6px; z-index: 100; }
+        .nav-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--border); border: none; cursor: pointer; transition: all 0.3s ease; padding: 0; }
+        .nav-dot.active { background: var(--accent); transform: scale(1.3); }
+        .nav-dot:hover { background: var(--accent); opacity: 0.7; }
+
+        /* ===========================================
+           响应式适配（不需要修改）
+           =========================================== */
+        @media (max-height: 700px) { :root { --slide-padding: clamp(1rem, 3vw, 2.5rem); --content-gap: clamp(0.5rem, 1.5vw, 1.2rem); } }
+        @media (max-height: 600px) { :root { --slide-padding: clamp(0.8rem, 2.5vw, 1.5rem); --content-gap: clamp(0.4rem, 1vw, 0.8rem); --title-size: clamp(1.3rem, 4vw, 2.2rem); } .nav-dots { display: none; } }
+        @media (max-height: 500px) { :root { --slide-padding: clamp(0.5rem, 2vw, 1rem); --title-size: clamp(1rem, 3.5vw, 1.5rem); --body-size: clamp(0.65rem, 1vw, 0.85rem); } }
+        @media (max-width: 768px) { .grid-2, .grid-3, .grid-4, .col-text-fig, .figures-row { grid-template-columns: 1fr; } }
+        @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.2s !important; } html { scroll-behavior: auto; } }
+    </style>
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar"></div>
+<nav class="nav-dots" id="navDots"></nav>
+
+<!-- ============================================
+     Slide A: Title
+     ============================================ -->
+
+<!-- Slide A: 标题页 -->
+<section class="slide title-slide" data-slide="1">
+    <div class="slide-content">
+        <p class="label reveal">Deep Learning Tutorial &mdash; 2026</p>
+        <h1 class="reveal reveal-d1">Attention Is All You Need &mdash; Understanding the Transformer Architecture</h1>
+        <p class="subtitle reveal reveal-d2">Vaswani et al., NeurIPS 2017</p>
+        <p class="affiliation reveal reveal-d3">
+            <strong>Academic Slides Demo</strong>
+        </p>
+    </div>
+</section>
+
+<!-- Slide B: 大纲页 -->
+<section class="slide" data-slide="2">
+    <div class="slide-content">
+        <h2 class="reveal">Outline</h2>
+        <ol class="outline-list">
+            <li class="reveal reveal-d1"><span>Background &amp; Motivation</span></li>
+            <li class="reveal reveal-d2"><span>Self-Attention Mechanism</span></li>
+            <li class="reveal reveal-d3"><span>Transformer Architecture</span></li>
+            <li class="reveal reveal-d4"><span>Results &amp; Impact</span></li>
+        </ol>
+    </div>
+    <span class="slide-number">2</span>
+</section>
+
+<!-- Slide C: 章节分隔页 -->
+<section class="slide section-slide" data-slide="3">
+    <div class="slide-content">
+        <h2 class="reveal">Background &amp; Motivation</h2>
+        <p class="subtitle reveal reveal-d1">From RNNs to Attention</p>
+    </div>
+    <span class="slide-number">3</span>
+</section>
+
+<!-- Slide D: 左文右图 -->
+<section class="slide" data-slide="4">
+    <div class="slide-content">
+        <p class="label reveal">Motivation</p>
+        <h2 class="reveal reveal-d1">Problems with Recurrent Models</h2>
+        <div class="col-text-fig reveal reveal-d2">
+            <div>
+                <ul class="content-list">
+                    <li><strong>Sequential computation</strong> prevents parallelization &mdash; each hidden state depends on the previous one, making training slow on modern hardware</li>
+                    <li><strong>Vanishing gradients</strong> over long sequences &mdash; information from early tokens is progressively lost as the sequence grows</li>
+                    <li><strong>Limited context window</strong> &mdash; practical memory constraints restrict the effective receptive field of RNNs and LSTMs</li>
+                </ul>
+                <div class="highlight-box" style="margin-top: var(--content-gap);">
+                    <p>Key insight: Attention mechanisms can replace recurrence entirely, enabling full parallelization.</p>
+                </div>
+            </div>
+            <div class="figure">
+                <svg viewBox="0 0 480 360" xmlns="http://www.w3.org/2000/svg" style="max-width:100%; max-height:min(52vh,450px); border-radius:6px; border:1px solid var(--border); box-shadow:0 2px 12px rgba(0,0,0,0.06); background:#F0F4F8;">
+                    <!-- RNN side -->
+                    <text x="120" y="30" text-anchor="middle" font-family="Inter,sans-serif" font-size="14" font-weight="600" fill="#1A2332">RNN (Sequential)</text>
+                    <rect x="20" y="50" width="60" height="40" rx="6" fill="#E8F0FE" stroke="#0066CC" stroke-width="1.5"/><text x="50" y="75" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="#4A5568">h₁</text>
+                    <line x1="80" y1="70" x2="100" y2="70" stroke="#0066CC" stroke-width="1.5" marker-end="url(#arrow)"/>
+                    <rect x="100" y="50" width="60" height="40" rx="6" fill="#E8F0FE" stroke="#0066CC" stroke-width="1.5"/><text x="130" y="75" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="#4A5568">h₂</text>
+                    <line x1="160" y1="70" x2="180" y2="70" stroke="#0066CC" stroke-width="1.5" marker-end="url(#arrow)"/>
+                    <rect x="180" y="50" width="60" height="40" rx="6" fill="#E8F0FE" stroke="#0066CC" stroke-width="1.5"/><text x="210" y="75" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="#4A5568">h₃</text>
+                    <text x="120" y="115" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="#8896A6">Each step waits for previous</text>
+                    <!-- Transformer side -->
+                    <text x="120" y="160" text-anchor="middle" font-family="Inter,sans-serif" font-size="14" font-weight="600" fill="#1A2332">Transformer (Parallel)</text>
+                    <rect x="20" y="180" width="60" height="40" rx="6" fill="#D1FAE5" stroke="#009E73" stroke-width="1.5"/><text x="50" y="205" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="#065F46">x₁</text>
+                    <rect x="100" y="180" width="60" height="40" rx="6" fill="#D1FAE5" stroke="#009E73" stroke-width="1.5"/><text x="130" y="205" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="#065F46">x₂</text>
+                    <rect x="180" y="180" width="60" height="40" rx="6" fill="#D1FAE5" stroke="#009E73" stroke-width="1.5"/><text x="210" y="205" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="#065F46">x₃</text>
+                    <!-- Attention lines -->
+                    <line x1="50" y1="220" x2="50" y2="260" stroke="#009E73" stroke-width="1" stroke-dasharray="4"/>
+                    <line x1="130" y1="220" x2="130" y2="260" stroke="#009E73" stroke-width="1" stroke-dasharray="4"/>
+                    <line x1="210" y1="220" x2="210" y2="260" stroke="#009E73" stroke-width="1" stroke-dasharray="4"/>
+                    <line x1="50" y1="240" x2="210" y2="240" stroke="#009E73" stroke-width="1" opacity="0.4"/>
+                    <line x1="50" y1="240" x2="130" y2="240" stroke="#009E73" stroke-width="1" opacity="0.4"/>
+                    <rect x="20" y="260" width="220" height="30" rx="6" fill="#D1FAE5" stroke="#009E73" stroke-width="1.5"/>
+                    <text x="130" y="280" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="#065F46">Self-Attention (all tokens at once)</text>
+                    <!-- Legend -->
+                    <text x="350" y="75" text-anchor="middle" font-family="Inter,sans-serif" font-size="12" font-weight="600" fill="#1A2332">Time Steps</text>
+                    <rect x="300" y="95" width="100" height="24" rx="4" fill="#FEE2E2"/><text x="350" y="112" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" fill="#991B1B">RNN: O(n) steps</text>
+                    <rect x="300" y="130" width="100" height="24" rx="4" fill="#D1FAE5"/><text x="350" y="147" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" fill="#065F46">Transformer: O(1)</text>
+                    <defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#0066CC"/></marker></defs>
+                </svg>
+                <p class="figure-caption">Fig 1. Sequential vs. parallel processing</p>
+            </div>
+        </div>
+    </div>
+    <span class="slide-number">4</span>
+</section>
+
+<!-- Slide E: 三列卡片 -->
+<section class="slide" data-slide="5">
+    <div class="slide-content">
+        <p class="label reveal">Paradigm Comparison</p>
+        <h2 class="reveal reveal-d1">Sequence Modeling Approaches</h2>
+        <div class="grid-3 reveal reveal-d2">
+            <div class="card card-warning">
+                <h3>RNN</h3>
+                <p>Sequential processing of tokens one at a time. Path length between positions is O(n) steps. Limited context due to vanishing gradients and fixed-size hidden state.</p>
+            </div>
+            <div class="card card-accent">
+                <h3>LSTM</h3>
+                <p>Gated memory cells improve gradient flow and long-range dependencies. However, computation remains strictly sequential, limiting training throughput.</p>
+            </div>
+            <div class="card card-success">
+                <h3>Transformer</h3>
+                <p>Fully parallel computation across all positions. O(1) sequential operations with global context &mdash; every token attends to every other token directly.</p>
+            </div>
+        </div>
+    </div>
+    <span class="slide-number">5</span>
+</section>
+
+<!-- Slide F: 全屏图表 -->
+<section class="slide" data-slide="6">
+    <div class="slide-content">
+        <p class="label reveal">Architecture</p>
+        <h2 class="reveal reveal-d1">The Transformer Model</h2>
+        <div class="figure figure-wide reveal-scale reveal-d2">
+            <svg viewBox="0 0 520 580" xmlns="http://www.w3.org/2000/svg" style="max-width:100%; max-height:min(58vh,520px); border-radius:6px; border:1px solid var(--border); box-shadow:0 2px 12px rgba(0,0,0,0.06); background:#F0F4F8;">
+                <!-- Title -->
+                <text x="260" y="28" text-anchor="middle" font-family="Source Serif 4,Georgia,serif" font-size="16" font-weight="700" fill="#1A2332">The Transformer Architecture</text>
+                <!-- Encoder Stack -->
+                <rect x="40" y="50" width="200" height="480" rx="10" fill="none" stroke="#0066CC" stroke-width="2" stroke-dasharray="6"/>
+                <text x="140" y="75" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="600" fill="#0066CC">Encoder (N×)</text>
+                <!-- Encoder layers -->
+                <rect x="60" y="95" width="160" height="45" rx="6" fill="#E8F0FE" stroke="#0066CC" stroke-width="1.5"/>
+                <text x="140" y="122" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="#004499">Multi-Head Attention</text>
+                <text x="140" y="155" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#8896A6">Add &amp; Norm</text>
+                <rect x="60" y="170" width="160" height="45" rx="6" fill="#E8F0FE" stroke="#0066CC" stroke-width="1.5"/>
+                <text x="140" y="197" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="#004499">Feed Forward</text>
+                <text x="140" y="230" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#8896A6">Add &amp; Norm</text>
+                <!-- Encoder input -->
+                <rect x="60" y="450" width="160" height="35" rx="6" fill="#DBEAFE" stroke="#0066CC" stroke-width="1"/>
+                <text x="140" y="472" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" fill="#1E40AF">Input Embedding</text>
+                <rect x="60" y="495" width="160" height="25" rx="4" fill="#FEF3C7" stroke="#E69F00" stroke-width="1"/>
+                <text x="140" y="512" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#92400E">+ Positional Encoding</text>
+                <!-- Decoder Stack -->
+                <rect x="280" y="50" width="200" height="480" rx="10" fill="none" stroke="#009E73" stroke-width="2" stroke-dasharray="6"/>
+                <text x="380" y="75" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="600" fill="#009E73">Decoder (N×)</text>
+                <!-- Decoder layers -->
+                <rect x="300" y="95" width="160" height="45" rx="6" fill="#D1FAE5" stroke="#009E73" stroke-width="1.5"/>
+                <text x="380" y="117" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" fill="#065F46">Masked Multi-Head</text>
+                <text x="380" y="131" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" fill="#065F46">Attention</text>
+                <text x="380" y="155" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#8896A6">Add &amp; Norm</text>
+                <rect x="300" y="170" width="160" height="45" rx="6" fill="#D1FAE5" stroke="#009E73" stroke-width="1.5"/>
+                <text x="380" y="192" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" fill="#065F46">Cross Multi-Head</text>
+                <text x="380" y="206" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" fill="#065F46">Attention</text>
+                <text x="380" y="230" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#8896A6">Add &amp; Norm</text>
+                <rect x="300" y="245" width="160" height="45" rx="6" fill="#D1FAE5" stroke="#009E73" stroke-width="1.5"/>
+                <text x="380" y="272" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="#065F46">Feed Forward</text>
+                <text x="380" y="305" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#8896A6">Add &amp; Norm</text>
+                <!-- Decoder output -->
+                <rect x="300" y="380" width="160" height="30" rx="6" fill="#FEE2E2" stroke="#D55E00" stroke-width="1"/>
+                <text x="380" y="400" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" fill="#991B1B">Linear + Softmax</text>
+                <text x="380" y="430" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" font-weight="600" fill="#1A2332">Output Probabilities</text>
+                <!-- Decoder input -->
+                <rect x="300" y="450" width="160" height="35" rx="6" fill="#DBEAFE" stroke="#009E73" stroke-width="1"/>
+                <text x="380" y="472" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" fill="#1E40AF">Output Embedding</text>
+                <rect x="300" y="495" width="160" height="25" rx="4" fill="#FEF3C7" stroke="#E69F00" stroke-width="1"/>
+                <text x="380" y="512" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#92400E">+ Positional Encoding</text>
+                <!-- Cross-attention arrow -->
+                <line x1="220" y1="190" x2="300" y2="190" stroke="#8896A6" stroke-width="1.5" marker-end="url(#arrowGray)"/>
+                <text x="260" y="183" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" fill="#8896A6">K, V</text>
+                <!-- Footer -->
+                <text x="260" y="555" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" fill="#8896A6">Vaswani et al., "Attention Is All You Need", NeurIPS 2017</text>
+                <defs><marker id="arrowGray" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="#8896A6"/></marker></defs>
+            </svg>
+            <p class="figure-caption">Fig 2. The Transformer model architecture (Vaswani et al., 2017)</p>
+        </div>
+    </div>
+    <span class="slide-number">6</span>
+</section>
+
+<!-- Slide G: 表格页 -->
+<section class="slide" data-slide="7">
+    <div class="slide-content">
+        <p class="label reveal">Results</p>
+        <h2 class="reveal reveal-d1">Machine Translation Performance</h2>
+        <div class="table-container reveal reveal-d2">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Model</th>
+                        <th>BLEU (EN-DE)</th>
+                        <th>BLEU (EN-FR)</th>
+                        <th>Training Cost (FLOPs)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>ByteNet</td>
+                        <td>23.75</td>
+                        <td>&mdash;</td>
+                        <td>&mdash;</td>
+                    </tr>
+                    <tr>
+                        <td>ConvS2S</td>
+                        <td>25.16</td>
+                        <td>40.46</td>
+                        <td>1.5&times;10<sup>20</sup></td>
+                    </tr>
+                    <tr>
+                        <td>Transformer (Base)</td>
+                        <td>27.3</td>
+                        <td>38.1</td>
+                        <td>3.3&times;10<sup>18</sup></td>
+                    </tr>
+                    <tr class="highlight-row">
+                        <td>Transformer (Big)</td>
+                        <td>28.4</td>
+                        <td>41.0</td>
+                        <td>2.3&times;10<sup>19</sup></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <span class="slide-number">7</span>
+</section>
+
+<!-- Slide H: 数学公式页 -->
+<section class="slide" data-slide="8">
+    <div class="slide-content">
+        <p class="label reveal">Core Mechanism</p>
+        <h2 class="reveal reveal-d1">Scaled Dot-Product Attention</h2>
+        <div class="card card-accent reveal reveal-d2">
+            <h3>Attention Function</h3>
+            <div class="math-block" style="margin-top: var(--element-gap);">
+                $$\text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^\top}{\sqrt{d_k}}\right)V$$
+            </div>
+        </div>
+    </div>
+    <span class="slide-number">8</span>
+</section>
+
+<!-- Slide I: 结束页 -->
+<section class="slide thankyou-slide" data-slide="9">
+    <div class="slide-content">
+        <h1 class="reveal">Thank You</h1>
+        <p class="subtitle reveal reveal-d1">Questions &amp; Discussion</p>
+        <div class="reveal reveal-d2" style="margin-top: clamp(1rem, 3vw, 2.5rem);">
+            <p style="font-size: var(--small-size); color: var(--text-muted);">
+                Academic Slides Demo &mdash; github.com/JialiZhang1016/academic-slides
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================
+     JavaScript — 导航 & 动画（不需要修改）
+     ============================================ -->
+<script>
+class SlidePresentation {
+    constructor() {
+        this.slides = document.querySelectorAll('.slide');
+        this.totalSlides = this.slides.length;
+        this.currentSlide = 0;
+        this.isScrolling = false;
+        this.createNavDots();
+        this.setupIntersectionObserver();
+        this.setupKeyboardNav();
+        this.setupWheelNav();
+        this.setupTouchNav();
+        this.updateProgress();
+    }
+    createNavDots() {
+        const nav = document.getElementById('navDots');
+        this.slides.forEach((_, i) => {
+            const dot = document.createElement('button');
+            dot.className = 'nav-dot';
+            dot.setAttribute('aria-label', `Slide ${i + 1}`);
+            dot.addEventListener('click', () => this.goToSlide(i));
+            nav.appendChild(dot);
+        });
+        this.dots = nav.querySelectorAll('.nav-dot');
+    }
+    setupIntersectionObserver() {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    const idx = Array.from(this.slides).indexOf(entry.target);
+                    if (idx !== -1) { this.currentSlide = idx; this.updateActiveDot(); this.updateProgress(); }
+                }
+            });
+        }, { threshold: 0.5 });
+        this.slides.forEach(slide => observer.observe(slide));
+    }
+    setupKeyboardNav() {
+        document.addEventListener('keydown', (e) => {
+            if (['ArrowDown','ArrowRight','Space','PageDown'].includes(e.code)) { e.preventDefault(); this.nextSlide(); }
+            else if (['ArrowUp','ArrowLeft','PageUp'].includes(e.code)) { e.preventDefault(); this.prevSlide(); }
+            else if (e.code === 'Home') { e.preventDefault(); this.goToSlide(0); }
+            else if (e.code === 'End') { e.preventDefault(); this.goToSlide(this.totalSlides - 1); }
+        });
+    }
+    setupWheelNav() {
+        document.addEventListener('wheel', (e) => {
+            if (this.isScrolling) return;
+            this.isScrolling = true;
+            if (e.deltaY > 30) this.nextSlide();
+            else if (e.deltaY < -30) this.prevSlide();
+            setTimeout(() => { this.isScrolling = false; }, 800);
+        }, { passive: true });
+    }
+    setupTouchNav() {
+        let startY = 0;
+        document.addEventListener('touchstart', (e) => { startY = e.touches[0].clientY; }, { passive: true });
+        document.addEventListener('touchend', (e) => {
+            const delta = startY - e.changedTouches[0].clientY;
+            if (Math.abs(delta) > 50) { delta > 0 ? this.nextSlide() : this.prevSlide(); }
+        }, { passive: true });
+    }
+    goToSlide(idx) {
+        if (idx < 0 || idx >= this.totalSlides) return;
+        this.currentSlide = idx;
+        this.slides[idx].scrollIntoView({ behavior: 'smooth' });
+        this.updateActiveDot(); this.updateProgress();
+    }
+    nextSlide() { if (this.currentSlide < this.totalSlides - 1) this.goToSlide(this.currentSlide + 1); }
+    prevSlide() { if (this.currentSlide > 0) this.goToSlide(this.currentSlide - 1); }
+    updateActiveDot() { this.dots.forEach((d, i) => d.classList.toggle('active', i === this.currentSlide)); }
+    updateProgress() { document.getElementById('progressBar').style.width = ((this.currentSlide + 1) / this.totalSlides) * 100 + '%'; }
+}
+document.addEventListener('DOMContentLoaded', () => { new SlidePresentation(); });
+</script>
+
+</body>
+</html>
