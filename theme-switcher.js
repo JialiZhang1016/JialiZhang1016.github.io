@@ -1,113 +1,5 @@
 // Theme configuration object
 const themes = {
-    'purple-pink': {
-        gradientStart: '#667eea',
-        gradientMiddle: '#764ba2',
-        gradientEnd: '#f093fb',
-        sidebarTextColor: 'white',
-        accent1: '#667eea',
-        accent2: '#764ba2',
-        accent3: '#f093fb',
-        accent1Rgb: '102, 126, 234',
-        accent2Rgb: '118, 75, 162',
-        accent3Rgb: '240, 147, 251'
-    },
-    'blue-cyan': {
-        gradientStart: '#1e3a8a',
-        gradientMiddle: '#3b82f6',
-        gradientEnd: '#06b6d4',
-        sidebarTextColor: 'white',
-        accent1: '#1e3a8a',
-        accent2: '#3b82f6',
-        accent3: '#06b6d4',
-        accent1Rgb: '30, 58, 138',
-        accent2Rgb: '59, 130, 246',
-        accent3Rgb: '6, 182, 212'
-    },
-    'navy-blue': {
-        gradientStart: '#0f172a',
-        gradientMiddle: '#1e40af',
-        gradientEnd: '#3b82f6',
-        sidebarTextColor: 'white',
-        accent1: '#0f172a',
-        accent2: '#1e40af',
-        accent3: '#3b82f6',
-        accent1Rgb: '15, 23, 42',
-        accent2Rgb: '30, 64, 175',
-        accent3Rgb: '59, 130, 246'
-    },
-    'teal-emerald': {
-        gradientStart: '#0d9488',
-        gradientMiddle: '#14b8a6',
-        gradientEnd: '#10b981',
-        sidebarTextColor: 'white',
-        accent1: '#0d9488',
-        accent2: '#14b8a6',
-        accent3: '#10b981',
-        accent1Rgb: '13, 148, 136',
-        accent2Rgb: '20, 184, 166',
-        accent3Rgb: '16, 185, 129'
-    },
-    'indigo-purple': {
-        gradientStart: '#4c1d95',
-        gradientMiddle: '#6366f1',
-        gradientEnd: '#8b5cf6',
-        sidebarTextColor: 'white',
-        accent1: '#4c1d95',
-        accent2: '#6366f1',
-        accent3: '#8b5cf6',
-        accent1Rgb: '76, 29, 149',
-        accent2Rgb: '99, 102, 241',
-        accent3Rgb: '139, 92, 246'
-    },
-    'soft-blue': {
-        gradientStart: '#dbeafe',
-        gradientMiddle: '#bfdbfe',
-        gradientEnd: '#93c5fd',
-        sidebarTextColor: '#1e3a8a',
-        accent1: '#3b82f6',
-        accent2: '#2563eb',
-        accent3: '#1d4ed8',
-        accent1Rgb: '59, 130, 246',
-        accent2Rgb: '37, 99, 235',
-        accent3Rgb: '29, 78, 216'
-    },
-    'lavender': {
-        gradientStart: '#e0e7ff',
-        gradientMiddle: '#c7d2fe',
-        gradientEnd: '#a5b4fc',
-        sidebarTextColor: '#312e81',
-        accent1: '#6366f1',
-        accent2: '#4f46e5',
-        accent3: '#4338ca',
-        accent1Rgb: '99, 102, 241',
-        accent2Rgb: '79, 70, 229',
-        accent3Rgb: '67, 56, 202'
-    },
-    'mint-aqua': {
-        gradientStart: '#ccfbf1',
-        gradientMiddle: '#99f6e4',
-        gradientEnd: '#5eead4',
-        sidebarTextColor: '#134e4a',
-        accent1: '#14b8a6',
-        accent2: '#0d9488',
-        accent3: '#0f766e',
-        accent1Rgb: '20, 184, 166',
-        accent2Rgb: '13, 148, 136',
-        accent3Rgb: '15, 118, 110'
-    },
-    'peach-rose': {
-        gradientStart: '#fed7aa',
-        gradientMiddle: '#fbbf24',
-        gradientEnd: '#fb923c',
-        sidebarTextColor: '#78350f',
-        accent1: '#f59e0b',
-        accent2: '#d97706',
-        accent3: '#b45309',
-        accent1Rgb: '245, 158, 11',
-        accent2Rgb: '217, 119, 6',
-        accent3Rgb: '180, 83, 9'
-    },
     'pearl-blue': {
         gradientStart: '#f0f9ff',
         gradientMiddle: '#e0f2fe',
@@ -120,64 +12,67 @@ const themes = {
         accent2Rgb: '3, 105, 161',
         accent3Rgb: '7, 89, 133'
     },
-    'forest-emerald': {
-        gradientStart: '#065f46',
-        gradientMiddle: '#059669',
-        gradientEnd: '#10b981',
-        sidebarTextColor: 'white',
-        accent1: '#065f46',
-        accent2: '#059669',
-        accent3: '#10b981',
-        accent1Rgb: '6, 95, 70',
-        accent2Rgb: '5, 150, 105',
-        accent3Rgb: '16, 185, 129'
+    'mst-green': {
+        gradientStart: '#E6F0EC',
+        gradientMiddle: '#D4E5DD',
+        gradientEnd: '#C2DACE',
+        sidebarTextColor: '#1A2B23',
+        accent1: '#009E73',
+        accent2: '#154734',
+        accent3: '#0D2E22',
+        accent1Rgb: '0, 158, 115',
+        accent2Rgb: '21, 71, 52',
+        accent3Rgb: '13, 46, 34'
     },
-    'sage-mint': {
-        gradientStart: '#d1fae5',
-        gradientMiddle: '#a7f3d0',
-        gradientEnd: '#6ee7b7',
-        sidebarTextColor: '#064e3b',
-        accent1: '#10b981',
-        accent2: '#059669',
-        accent3: '#047857',
-        accent1Rgb: '16, 185, 129',
-        accent2Rgb: '5, 150, 105',
-        accent3Rgb: '4, 120, 87'
+    'light-academic': {
+        gradientStart: '#E8F0FE',
+        gradientMiddle: '#D0E2FF',
+        gradientEnd: '#B8D4FE',
+        sidebarTextColor: '#1A2332',
+        accent1: '#0066CC',
+        accent2: '#004499',
+        accent3: '#0052A3',
+        accent1Rgb: '0, 102, 204',
+        accent2Rgb: '0, 68, 153',
+        accent3Rgb: '0, 82, 163'
+    }
+};
+
+// Background pattern SVGs
+const patterns = {
+    'none': {
+        svg: 'none',
+        size: '0'
     },
-    'lime-spring': {
-        gradientStart: '#ecfccb',
-        gradientMiddle: '#d9f99d',
-        gradientEnd: '#bef264',
-        sidebarTextColor: '#365314',
-        accent1: '#84cc16',
-        accent2: '#65a30d',
-        accent3: '#4d7c0f',
-        accent1Rgb: '132, 204, 22',
-        accent2Rgb: '101, 163, 13',
-        accent3Rgb: '77, 124, 15'
+    'topographic': {
+        svg: "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='600' viewBox='0 0 600 600'%3E%3Cpath d='M300 50c138 0 250 112 250 250s-112 250-250 250S50 438 50 300 162 50 300 50z' fill='none' stroke='%23000' stroke-width='1'/%3E%3Cpath d='M300 100c110 0 200 90 200 200s-90 200-200 200-200-90-200-200 90-200 200-200z' fill='none' stroke='%23000' stroke-width='1'/%3E%3Cpath d='M300 150c83 0 150 67 150 150s-67 150-150 150-150-67-150-150 67-150 150-150z' fill='none' stroke='%23000' stroke-width='1'/%3E%3Cpath d='M300 200c55 0 100 45 100 100s-45 100-100 100-100-45-100-100 45-100 100-100z' fill='none' stroke='%23000' stroke-width='1'/%3E%3Cpath d='M300 250c28 0 50 22 50 50s-22 50-50 50-50-22-50-50 22-50 50-50z' fill='none' stroke='%23000' stroke-width='1'/%3E%3C/svg%3E\")",
+        size: '400px 400px'
     },
-    'sky-ocean': {
-        gradientStart: '#e0f2fe',
-        gradientMiddle: '#7dd3fc',
-        gradientEnd: '#38bdf8',
-        sidebarTextColor: '#0c4a6e',
-        accent1: '#0ea5e9',
-        accent2: '#0284c7',
-        accent3: '#0369a1',
-        accent1Rgb: '14, 165, 233',
-        accent2Rgb: '2, 132, 199',
-        accent3Rgb: '3, 105, 161'
+    'dots': {
+        svg: "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Ccircle cx='20' cy='20' r='2' fill='%23000'/%3E%3C/svg%3E\")",
+        size: '40px 40px'
+    },
+    'waves': {
+        svg: "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='60' viewBox='0 0 200 60'%3E%3Cpath d='M0 30c25-15 50-15 75 0s50 15 75 0 50-15 75 0 50 15 75 0' fill='none' stroke='%23000' stroke-width='1'/%3E%3C/svg%3E\")",
+        size: '200px 60px'
+    },
+    'hexagons': {
+        svg: "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='52' viewBox='0 0 60 52'%3E%3Cpath d='M30 1l25.98 15v30L30 61 4.02 46V16z' fill='none' stroke='%23000' stroke-width='0.8'/%3E%3C/svg%3E\")",
+        size: '60px 52px'
+    },
+    'grid': {
+        svg: "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='50' height='50' viewBox='0 0 50 50'%3E%3Cpath d='M50 0H0v50' fill='none' stroke='%23000' stroke-width='0.6'/%3E%3C/svg%3E\")",
+        size: '50px 50px'
     }
 };
 
 // Function to apply theme
 function applyTheme(themeName) {
-    const theme = themes[themeName];
+    var theme = themes[themeName];
     if (!theme) return;
 
-    const root = document.documentElement;
+    var root = document.documentElement;
 
-    // Set CSS variables
     root.style.setProperty('--gradient-start', theme.gradientStart);
     root.style.setProperty('--gradient-middle', theme.gradientMiddle);
     root.style.setProperty('--gradient-end', theme.gradientEnd);
@@ -189,72 +84,77 @@ function applyTheme(themeName) {
     root.style.setProperty('--accent-2-rgb', theme.accent2Rgb);
     root.style.setProperty('--accent-3-rgb', theme.accent3Rgb);
 
-    // Save to localStorage
     localStorage.setItem('selectedTheme', themeName);
-
-    // Update active state in modal
-    updateActiveTheme(themeName);
+    updateActiveState('.theme-option', 'data-theme', themeName);
 }
 
-// Function to update active theme indicator
-function updateActiveTheme(themeName) {
-    document.querySelectorAll('.theme-option').forEach(btn => {
-        const small = btn.querySelector('small');
-        if (btn.dataset.theme === themeName) {
-            small.textContent = '(Current)';
+// Function to apply pattern
+function applyPattern(patternName) {
+    var pattern = patterns[patternName];
+    if (!pattern) return;
+
+    var root = document.documentElement;
+
+    if (patternName === 'none') {
+        root.style.setProperty('--pattern-image', 'none');
+        root.style.setProperty('--pattern-opacity', '0');
+    } else {
+        root.style.setProperty('--pattern-image', pattern.svg);
+        root.style.setProperty('--pattern-size', pattern.size);
+        root.style.setProperty('--pattern-opacity', '0.12');
+    }
+
+    localStorage.setItem('selectedPattern', patternName);
+    updateActiveState('.pattern-option', 'data-pattern', patternName);
+}
+
+// Generic active state updater
+function updateActiveState(selector, attr, activeName) {
+    document.querySelectorAll(selector).forEach(function(btn) {
+        if (btn.getAttribute(attr) === activeName) {
             btn.classList.add('active');
         } else {
-            const originalText = btn.querySelector('small').getAttribute('data-original') || small.textContent;
-            if (!btn.querySelector('small').hasAttribute('data-original')) {
-                btn.querySelector('small').setAttribute('data-original', small.textContent);
-            }
-            small.textContent = originalText.replace('(Current)', '').trim();
             btn.classList.remove('active');
         }
     });
 }
 
-// Initialize theme on page load
+// Initialize on page load
 document.addEventListener('DOMContentLoaded', function() {
-    // Load saved theme or use default
-    const savedTheme = localStorage.getItem('selectedTheme') || 'pearl-blue';
+    var savedTheme = localStorage.getItem('selectedTheme') || 'pearl-blue';
+    var savedPattern = localStorage.getItem('selectedPattern') || 'topographic';
     applyTheme(savedTheme);
+    applyPattern(savedPattern);
 
-    // Theme toggle button
-    const toggleBtn = document.getElementById('theme-toggle');
-    const modal = document.getElementById('theme-modal');
-    const closeBtn = document.querySelector('.theme-modal-close');
+    var toggleBtn = document.getElementById('theme-toggle');
+    var modal = document.getElementById('theme-modal');
+    var closeBtn = document.querySelector('.theme-modal-close');
 
-    // Open modal
     toggleBtn.addEventListener('click', function() {
         modal.classList.add('active');
     });
 
-    // Close modal
     closeBtn.addEventListener('click', function() {
         modal.classList.remove('active');
     });
 
-    // Close modal when clicking outside
     modal.addEventListener('click', function(e) {
         if (e.target === modal) {
             modal.classList.remove('active');
         }
     });
 
-    // Theme option buttons
-    document.querySelectorAll('.theme-option').forEach(btn => {
+    // Color theme buttons
+    document.querySelectorAll('.theme-option').forEach(function(btn) {
         btn.addEventListener('click', function() {
-            const themeName = this.dataset.theme;
-            applyTheme(themeName);
-
-            // Optional: Close modal after selection
-            // modal.classList.remove('active');
+            applyTheme(this.getAttribute('data-theme'));
         });
     });
 
-    // Store original text for theme options
-    document.querySelectorAll('.theme-option small').forEach(small => {
-        small.setAttribute('data-original', small.textContent);
+    // Pattern buttons
+    document.querySelectorAll('.pattern-option').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            applyPattern(this.getAttribute('data-pattern'));
+        });
     });
 });
