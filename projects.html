@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Jiali Zhang - Research Projects in LLM, Computer Vision, Reinforcement Learning, and Machine Learning.">
+    <title>Projects - Jiali Zhang</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    <div class="page-layout">
+        <!-- Left Sidebar (30%) -->
+        <aside class="sidebar">
+            <div class="sidebar-content">
+                <div class="profile-section">
+                    <div class="profile-image">
+                        <img src="profile.jpg" alt="Jiali Zhang" onerror="this.style.display='none'">
+                    </div>
+                    <h1>Jiali Zhang</h1>
+                    <p class="subtitle">PhD Candidate in Statistics</p>
+
+                    <!-- Contact Icons -->
+                    <div class="contact-links">
+                        <a href="mailto:jztk7@mst.edu" class="contact-item" title="Email: jztk7@mst.edu">
+                            <i class="fas fa-envelope"></i>
+                        </a>
+                        <a href="https://scholar.google.com/citations?user=5T9X91sAAAAJ&hl=zh-CN&oi=sra" class="contact-item" target="_blank" title="Google Scholar">
+                            <i class="fas fa-graduation-cap"></i>
+                        </a>
+                        <a href="https://github.com/JialiZhang1016" class="contact-item" target="_blank" title="GitHub">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/in/jiali-zhang-151379292/" class="contact-item" target="_blank" title="LinkedIn">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <nav class="sidebar-nav">
+                    <ul>
+                        <li><a href="index.html#about">About</a></li>
+                        <li><a href="index.html#news">News</a></li>
+                        <li><a href="index.html#research">Research</a></li>
+                        <li><a href="index.html#experience">Work Experience</a></li>
+                        <li><a href="index.html#projects" class="active">Projects</a></li>
+                        <li><a href="index.html#publications">Publications</a></li>
+                        <li><a href="index.html#awards">Awards</a></li>
+                        <li><a href="index.html#skills">Skills</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </aside>
+
+        <!-- Right Main Content (70%) -->
+        <main class="main-content">
+            <section class="section">
+                <div class="projects-page-header">
+                    <a href="index.html" class="back-link"><i class="fas fa-arrow-left"></i> Back to Home</a>
+                    <h2>All Research Projects</h2>
+                </div>
+
+                <div class="project">
+                    <h3>LLM-Powered Content Recommendation Pipeline</h3>
+                    <p class="project-meta">Status: Completed | Duration: May–Sep 2025</p>
+                    <p class="project-description">
+                        An end-to-end LLM-driven content recommendation system that automates news curation for 100+ users. Features a multi-source data collection layer ingesting 50+ articles daily from 20+ sources with a 4-stage deduplication funnel, an LLM ranking module using Claude API for relevance scoring, summarization, and classification (recall → ranking → re-ranking architecture), and deployment as a daily push service that reduced manual curation effort by 95%.
+                    </p>
+                </div>
+
+                <div class="project">
+                    <h3>LLM-based Retrieval-Ranking Pipeline</h3>
+                    <p class="project-meta">Status: Completed | Duration: Sep 2025</p>
+                    <p class="project-description">
+                        A two-stage retrieval-ranking pipeline for detecting data references in scientific publications. Combines regex-based candidate extraction with Bayesian filtering for recall, followed by a 32B LLM for semantic classification. Statistical error analysis guided pre/post-processing rule optimization to reduce LLM hallucinations. Achieved top 9% (114/1282) in the Kaggle Make Data Count competition with only 3 submissions.
+                    </p>
+                </div>
+
+                <div class="project">
+                    <h3>MS-YOLO: Infrared Object Detection for Edge Deployment</h3>
+                    <p class="project-meta">Status: Completed | Duration: 2024-2025</p>
+                    <div class="project-image">
+                        <img src="readme_plots/MS_YOLO.png" alt="MS-YOLO Architecture">
+                    </div>
+                    <p class="project-description">
+                        A lightweight object detection model optimized for infrared imaging and edge deployment. The model integrates MobileNetV4 backbone with a novel SlideLoss function to achieve efficient detection performance on resource-constrained devices. This work addresses the critical challenge of deploying deep learning models on edge devices while maintaining high accuracy for thermal imaging applications.
+                    </p>
+                    <p class="project-links">
+                        <a href="https://www.arxiv.org/abs/2509.21696" class="btn-link">Paper</a>
+                        <a href="https://github.com/JialiZhang1016/YOLO_thermal_small" class="btn-link">Code</a>
+                    </p>
+                </div>
+
+                <div class="project">
+                    <h3>Joint Control of Flowshop Manufacturing and Microgrid Energy Management</h3>
+                    <p class="project-meta">Status: Ongoing | Duration: 2022-Present</p>
+                    <div class="project-image">
+                        <img src="readme_plots/Flowshop_Microgrid.png" alt="Flowshop-Microgrid System">
+                    </div>
+                    <p class="project-description">
+                        An intelligent optimization system that integrates flowshop scheduling with microgrid energy management. The system uses Genetic Algorithms (GA), Reinforcement Learning (RL), and rule-based methods to minimize energy costs by optimally matching production demand with renewable energy supply.
+                    </p>
+                    <p class="project-links">
+                        <a href="https://github.com/JialiZhang1016/RL_energy_management" class="btn-link">Code</a>
+                    </p>
+                </div>
+
+                <div class="project">
+                    <h3>Subspace Indexing Model with Interpolation (SIM-I)</h3>
+                    <p class="project-meta">Status: Completed | Duration: 2022-2023</p>
+                    <div class="project-image">
+                        <img src="readme_plots/SIM-I.png" alt="SIM-I Architecture">
+                    </div>
+                    <p class="project-description">
+                        This work addresses the challenge of nonlinear representation learning in high-dimensional data. While classic linear methods (PCA, LDA) fail to capture local variations and nonlinear methods (kernel algorithms, DNNs) are computationally expensive, we propose the Subspace Indexing Model with Interpolation (SIM-I) — a lightweight, locality-aware approach that achieves comparable performance to deep neural networks while maintaining computational efficiency and theoretical interpretability through piecewise linear, globally nonlinear embeddings.
+                    </p>
+                    <p class="project-links">
+                        <a href="https://ieeexplore.ieee.org/abstract/document/10386432" class="btn-link">Paper</a>
+                        <a href="https://github.com/JialiZhang1016/SubspaceIndexing_StiefelGrassmann" class="btn-link">Code</a>
+                    </p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Jiali Zhang. Last updated: March 2026.</p>
+    </footer>
+
+    <!-- Theme Selector Button -->
+    <button id="theme-toggle" class="theme-toggle-btn" title="Change Theme">
+        <i class="fas fa-palette"></i>
+    </button>
+
+    <!-- Theme Selector Modal -->
+    <div id="theme-modal" class="theme-modal">
+        <div class="theme-modal-content">
+            <div class="theme-modal-header">
+                <h3>Choose Your Theme</h3>
+                <button class="theme-modal-close">&times;</button>
+            </div>
+            <div class="theme-options">
+                <div class="theme-category">
+                    <h4>Dark Themes</h4>
+                    <div class="theme-grid">
+                        <button class="theme-option" data-theme="purple-pink">
+                            <div class="theme-preview" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);"></div>
+                            <span>Purple to Pink</span>
+                            <small>(Current)</small>
+                        </button>
+                        <button class="theme-option" data-theme="blue-cyan">
+                            <div class="theme-preview" style="background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #06b6d4 100%);"></div>
+                            <span>Blue to Cyan</span>
+                            <small>Professional AI/Tech</small>
+                        </button>
+                        <button class="theme-option" data-theme="navy-blue">
+                            <div class="theme-preview" style="background: linear-gradient(135deg, #0f172a 0%, #1e40af 50%, #3b82f6 100%);"></div>
+                            <span>Navy to Blue</span>
+                            <small>Data Science</small>
+                        </button>
+                        <button class="theme-option" data-theme="teal-emerald">
+                            <div class="theme-preview" style="background: linear-gradient(135deg, #0d9488 0%, #14b8a6 50%, #10b981 100%);"></div>
+                            <span>Teal to Emerald</span>
+                            <small>Research & Innovation</small>
+                        </button>
+                        <button class="theme-option" data-theme="indigo-purple">
+                            <div class="theme-preview" style="background: linear-gradient(135deg, #4c1d95 0%, #6366f1 50%, #8b5cf6 100%);"></div>
+                            <span>Indigo to Purple</span>
+                            <small>Refined Tech</small>
+                        </button>
+                    </div>
+                </div>
+                <div class="theme-category">
+                    <h4>Light Themes</h4>
+                    <div class="theme-grid">
+                        <button class="theme-option" data-theme="soft-blue">
+                            <div class="theme-preview" style="background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 50%, #93c5fd 100%);"></div>
+                            <span>Soft Blue</span>
+                            <small>Professional</small>
+                        </button>
+                        <button class="theme-option" data-theme="lavender">
+                            <div class="theme-preview" style="background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 50%, #a5b4fc 100%);"></div>
+                            <span>Lavender</span>
+                            <small>Soft Purple</small>
+                        </button>
+                        <button class="theme-option" data-theme="mint-aqua">
+                            <div class="theme-preview" style="background: linear-gradient(135deg, #ccfbf1 0%, #99f6e4 50%, #5eead4 100%);"></div>
+                            <span>Mint to Aqua</span>
+                            <small>Fresh & Light</small>
+                        </button>
+                        <button class="theme-option" data-theme="peach-rose">
+                            <div class="theme-preview" style="background: linear-gradient(135deg, #fed7aa 0%, #fbbf24 50%, #fb923c 100%);"></div>
+                            <span>Peach to Rose</span>
+                            <small>Warm & Inviting</small>
+                        </button>
+                        <button class="theme-option" data-theme="pearl-blue">
+                            <div class="theme-preview" style="background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 50%, #bae6fd 100%);"></div>
+                            <span>Pearl Blue</span>
+                            <small>Elegant & Subtle</small>
+                        </button>
+                    </div>
+                </div>
+                <div class="theme-category">
+                    <h4>Green Themes</h4>
+                    <div class="theme-grid">
+                        <button class="theme-option" data-theme="forest-emerald">
+                            <div class="theme-preview" style="background: linear-gradient(135deg, #065f46 0%, #059669 50%, #10b981 100%);"></div>
+                            <span>Forest Emerald</span>
+                            <small>Nature & Growth</small>
+                        </button>
+                        <button class="theme-option" data-theme="sage-mint">
+                            <div class="theme-preview" style="background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 50%, #6ee7b7 100%);"></div>
+                            <span>Sage to Mint</span>
+                            <small>Soft & Calming</small>
+                        </button>
+                        <button class="theme-option" data-theme="lime-spring">
+                            <div class="theme-preview" style="background: linear-gradient(135deg, #ecfccb 0%, #d9f99d 50%, #bef264 100%);"></div>
+                            <span>Lime Spring</span>
+                            <small>Fresh & Vibrant</small>
+                        </button>
+                    </div>
+                </div>
+                <div class="theme-category">
+                    <h4>Blue Themes</h4>
+                    <div class="theme-grid">
+                        <button class="theme-option" data-theme="sky-ocean">
+                            <div class="theme-preview" style="background: linear-gradient(135deg, #e0f2fe 0%, #7dd3fc 50%, #38bdf8 100%);"></div>
+                            <span>Sky to Ocean</span>
+                            <small>Soft & Serene</small>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="theme-switcher.js"></script>
+</body>
+</html>

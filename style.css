@@ -619,7 +619,81 @@ body {
     margin: 0;
 }
 
-/* Projects */
+/* Project Preview Grid (index page) */
+.project-preview-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.project-preview-card {
+    display: block;
+    padding: 20px;
+    background: linear-gradient(135deg, rgba(var(--accent-1-rgb), 0.08) 0%, rgba(var(--accent-2-rgb), 0.08) 50%, rgba(var(--accent-3-rgb), 0.08) 100%);
+    border-radius: 8px;
+    border: 1px solid rgba(var(--accent-1-rgb), 0.15);
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.project-preview-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 20px rgba(var(--accent-1-rgb), 0.2);
+    border-color: var(--accent-2);
+}
+
+.project-preview-card h3 {
+    font-size: 1.05rem;
+    color: var(--primary-color);
+    margin-bottom: 4px;
+}
+
+.project-preview-meta {
+    display: inline-block;
+    font-size: 0.8rem;
+    color: var(--text-light);
+    font-style: italic;
+    margin-bottom: 8px;
+}
+
+.project-preview-card p {
+    font-size: 0.9rem;
+    color: var(--text-light);
+    line-height: 1.5;
+    margin: 0;
+}
+
+.view-all-link {
+    text-align: center;
+    margin-top: 10px;
+}
+
+/* Projects Page Header */
+.projects-page-header {
+    margin-bottom: 25px;
+}
+
+.back-link {
+    display: inline-block;
+    color: var(--secondary-color);
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 500;
+    margin-bottom: 15px;
+    transition: color 0.3s ease;
+}
+
+.back-link:hover {
+    color: var(--accent-2);
+}
+
+.back-link i {
+    margin-right: 6px;
+}
+
+/* Projects (detail page) */
 .project {
     margin-bottom: 35px;
     padding: 25px;
