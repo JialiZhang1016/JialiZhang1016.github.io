@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Jiali Zhang - Research Projects in LLM, Computer Vision, Reinforcement Learning, and Machine Learning.">
-    <title>Projects - Jiali Zhang</title>
+    <meta name="description" content="LLM-based Retrieval-Ranking Pipeline for Scientific Data References - Jiali Zhang">
+    <title>LLM-based Retrieval-Ranking Pipeline - Jiali Zhang</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
@@ -57,63 +57,33 @@
         <main class="main-content">
             <section class="section">
                 <div class="projects-page-header">
-                    <a href="index.html" class="back-link"><i class="fas fa-arrow-left"></i> Back to Home</a>
-                    <h2>All Research Projects</h2>
+                    <a href="projects.html" class="back-link"><i class="fas fa-arrow-left"></i> Back to Projects</a>
+                    <h2>LLM-based Retrieval-Ranking Pipeline</h2>
+                </div>
+                <p class="project-meta">Completed | Sep 2025</p>
+
+                <div class="project-highlight-banner">
+                    Kaggle Top 9% (114/1282) &mdash; Bronze Medal with only 3 submissions
                 </div>
 
-                <a href="project-llm-recommendation.html" class="project project-card-link">
-                    <h3>LLM-Powered Content Recommendation Pipeline</h3>
-                    <p class="project-meta">Completed | May–Sep 2025</p>
-                    <div class="project-tags"><span class="tag tag-llm">LLM</span><span class="tag tag-rec">Rec System</span></div>
-                    <p class="project-description">
-                        End-to-end LLM-driven news curation for 100+ users. Multi-source ingestion, Claude API ranking, 95% reduction in manual effort.
-                    </p>
-                </a>
+                <div class="project-detail-content">
+                    <h3>Key Contributions</h3>
+                    <ul>
+                        <li>Architected a &ldquo;Recall-then-Precision&rdquo; pipeline: high-speed regex for initial candidate retrieval, followed by a 32B-parameter LLM (Qwen/Llama-3) for semantic classification.</li>
+                        <li>Optimized inference using <strong>vLLM</strong> and context-window management, enabling processing of thousands of papers within strict competition compute constraints.</li>
+                        <li>Designed custom pre/post-processing filters based on statistical error analysis of training data, reducing LLM hallucinations and false positives.</li>
+                        <li>Achieved Bronze Medal with only <strong>3 submissions</strong> (vs. 100+ by competitors) &mdash; demonstrating a data-centric engineering approach over brute-force iteration.</li>
+                    </ul>
+                </div>
 
-                <a href="project-llm-retrieval.html" class="project project-card-link">
-                    <h3>LLM-based Retrieval-Ranking Pipeline</h3>
-                    <p class="project-meta">Completed | Sep 2025</p>
-                    <div class="project-tags"><span class="tag tag-llm">LLM</span><span class="tag tag-nlp">NLP</span></div>
-                    <p class="project-description">
-                        Hybrid regex + 32B LLM pipeline for scientific data reference detection. Kaggle top 9% (114/1282).
-                    </p>
-                </a>
-
-                <a href="project-msyolo.html" class="project project-card-link">
-                    <h3>MS-YOLO: Infrared Object Detection for Edge Deployment</h3>
-                    <p class="project-meta">Published at IJCNN 2025 | 2024–2025</p>
-                    <div class="project-tags"><span class="tag tag-cv">CV</span><span class="tag tag-dl">Deep Learning</span></div>
-                    <div class="project-image">
-                        <img src="readme_plots/MS_YOLO.png" alt="MS-YOLO Architecture">
-                    </div>
-                    <p class="project-description">
-                        Lightweight MobileNetV4 + SlideLoss object detection optimized for infrared imaging on resource-constrained devices.
-                    </p>
-                </a>
-
-                <a href="project-bilevel.html" class="project project-card-link">
-                    <h3>Bilevel Optimization for Joint Flowshop Scheduling and Microgrid Energy Management</h3>
-                    <p class="project-meta">Under Review at IISE Transactions | 2024–2026</p>
-                    <div class="project-tags"><span class="tag tag-rl">RL</span><span class="tag tag-opt">Optimization</span></div>
-                    <div class="project-image">
-                        <img src="readme_plots/fig1_system_original.png" alt="System Architecture">
-                    </div>
-                    <p class="project-description">
-                        Bilevel GA+PPO framework for joint production scheduling and energy dispatch. 8–30% cost reduction over baselines across 90 scenarios.
-                    </p>
-                </a>
-
-                <a href="project-simi.html" class="project project-card-link">
-                    <h3>Subspace Indexing Model with Interpolation (SIM-I)</h3>
-                    <p class="project-meta">Published at IEEE Big Data 2023 | 2022–2023</p>
-                    <div class="project-tags"><span class="tag tag-ml">ML</span><span class="tag tag-math">Manifold</span></div>
-                    <div class="project-image">
-                        <img src="readme_plots/SIM-I.png" alt="SIM-I Architecture">
-                    </div>
-                    <p class="project-description">
-                        Lightweight nonlinear representation learning via piecewise linear embeddings on Stiefel and Grassmann manifolds.
-                    </p>
-                </a>
+                <div class="tech-stack">
+                    <span class="tech-pill">Python</span>
+                    <span class="tech-pill">vLLM</span>
+                    <span class="tech-pill">Qwen-32B</span>
+                    <span class="tech-pill">Llama-3</span>
+                    <span class="tech-pill">Regex</span>
+                    <span class="tech-pill">Pandas</span>
+                </div>
             </section>
         </main>
     </div>

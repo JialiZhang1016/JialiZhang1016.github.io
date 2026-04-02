@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Jiali Zhang - Research Projects in LLM, Computer Vision, Reinforcement Learning, and Machine Learning.">
-    <title>Projects - Jiali Zhang</title>
+    <meta name="description" content="Bilevel Optimization for Joint Flowshop Scheduling and Microgrid Energy Management - Jiali Zhang">
+    <title>Bilevel Flowshop-Microgrid Optimization - Jiali Zhang</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
@@ -57,63 +57,50 @@
         <main class="main-content">
             <section class="section">
                 <div class="projects-page-header">
-                    <a href="index.html" class="back-link"><i class="fas fa-arrow-left"></i> Back to Home</a>
-                    <h2>All Research Projects</h2>
+                    <a href="projects.html" class="back-link"><i class="fas fa-arrow-left"></i> Back to Projects</a>
+                    <h2>Bilevel Optimization for Joint Flowshop Scheduling and Microgrid Energy Management</h2>
+                </div>
+                <p class="project-meta">2024&ndash;2026</p>
+
+                <div class="project-image">
+                    <img src="readme_plots/fig1_system_original.png" alt="Flowshop-Microgrid System Architecture">
+                </div>
+                <div class="project-image">
+                    <img src="readme_plots/fig_bilevel_original.png" alt="Bilevel Optimization Framework">
                 </div>
 
-                <a href="project-llm-recommendation.html" class="project project-card-link">
-                    <h3>LLM-Powered Content Recommendation Pipeline</h3>
-                    <p class="project-meta">Completed | May–Sep 2025</p>
-                    <div class="project-tags"><span class="tag tag-llm">LLM</span><span class="tag tag-rec">Rec System</span></div>
-                    <p class="project-description">
-                        End-to-end LLM-driven news curation for 100+ users. Multi-source ingestion, Claude API ranking, 95% reduction in manual effort.
-                    </p>
-                </a>
+                <div class="project-highlight-banner">
+                    8&ndash;30% energy cost reduction across 90 real-world manufacturing-energy scenarios
+                </div>
 
-                <a href="project-llm-retrieval.html" class="project project-card-link">
-                    <h3>LLM-based Retrieval-Ranking Pipeline</h3>
-                    <p class="project-meta">Completed | Sep 2025</p>
-                    <div class="project-tags"><span class="tag tag-llm">LLM</span><span class="tag tag-nlp">NLP</span></div>
-                    <p class="project-description">
-                        Hybrid regex + 32B LLM pipeline for scientific data reference detection. Kaggle top 9% (114/1282).
-                    </p>
-                </a>
+                <div class="project-detail-content">
+                    <h3>Key Contributions</h3>
+                    <ul>
+                        <li>Designed a bilevel optimization framework coupling Genetic Algorithm (production scheduling) with PPO (energy dispatch), bridging two traditionally siloed optimization problems into a single co-optimization loop.</li>
+                        <li>Built a custom OpenAI Gym environment modeling real solar/wind/battery/grid energy flows with physical constraints &mdash; SOC limits, charging/discharging efficiency losses, and time-of-use pricing from 3 real-world locations.</li>
+                        <li>Invented a &ldquo;factory-first&rdquo; action space that eliminates suboptimal RL behaviors by construction &mdash; the agent was selling renewable energy for short-term gain then buying expensive grid power; the new design prevents this structurally.</li>
+                        <li>Engineered a 5-stage training pipeline: demand pool generation &rarr; multi-demand behavioral cloning &rarr; PPO pretraining &rarr; surrogate model initialization &rarr; bilevel co-optimization.</li>
+                        <li>Evaluated across 90 scenarios (3 locations &times; 6 problem sizes &times; 5 seeds) against 4 baselines (RBC, A-RBC, SAC, MPC); PPO-Bi achieves 8&ndash;30% cost reduction.</li>
+                        <li>Demonstrated &gt;90% zero-shot performance retention across unseen locations and seasons without retraining.</li>
+                    </ul>
+                </div>
 
-                <a href="project-msyolo.html" class="project project-card-link">
-                    <h3>MS-YOLO: Infrared Object Detection for Edge Deployment</h3>
-                    <p class="project-meta">Published at IJCNN 2025 | 2024–2025</p>
-                    <div class="project-tags"><span class="tag tag-cv">CV</span><span class="tag tag-dl">Deep Learning</span></div>
-                    <div class="project-image">
-                        <img src="readme_plots/MS_YOLO.png" alt="MS-YOLO Architecture">
+                <div class="tech-stack">
+                    <span class="tech-pill">Python</span>
+                    <span class="tech-pill">PyTorch</span>
+                    <span class="tech-pill">PPO</span>
+                    <span class="tech-pill">Genetic Algorithm</span>
+                    <span class="tech-pill">OpenAI Gym</span>
+                    <span class="tech-pill">NumPy</span>
+                    <span class="tech-pill">Pandas</span>
+                </div>
+
+                <div class="project-links-card">
+                    <span class="publication-badge under-review"><i class="fas fa-clock"></i>Under Review &mdash; IISE Transactions</span>
+                    <div class="link-buttons">
+                        <a href="https://github.com/JialiZhang1016/bilevel-energy-management" class="btn-link"><i class="fab fa-github"></i> Code</a>
                     </div>
-                    <p class="project-description">
-                        Lightweight MobileNetV4 + SlideLoss object detection optimized for infrared imaging on resource-constrained devices.
-                    </p>
-                </a>
-
-                <a href="project-bilevel.html" class="project project-card-link">
-                    <h3>Bilevel Optimization for Joint Flowshop Scheduling and Microgrid Energy Management</h3>
-                    <p class="project-meta">Under Review at IISE Transactions | 2024–2026</p>
-                    <div class="project-tags"><span class="tag tag-rl">RL</span><span class="tag tag-opt">Optimization</span></div>
-                    <div class="project-image">
-                        <img src="readme_plots/fig1_system_original.png" alt="System Architecture">
-                    </div>
-                    <p class="project-description">
-                        Bilevel GA+PPO framework for joint production scheduling and energy dispatch. 8–30% cost reduction over baselines across 90 scenarios.
-                    </p>
-                </a>
-
-                <a href="project-simi.html" class="project project-card-link">
-                    <h3>Subspace Indexing Model with Interpolation (SIM-I)</h3>
-                    <p class="project-meta">Published at IEEE Big Data 2023 | 2022–2023</p>
-                    <div class="project-tags"><span class="tag tag-ml">ML</span><span class="tag tag-math">Manifold</span></div>
-                    <div class="project-image">
-                        <img src="readme_plots/SIM-I.png" alt="SIM-I Architecture">
-                    </div>
-                    <p class="project-description">
-                        Lightweight nonlinear representation learning via piecewise linear embeddings on Stiefel and Grassmann manifolds.
-                    </p>
-                </a>
+                </div>
             </section>
         </main>
     </div>
