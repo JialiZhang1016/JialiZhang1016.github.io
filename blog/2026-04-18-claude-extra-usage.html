@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="My Claude Code crashed with 'out of extra usage' while my subscription was 89% empty. A debugging trip through three quota pools, a self-hosted agent, and an OAuth credential stuck in exhausted mode.">
+    <title>Your Claude Subscription Has Three Wallets - Jiali Zhang</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        /* Language switcher */
+        .lang-switch {
+            display: inline-flex;
+            gap: 0;
+            border: 1.5px solid var(--accent-1, #0066CC);
+            border-radius: 6px;
+            overflow: hidden;
+            font-size: 0.8rem;
+            margin-left: 12px;
+            vertical-align: middle;
+        }
+        .lang-switch button {
+            background: none;
+            border: none;
+            padding: 4px 12px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.8rem;
+            color: var(--accent-1, #0066CC);
+            transition: all 0.2s;
+        }
+        .lang-switch button.active {
+            background: var(--accent-1, #0066CC);
+            color: white;
+        }
+        .lang-switch button:hover:not(.active) {
+            background: rgba(var(--accent-1-rgb, 0,102,204), 0.1);
+        }
+
+        /* Hide inactive language */
+        .lang-zh { display: none; }
+        body.zh .lang-zh { display: block; }
+        body.zh .lang-en { display: none; }
+
+        /* Signature */
+        .blog-signature {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(var(--accent-1-rgb, 0,102,204), 0.15);
+            font-style: italic;
+            color: #666;
+            line-height: 1.8;
+        }
+        .blog-signature strong {
+            font-style: normal;
+            color: #333;
+        }
+
+        /* Highlight box */
+        .highlight-box {
+            background: rgba(var(--accent-1-rgb, 0,102,204), 0.05);
+            border-left: 3px solid var(--accent-1, #0066CC);
+            padding: 1rem 1.2rem;
+            margin: 1.5rem 0;
+            border-radius: 0 6px 6px 0;
+            font-size: 0.95rem;
+        }
+
+        /* Quota table */
+        .quota-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.2rem 0;
+            font-size: 0.95rem;
+        }
+        .quota-table th, .quota-table td {
+            padding: 0.6rem 0.9rem;
+            border-bottom: 1px solid rgba(var(--accent-1-rgb, 0,102,204), 0.12);
+            text-align: left;
+        }
+        .quota-table th {
+            background: rgba(var(--accent-1-rgb, 0,102,204), 0.06);
+            font-weight: 600;
+        }
+        .quota-table tr.highlight-row td {
+            background: rgba(220, 80, 50, 0.06);
+            color: #b04020;
+            font-weight: 500;
+        }
+
+        /* Code blocks */
+        .blog-body pre {
+            background: #1e1e2e;
+            color: #e6e6e6;
+            padding: 1rem 1.2rem;
+            border-radius: 6px;
+            overflow-x: auto;
+            font-size: 0.85rem;
+            line-height: 1.6;
+            margin: 1rem 0;
+        }
+        .blog-body code {
+            background: rgba(var(--accent-1-rgb, 0,102,204), 0.08);
+            padding: 0.12rem 0.35rem;
+            border-radius: 3px;
+            font-size: 0.88em;
+        }
+        .blog-body pre code {
+            background: transparent;
+            padding: 0;
+            font-size: inherit;
+        }
+    </style>
+</head>
+<body>
+    <div class="page-layout">
+        <!-- Left Sidebar (30%) -->
+        <aside class="sidebar">
+            <div class="sidebar-content">
+                <div class="profile-section">
+                    <div class="profile-image">
+                        <img src="../profile.jpg" alt="Jiali Zhang" onerror="this.style.display='none'">
+                    </div>
+                    <h1>Jiali Zhang</h1>
+                    <p class="subtitle">PhD Candidate in Statistics</p>
+
+                    <div class="contact-links">
+                        <a href="mailto:jztk7@mst.edu" class="contact-item" title="Email: jztk7@mst.edu">
+                            <i class="fas fa-envelope"></i>
+                        </a>
+                        <a href="https://scholar.google.com/citations?user=5T9X91sAAAAJ&hl=zh-CN&oi=sra" class="contact-item" target="_blank" title="Google Scholar">
+                            <i class="fas fa-graduation-cap"></i>
+                        </a>
+                        <a href="https://github.com/JialiZhang1016" class="contact-item" target="_blank" title="GitHub">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/in/jiali-zhang-151379292/" class="contact-item" target="_blank" title="LinkedIn">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <nav class="sidebar-nav">
+                    <ul>
+                        <li><a href="../index.html#about">About</a></li>
+                        <li><a href="../index.html#news">News</a></li>
+                        <li><a href="../index.html#research">Research</a></li>
+                        <li><a href="../index.html#experience">Work Experience</a></li>
+                        <li><a href="../index.html#projects">Projects</a></li>
+                        <li><a href="../index.html#publications">Publications</a></li>
+                        <li><a href="../index.html#awards">Awards</a></li>
+                        <li><a href="../index.html#skills">Skills</a></li>
+                        <li><a href="../blog.html" class="active">Blog</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </aside>
+
+        <!-- Right Main Content (70%) -->
+        <main class="main-content">
+            <article class="section blog-article">
+                <div class="projects-page-header">
+                    <a href="../blog.html" class="back-link"><i class="fas fa-arrow-left"></i> Back to Blog</a>
+                </div>
+
+                <div class="blog-article-header">
+                    <h1 class="lang-en">Your Claude Subscription Has Three Wallets (and Opus Charges the Wrong One)</h1>
+                    <h1 class="lang-zh">Claude 订阅其实是三个钱包（Opus 却刷错了那个）</h1>
+                    <div class="blog-article-meta">
+                        <span class="blog-date">Apr 18, 2026</span>
+                        <div class="project-tags">
+                            <span class="tag tag-llm">Claude</span>
+                            <span class="tag tag-cv">Debugging</span>
+                            <span class="tag tag-rl">Agents</span>
+                        </div>
+                        <div class="lang-switch">
+                            <button class="active" onclick="switchLang('en')">EN</button>
+                            <button onclick="switchLang('zh')">ZH</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="blog-body">
+
+                    <!-- ==================== ENGLISH — intro ==================== -->
+                    <div class="lang-en">
+                        <p>
+                            My Claude Code dropped mid-task with <code>out of extra usage</code>. My subscription dashboard said I'd used 11%. These two facts seem to contradict each other &mdash; until you realize Claude's subscription is actually <em>three separate wallets</em>, and I'd been pouring money into the wrong one.
+                        </p>
+
+                        <h2>TL;DR</h2>
+                        <p>
+                            Claude.ai subscription quota is split into three non-interchangeable pools:
+                        </p>
+                    </div>
+
+                    <!-- ==================== CHINESE — intro ==================== -->
+                    <div class="lang-zh">
+                        <p>
+                            今天 Claude Code 干到一半崩了，错误消息是 <code>out of extra usage</code>。我看了一眼订阅面板，主池才用了 11%。这两件事看起来矛盾&mdash;&mdash;直到我意识到，Claude 订阅其实是<em>三个独立钱包</em>，而我一直在把钱烧在错的那一个上。
+                        </p>
+
+                        <h2>TL;DR</h2>
+                        <p>
+                            Claude.ai 订阅的额度是三个互不相通的池子：
+                        </p>
+                    </div>
+
+                    <!-- Shared: quota table (EN) -->
+                    <div class="lang-en">
+                        <table class="quota-table">
+                            <thead>
+                                <tr>
+                                    <th>Pool</th>
+                                    <th>My status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>All models (subscription)</td><td>11% used</td></tr>
+                                <tr><td>Sonnet only</td><td>0% used</td></tr>
+                                <tr class="highlight-row"><td><strong>Extra usage (overflow wallet)</strong></td><td><strong>101% used &mdash; stuck here</strong></td></tr>
+                            </tbody>
+                        </table>
+                        <p>
+                            Opus and 1M-context runs draw from Extra usage. I had Claude Code and a 24/7 self-hosted agent (Hermes) both defaulting to Opus, quietly burning through the overflow wallet while my subscription sat untouched.
+                        </p>
+                    </div>
+
+                    <!-- Shared: quota table (ZH) -->
+                    <div class="lang-zh">
+                        <table class="quota-table">
+                            <thead>
+                                <tr>
+                                    <th>池子</th>
+                                    <th>我的状态</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>All models（订阅主池）</td><td>用了 11%</td></tr>
+                                <tr><td>Sonnet only</td><td>用了 0%</td></tr>
+                                <tr class="highlight-row"><td><strong>Extra usage（超额钱包）</strong></td><td><strong>用了 101% &mdash; 卡在这</strong></td></tr>
+                            </tbody>
+                        </table>
+                        <p>
+                            Opus 模型和 1M context 都走 Extra usage。我的 Claude Code 和一个常驻自建 Agent（Hermes）默认都是 Opus，悄悄把超额钱包烧穿了，订阅主池却几乎没动。
+                        </p>
+                    </div>
+
+                    <!-- ==================== ENGLISH — running but dead ==================== -->
+                    <div class="lang-en">
+                        <h2>The "running but dead" agent</h2>
+                        <p>
+                            I run a persistent agent on a Mac Mini called Hermes &mdash; 5 profiles, talking to me through Telegram and Discord. One morning I noticed it hadn't responded in 14 hours. But:
+                        </p>
+                        <ul>
+                            <li><code>ps</code> showed the gateway process still running</li>
+                            <li><code>gateway_state.json</code> said <code>state: running</code>, both Telegram and Discord <code>connected</code></li>
+                        </ul>
+                        <p>
+                            Every heartbeat indicator looked healthy. Send a message &mdash; silence.
+                        </p>
+
+                        <h2>Layer 1: Claude Code was stuck too</h2>
+                        <p>
+                            When I opened Claude Code to debug Hermes, it failed immediately:
+                        </p>
+                    </div>
+
+                    <!-- ==================== CHINESE — running but dead ==================== -->
+                    <div class="lang-zh">
+                        <h2>"在运行，但是死了"的 Agent</h2>
+                        <p>
+                            我在 Mac Mini 上跑了一个叫 Hermes 的常驻 Agent&mdash;&mdash;5 个 profile，通过 Telegram 和 Discord 收发消息。某天早上我发现它 14 小时没回消息，但：
+                        </p>
+                        <ul>
+                            <li><code>ps</code> 能看到 gateway 进程还活着</li>
+                            <li><code>gateway_state.json</code> 显示 <code>state: running</code>，Telegram 和 Discord 都是 <code>connected</code></li>
+                        </ul>
+                        <p>
+                            所有心跳指标都显示正常。但发消息&mdash;&mdash;没反应。
+                        </p>
+
+                        <h2>第一层：Claude Code 自己也挂了</h2>
+                        <p>
+                            想打开 Claude Code 帮我排查 Hermes，结果它自己先报错了：
+                        </p>
+                    </div>
+
+                    <!-- Shared: error code -->
+                    <pre><code>Error code: 400 - out of extra usage.
+Add more at claude.ai/settings/usage</code></pre>
+
+                    <div class="lang-en">
+                        <p>
+                            I was confused. My subscription month wasn't over. How could I be out of anything?
+                        </p>
+                        <p>
+                            The Claude dashboard gave the answer:
+                        </p>
+                    </div>
+                    <div class="lang-zh">
+                        <p>
+                            我懵了。订阅月还没结束，怎么会"超额"？
+                        </p>
+                        <p>
+                            登录 Claude 面板才看清楚：
+                        </p>
+                    </div>
+
+                    <!-- Shared: dashboard snapshot -->
+                    <pre><code>All models        Resets Thu 3:00 PM    11% used
+Sonnet only       Resets Fri 4:00 PM     0% used
+Extra usage       Resets May 1         101% used   ← $20.17 spent</code></pre>
+
+                    <!-- ==================== ENGLISH — insight ==================== -->
+                    <div class="lang-en">
+                        <p>
+                            Two things I didn't know:
+                        </p>
+                        <div class="highlight-box">
+                            <strong>Opus burns fast</strong> and overflows into Extra usage when its subscription allowance runs out &mdash; the bar for overflow is much lower than I assumed.<br><br>
+                            <strong>The <code>[1M context]</code> variant bypasses the subscription entirely</strong> &mdash; it draws straight from Extra usage, regardless of how empty your main pool is.
+                        </div>
+                        <p>
+                            I spend most of my day in <code>claude-opus-4-7[1m]</code>. That combination was quietly siphoning the overflow wallet while the main subscription pool sat at 11%.
+                        </p>
+                        <p>
+                            Fix for layer 1: <code>/model</code> &rarr; <strong>Sonnet 4.6</strong>. Sonnet's dedicated pool was 0% used. Problem gone.
+                        </p>
+
+                        <h2>Layer 2: Hermes defaults to Opus too</h2>
+                        <p>
+                            While investigating, I found that <code>~/.hermes/config.yaml</code> had <code>model.default: claude-opus-4-6</code> &mdash; and each of the 5 profile configs (<code>profiles/*/config.yaml</code>) overrode it back to Opus. So Claude Code was burning Opus on the interactive side, and my always-on Hermes was burning Opus in the background. Both pouring into the same overflowed wallet.
+                        </p>
+                        <p>
+                            Batch-switched everything to Sonnet:
+                        </p>
+                    </div>
+
+                    <!-- ==================== CHINESE — insight ==================== -->
+                    <div class="lang-zh">
+                        <p>
+                            两个我之前不知道的事：
+                        </p>
+                        <div class="highlight-box">
+                            <strong>Opus 消耗特别快</strong>，订阅额度一旦用完就会溢出到 Extra usage&mdash;&mdash;而这个溢出门槛比我想象的低很多。<br><br>
+                            <strong><code>[1M context]</code> 版本会直接绕过订阅</strong>&mdash;&mdash;不管你订阅主池还剩多少，它都从 Extra usage 里扣。
+                        </div>
+                        <p>
+                            我大部分时间都在用 <code>claude-opus-4-7[1m]</code>。这个组合就在我不知情的情况下，把超额钱包一点点烧光了，而订阅主池还停在 11%。
+                        </p>
+                        <p>
+                            第一层的解法：<code>/model</code> &rarr; 切到 <strong>Sonnet 4.6</strong>。Sonnet 专属池子 0% used，瞬间满血。
+                        </p>
+
+                        <h2>第二层：Hermes 也默认用 Opus</h2>
+                        <p>
+                            排查过程中发现，<code>~/.hermes/config.yaml</code> 里默认就是 <code>model.default: claude-opus-4-6</code>&mdash;&mdash;而且 5 个 profile 的 <code>profiles/*/config.yaml</code> 里各自又覆盖回了 Opus。也就是说：Claude Code 在交互端烧 Opus，后台常驻的 Hermes 也在烧 Opus，两边一起把同一个钱包吃干净。
+                        </p>
+                        <p>
+                            批量改成 Sonnet：
+                        </p>
+                    </div>
+
+                    <!-- Shared: bash script -->
+                    <pre><code># global
+~/.hermes/config.yaml  →  model.default: claude-sonnet-4-6
+
+# 5 profiles
+for p in main career diet scholar social; do
+  sed -i.bak 's/default: claude-opus-4-6/default: claude-sonnet-4-6/' \
+    ~/.hermes/profiles/$p/config.yaml
+done</code></pre>
+
+                    <div class="lang-en">
+                        <p>
+                            Then <code>hermes gateway restart</code>.
+                        </p>
+
+                        <h2>Layer 3: OAuth credential locked in "exhausted"</h2>
+                        <p>
+                            The gateway came back up clean, but every message I sent hit:
+                        </p>
+                    </div>
+                    <div class="lang-zh">
+                        <p>
+                            然后 <code>hermes gateway restart</code>。
+                        </p>
+
+                        <h2>第三层：OAuth 凭据被锁成"exhausted"</h2>
+                        <p>
+                            Gateway 重启后看起来正常，但只要一发消息就报错：
+                        </p>
+                    </div>
+
+                    <!-- Shared: auth error -->
+                    <pre><code>Provider authentication failed: No Anthropic credentials found.</code></pre>
+
+                    <div class="lang-en">
+                        <p>
+                            I had logged in via OAuth before (<code>claude /login</code>). Inspecting <code>~/.hermes/auth.json</code>:
+                        </p>
+                    </div>
+                    <div class="lang-zh">
+                        <p>
+                            之前明明用 <code>claude /login</code> 走过 OAuth。翻 <code>~/.hermes/auth.json</code> 看到：
+                        </p>
+                    </div>
+
+                    <!-- Shared: auth.json snippet -->
+                    <pre><code>{
+  "active_provider": null,
+  "credential_pool": {
+    "anthropic": [{
+      "last_status": "exhausted",
+      "expires_at_ms": 1776518463033
+    }]
+  }
+}</code></pre>
+
+                    <!-- ==================== ENGLISH — fix ==================== -->
+                    <div class="lang-en">
+                        <p>
+                            Two overlapping problems:
+                        </p>
+                        <ol>
+                            <li><strong>Access token expired 6.6 hours ago</strong> (<code>expires_at_ms</code> was 396 minutes in the past).</li>
+                            <li><strong><code>last_status: "exhausted"</code></strong> &mdash; when Opus drained the Extra usage wallet, Hermes marked the whole credential as exhausted and refused to retry it.</li>
+                        </ol>
+                        <p>
+                            <code>hermes auth reset anthropic</code> cleared the flag, but as soon as a message came in, the expired access token failed a real request and the flag came right back. Refresh silently wasn't recovering it.
+                        </p>
+                        <p>
+                            The fix that worked: re-run OAuth from scratch.
+                        </p>
+                    </div>
+
+                    <!-- ==================== CHINESE — fix ==================== -->
+                    <div class="lang-zh">
+                        <p>
+                            两个问题叠加：
+                        </p>
+                        <ol>
+                            <li><strong>Access token 已经过期 6.6 小时</strong>（<code>expires_at_ms</code> 比当前时间早 396 分钟）。</li>
+                            <li><strong><code>last_status: "exhausted"</code></strong> &mdash; 当 Opus 把 Extra usage 烧爆时，Hermes 把这个凭据标记为"耗尽"并拒绝再用。</li>
+                        </ol>
+                        <p>
+                            试了 <code>hermes auth reset anthropic</code> 清状态。清了，但一发消息这个过期的 access token 请求失败后又立刻被标回 exhausted。Refresh 也默默没救活它。
+                        </p>
+                        <p>
+                            最终管用的办法：重新走一次 OAuth。
+                        </p>
+                    </div>
+
+                    <!-- Shared: auth add command -->
+                    <pre><code>hermes auth add anthropic --type oauth
+# opens browser → log in → paste auth code
+# → Added anthropic OAuth credential #2</code></pre>
+
+                    <div class="lang-en">
+                        <p>
+                            <code>hermes auth list</code> showed the new credential marked active (<code>←</code>). Sent a message on Discord &mdash; Elsa came back.
+                        </p>
+
+                        <h2>Takeaways</h2>
+                        <p>
+                            For anyone running self-hosted agents on a Claude subscription instead of raw API keys:
+                        </p>
+                        <ol>
+                            <li><strong>Subscription &ne; one pool.</strong> It's at least three &mdash; <em>All models</em>, <em>Sonnet only</em>, and <em>Extra usage</em>. Opening Opus or a 1M-context variant pulls from Extra usage, so the overflow wallet can empty before your subscription dashboard looks stressed.</li>
+                            <li><strong>Background agents default to Opus.</strong> Hermes, Claude Code, many hobby agents ship with Opus as the default. On OAuth/subscription access, that means the most expensive pool gets charged first. If Sonnet is enough for the task, set it explicitly.</li>
+                            <li><strong>OAuth credentials have an "exhausted" lock.</strong> After quota recovers, the client doesn't automatically unlock. You need <code>hermes auth reset &lt;provider&gt;</code> &mdash; and if the access token has also expired, a full <code>hermes auth add</code> re-login.</li>
+                            <li><strong>"Process alive" &ne; "service healthy."</strong> <code>ps</code> and state files showed <code>running</code> for 14 hours of silence. Always check business-log timestamps, not just the process watchdog.</li>
+                        </ol>
+                    </div>
+
+                    <div class="lang-zh">
+                        <p>
+                            <code>hermes auth list</code> 确认新凭据激活（<code>←</code>）。去 Discord 发消息&mdash;&mdash;Elsa 活了。
+                        </p>
+
+                        <h2>几个教训</h2>
+                        <p>
+                            写给跟我一样拿订阅自建 Agent 的人：
+                        </p>
+                        <ol>
+                            <li><strong>订阅 &ne; 一个池子。</strong>至少是三个&mdash;&mdash;<em>All models</em>、<em>Sonnet only</em>、<em>Extra usage</em>。随手开 Opus 或 1M context 都会走 Extra usage，所以超额钱包可能先烧光，订阅面板看起来却还很宽裕。</li>
+                            <li><strong>后台 Agent 默认就是 Opus。</strong>Hermes、Claude Code、很多自建 Agent 的默认模型都是 Opus。走 OAuth/订阅时，等于优先把最贵的池子花掉。Sonnet 够用的场景就显式设成 Sonnet。</li>
+                            <li><strong>OAuth 凭据有"exhausted"锁。</strong>额度恢复后客户端不会自动解锁。要手动 <code>hermes auth reset &lt;provider&gt;</code>&mdash;&mdash;如果 access token 也同时过期了，那就得 <code>hermes auth add</code> 重新登录一次。</li>
+                            <li><strong>"进程在跑" &ne; "服务健康"。</strong><code>ps</code> 和 state 文件显示 running 了 14 个小时的沉默。永远看业务日志的时间戳，不要只看进程看门狗。</li>
+                        </ol>
+                    </div>
+
+                    <!-- Shared signature -->
+                    <div class="blog-signature">
+                        <strong>— Jiali</strong><br>
+                        <span class="lang-en">Rolla, MO · April 2026</span>
+                        <span class="lang-zh">于 Rolla, MO · 2026 年 4 月</span>
+                    </div>
+                </div>
+            </article>
+        </main>
+    </div>
+
+    <footer>
+        <p class="footer-tagline">Co-evolving with LLMs — exploring the frontier of human-AI collaboration.</p>
+        <p>&copy; 2026 Jiali Zhang. Last updated: April 2026.</p>
+    </footer>
+
+    <button id="theme-toggle" class="theme-toggle-btn" title="Change Theme">
+        <i class="fas fa-palette"></i>
+    </button>
+
+    <div id="theme-modal" class="theme-modal">
+        <div class="theme-modal-content">
+            <div class="theme-modal-header">
+                <h3>Choose Your Theme</h3>
+                <button class="theme-modal-close">&times;</button>
+            </div>
+            <div class="theme-options">
+                <div class="theme-category">
+                    <h4>Color Theme</h4>
+                    <div class="theme-grid">
+                        <button class="theme-option" data-theme="pearl-blue">
+                            <div class="theme-preview" style="background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 50%, #bae6fd 100%);"></div>
+                            <span>Pearl Blue</span>
+                        </button>
+                        <button class="theme-option" data-theme="mst-green">
+                            <div class="theme-preview" style="background: linear-gradient(135deg, #E6F0EC 0%, #D4E5DD 50%, #C2DACE 100%);"></div>
+                            <span>MST Green</span>
+                        </button>
+                        <button class="theme-option" data-theme="light-academic">
+                            <div class="theme-preview" style="background: linear-gradient(135deg, #E8F0FE 0%, #D0E2FF 50%, #B8D4FE 100%);"></div>
+                            <span>Light Academic</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="theme-category">
+                    <h4>Background Pattern</h4>
+                    <div class="theme-grid">
+                        <button class="pattern-option" data-pattern="none">
+                            <div class="theme-preview" style="background: #f5f5f5;"></div>
+                            <span>None</span>
+                        </button>
+                        <button class="pattern-option" data-pattern="topographic">
+                            <div class="theme-preview pattern-demo-topo"></div>
+                            <span>Topographic</span>
+                        </button>
+                        <button class="pattern-option" data-pattern="dots">
+                            <div class="theme-preview pattern-demo-dots"></div>
+                            <span>Dot Grid</span>
+                        </button>
+                        <button class="pattern-option" data-pattern="waves">
+                            <div class="theme-preview pattern-demo-waves"></div>
+                            <span>Waves</span>
+                        </button>
+                        <button class="pattern-option" data-pattern="hexagons">
+                            <div class="theme-preview pattern-demo-hex"></div>
+                            <span>Hexagons</span>
+                        </button>
+                        <button class="pattern-option" data-pattern="grid">
+                            <div class="theme-preview pattern-demo-grid"></div>
+                            <span>Grid</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../theme-switcher.js"></script>
+    <script>
+    function switchLang(lang) {
+        document.body.classList.toggle('zh', lang === 'zh');
+        document.querySelectorAll('.lang-switch button').forEach(function(btn) {
+            btn.classList.toggle('active', btn.textContent.trim() === lang.toUpperCase());
+        });
+        localStorage.setItem('blog-lang', lang);
+    }
+    // Restore saved language preference
+    (function() {
+        var saved = localStorage.getItem('blog-lang');
+        if (saved === 'zh') switchLang('zh');
+    })();
+    </script>
+</body>
+</html>
