@@ -171,6 +171,27 @@ body > * {
     opacity: 0.9;
 }
 
+/* Research keyword tags in sidebar */
+.profile-section .research-keywords {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px;
+    margin: 14px 0 6px;
+}
+.profile-section .keyword-tag {
+    font-size: 0.75rem;
+    line-height: 1.3;
+    padding: 3px 9px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    white-space: nowrap;
+}
+@media (max-width: 768px) {
+    .profile-section .keyword-tag { font-size: 0.7rem; padding: 2px 7px; }
+}
+
 /* Sidebar Navigation */
 .sidebar-nav {
     flex-shrink: 0;
