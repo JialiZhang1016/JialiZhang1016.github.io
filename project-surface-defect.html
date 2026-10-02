@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Jiali Zhang - Research Projects in LLM, Computer Vision, Reinforcement Learning, and Machine Learning.">
-    <title>Projects - Jiali Zhang</title>
+    <meta name="description" content="Label-Efficient Surface Defect Detection with Reinforcement Learning and Positive-Unlabeled Learning - Jiali Zhang">
+    <title>Label-Efficient Surface Defect Detection - Jiali Zhang</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
@@ -57,81 +57,80 @@
         <main class="main-content">
             <section class="section">
                 <div class="projects-page-header">
-                    <a href="index.html" class="back-link"><i class="fas fa-arrow-left"></i> Back to Home</a>
-                    <h2>All Research Projects</h2>
+                    <a href="projects.html" class="back-link"><i class="fas fa-arrow-left"></i> Back to Projects</a>
+                    <h2>Label-Efficient Surface Defect Detection with Reinforcement Learning</h2>
+                </div>
+                <p class="project-meta">Nov 2025&ndash;Present &middot; Joint work with the Sensing, Analytics, and Intelligence Lab, UT Arlington</p>
+
+                <div class="project-highlight-banner">
+                    Ranked #1 on every dataset and metric across three difficulty levels &mdash; significant in 18/18 paired Wilcoxon comparisons
                 </div>
 
-                <a href="project-surface-defect.html" class="project project-card-link">
-                    <h3>Label-Efficient Surface Defect Detection with Reinforcement Learning</h3>
-                    <p class="project-meta">Manuscript in preparation | Nov 2025–Present</p>
-                    <div class="project-tags"><span class="tag tag-cv">CV</span><span class="tag tag-rl">RL</span></div>
-                    <div class="project-image">
-                        <img src="readme_plots/pu_defect_architecture.png" alt="Surface defect detection framework">
+                <div class="project-image">
+                    <img src="readme_plots/pu_defect_architecture.png" alt="Framework: a reinforcement-learning selector promotes reliable normal samples from the unlabeled pool to refine a Deep SVDD boundary">
+                </div>
+
+                <div class="project-detail-content">
+                    <h3>The Problem</h3>
+                    <ul>
+                        <li>In manufacturing inspection, defects are <strong>rare and expensive to label</strong>, while normal parts are abundant.</li>
+                        <li>We frame defect detection as <strong>Positive-Unlabeled (PU) learning</strong>: a small set of confirmed normal samples plus a large unlabeled pool that mixes normal and defective parts.</li>
+                        <li>Classical PU methods either rely on an estimate of the defect ratio (class prior), which is hard to obtain on the shop floor, or on fixed selection rules that cannot adapt.</li>
+                    </ul>
+
+                    <h3>Key Contributions</h3>
+                    <ul>
+                        <li>Combined a one-class <strong>Deep SVDD</strong> model, which learns a compact boundary around normal data, with a <strong>reinforcement-learning selector</strong> that learns which unlabeled samples to promote as reliable normal samples.</li>
+                        <li>The selector and the detector <strong>improve together</strong>: the selector is rewarded by the detector&rsquo;s feedback, so the selection policy is learned rather than hand-crafted.</li>
+                        <li>Requires <strong>no estimate of the defect ratio</strong>, removing a fragile step of classical PU learning.</li>
+                        <li>Applied to <strong>3D point clouds</strong> of manufactured surfaces, separating normal surfaces from defective ones.</li>
+                        <li>On synthetic 3D point-cloud surfaces at three difficulty levels (20 paired seeds each), <strong>ranked first on every dataset and metric</strong> against Deep SVDD, nnPU, and PULNS, and was <strong>significantly better in 18/18 paired Wilcoxon comparisons</strong>.</li>
+                        <li>On the easiest setting, improved the composite score by <strong>+0.055 over Deep SVDD</strong> with <strong>2.7&times; lower variance</strong> across runs.</li>
+                        <li>Ablation: removing either the RL selector or the top-k selection step lowers the composite score by about <strong>0.11</strong> &mdash; both are essential to the method.</li>
+                    </ul>
+
+                    <div style="display:flex; gap:16px; flex-wrap:wrap; justify-content:center; margin:18px 0;">
+                        <figure style="flex:1 1 260px; margin:0; text-align:center;">
+                            <img src="readme_plots/pu_pointcloud_normal.png" alt="Point cloud of a normal surface" style="max-width:100%;">
+                            <figcaption style="font-size:0.9em;">Normal surface (point cloud)</figcaption>
+                        </figure>
+                        <figure style="flex:1 1 260px; margin:0; text-align:center;">
+                            <img src="readme_plots/pu_pointcloud_defect.png" alt="Point cloud of a defective surface, defect region highlighted in red" style="max-width:100%;">
+                            <figcaption style="font-size:0.9em;">Defective surface (defect region in red)</figcaption>
+                        </figure>
                     </div>
-                    <p class="project-description">
-                        Deep SVDD + reinforcement-learning selector for defect detection with only normal-class labels. #1 on every dataset and metric on synthetic point-cloud surfaces; significant in 18/18 paired tests.
-                    </p>
-                </a>
 
-                <a href="project-llm-recommendation.html" class="project project-card-link">
-                    <h3>LLM-Powered Content Recommendation Pipeline</h3>
-                    <p class="project-meta">Completed | May–Sep 2025</p>
-                    <div class="project-tags"><span class="tag tag-llm">LLM</span><span class="tag tag-rec">Rec System</span></div>
-                    <p class="project-description">
-                        End-to-end LLM-driven news curation for 100+ users. Multi-source ingestion, Claude API ranking, 95% reduction in manual effort.
-                    </p>
-                </a>
-
-                <a href="project-llm-retrieval.html" class="project project-card-link">
-                    <h3>LLM-based Retrieval-Ranking Pipeline</h3>
-                    <p class="project-meta">Completed | Sep 2025</p>
-                    <div class="project-tags"><span class="tag tag-llm">LLM</span><span class="tag tag-nlp">NLP</span></div>
-                    <p class="project-description">
-                        Hybrid regex + 32B LLM pipeline for scientific data reference detection. Kaggle top 9% (114/1282).
-                    </p>
-                </a>
-
-                <a href="project-msyolo.html" class="project project-card-link">
-                    <h3>MS-YOLO: Infrared Object Detection for Edge Deployment</h3>
-                    <p class="project-meta">Published at IJCNN 2025 | 2024–2025</p>
-                    <div class="project-tags"><span class="tag tag-cv">CV</span><span class="tag tag-dl">Deep Learning</span></div>
+                    <h3>Results on Synthetic Point-Cloud Data</h3>
                     <div class="project-image">
-                        <img src="readme_plots/MS_YOLO.png" alt="MS-YOLO Architecture">
+                        <img src="readme_plots/pu_defect_results.png" alt="Bar charts of composite score, AUC, and defect-class F1 for our method, Deep SVDD, nnPU, and PULNS at three difficulty levels">
                     </div>
-                    <p class="project-description">
-                        Lightweight MobileNetV4 + SlideLoss object detection optimized for infrared imaging on resource-constrained devices.
-                    </p>
-                </a>
+                    <p style="font-size:0.9em;">Mean &plusmn; standard deviation over 20 paired seeds. The composite score is the mean of AUC, F1 on the defect class, and F1 on the normal class. Our method is best at every difficulty level and has the smallest spread across runs.</p>
 
-                <a href="project-bilevel.html" class="project project-card-link">
-                    <h3>Bilevel Optimization for Joint Flowshop Scheduling and Microgrid Energy Management</h3>
-                    <p class="project-meta">Under Review at IISE Transactions | 2024–2026</p>
-                    <div class="project-tags"><span class="tag tag-rl">RL</span><span class="tag tag-opt">Optimization</span></div>
-                    <div class="project-image">
-                        <img src="readme_plots/fig1_system_original.png" alt="System Architecture">
-                    </div>
-                    <p class="project-description">
-                        Bilevel GA+PPO framework for joint production scheduling and energy dispatch. 8–30% cost reduction over baselines across 90 scenarios.
-                    </p>
-                </a>
+                    <h3>Why It Matters</h3>
+                    <ul>
+                        <li>Inspection systems can start detecting defects <strong>before a large labeled defect library exists</strong>, and keep improving as new samples arrive.</li>
+                        <li>The same idea extends to image-based surface inspection, where defect classes are rare and labeling requires expert time.</li>
+                    </ul>
+                </div>
 
-                <a href="project-simi.html" class="project project-card-link">
-                    <h3>Subspace Indexing Model with Interpolation (SIM-I)</h3>
-                    <p class="project-meta">Published at IEEE Big Data 2023 | 2022–2023</p>
-                    <div class="project-tags"><span class="tag tag-ml">ML</span><span class="tag tag-math">Manifold</span></div>
-                    <div class="project-image">
-                        <img src="readme_plots/SIM-I.png" alt="SIM-I Architecture">
-                    </div>
-                    <p class="project-description">
-                        Lightweight nonlinear representation learning via piecewise linear embeddings on Stiefel and Grassmann manifolds.
-                    </p>
-                </a>
+                <div class="tech-stack">
+                    <span class="tech-pill">Python</span>
+                    <span class="tech-pill">PyTorch</span>
+                    <span class="tech-pill">Deep SVDD</span>
+                    <span class="tech-pill">Reinforcement Learning</span>
+                    <span class="tech-pill">PU Learning</span>
+                    <span class="tech-pill">3D Point Clouds</span>
+                </div>
+
+                <div class="project-links-card">
+                    <span class="publication-badge under-review"><i class="fas fa-clock"></i>Manuscript in preparation &mdash; co-first author</span>
+                </div>
             </section>
         </main>
     </div>
 
     <footer>
-        <p>&copy; 2026 Jiali Zhang. Last updated: April 2026.</p>
+        <p>&copy; 2026 Jiali Zhang. Last updated: October 2026.</p>
     </footer>
 
     <!-- Theme Selector Button -->
