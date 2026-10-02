@@ -1,0 +1,226 @@
+/* ============================================
+   PROJECT FOCUS LAYOUT
+   Full-width project detail page without the sidebar:
+   figures on the left, text on the right, stacking on narrow screens.
+   Usage: <body class="project-focus"> + link this file after style.css.
+   ============================================ */
+
+.project-focus {
+    --focus-max-width: 1360px;
+    --focus-gutter: clamp(16px, 4vw, 48px);
+    --focus-gap: clamp(24px, 3vw, 48px);
+    --focus-topbar-height: 56px;
+}
+
+/* ---------- Top bar (replaces the sidebar) ---------- */
+.focus-topbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    height: var(--focus-topbar-height);
+    background: rgba(255, 255, 255, 0.78);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(var(--accent-2-rgb), 0.15);
+}
+
+.focus-topbar-inner {
+    max-width: var(--focus-max-width);
+    height: 100%;
+    margin: 0 auto;
+    padding: 0 var(--focus-gutter);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.focus-topbar .back-link {
+    margin-bottom: 0;
+    white-space: nowrap;
+}
+
+.focus-home {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-width: 0;
+}
+
+.focus-home-name {
+    color: var(--sidebar-text-color);
+    font-weight: 700;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.focus-home-name:hover {
+    color: var(--accent-1);
+}
+
+.focus-home-links {
+    display: flex;
+    gap: 12px;
+}
+
+.focus-home-links a {
+    color: var(--sidebar-text-color);
+    opacity: 0.75;
+    font-size: 1.05rem;
+    transition: opacity 0.2s ease, color 0.2s ease;
+}
+
+.focus-home-links a:hover {
+    opacity: 1;
+    color: var(--accent-1);
+}
+
+/* ---------- Main card ---------- */
+.focus-main {
+    max-width: var(--focus-max-width);
+    margin: 0 auto;
+    padding: var(--focus-gutter);
+}
+
+.focus-card {
+    background-color: white;
+    border-radius: 14px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    padding: clamp(20px, 3.5vw, 48px);
+}
+
+.focus-header h1 {
+    font-size: clamp(1.45rem, 2.4vw, 2.2rem);
+    line-height: 1.25;
+    color: var(--primary-color);
+    margin-bottom: 10px;
+}
+
+.focus-header .project-highlight-banner {
+    margin-bottom: 0;
+}
+
+/* ---------- Figure | text rows ---------- */
+.focus-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    gap: var(--focus-gap);
+    align-items: start;
+    margin-top: var(--focus-gap);
+}
+
+.focus-figures {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.focus-figure {
+    margin: 0;
+    text-align: center;
+}
+
+.focus-figure img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    background: white;
+}
+
+.focus-figure figcaption {
+    margin-top: 8px;
+    font-size: 0.88rem;
+    color: var(--text-light);
+    line-height: 1.5;
+}
+
+.focus-figure-pair {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+    align-items: end;
+}
+
+.focus-figure-pair img {
+    box-shadow: none;
+    border: 1px solid var(--border-color);
+}
+
+.focus-row .project-detail-content h3:first-child,
+.focus-full .project-detail-content h3:first-child {
+    margin-top: 0;
+}
+
+/* Keep figures in view while the text column scrolls past them */
+@media (min-width: 961px) and (min-height: 720px) {
+    .focus-figures {
+        position: sticky;
+        top: calc(var(--focus-topbar-height) + 20px);
+    }
+}
+
+/* ---------- Full-width blocks ---------- */
+.focus-full {
+    margin-top: var(--focus-gap);
+    padding-top: var(--focus-gap);
+    border-top: 1px solid var(--border-color);
+}
+
+.focus-full .focus-figure {
+    margin-bottom: 14px;
+}
+
+.focus-columns {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--focus-gap);
+}
+
+.focus-footer-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-top: var(--focus-gap);
+}
+
+.focus-footer-row .tech-stack {
+    margin: 0;
+}
+
+.focus-footer-row .project-links-card {
+    margin: 0;
+}
+
+.project-focus footer {
+    margin-left: 0;
+}
+
+/* ---------- Narrow screens: single column, figures first ---------- */
+@media (max-width: 960px) {
+    .focus-row,
+    .focus-columns {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .focus-columns {
+        row-gap: 0;
+    }
+}
+
+@media (max-width: 560px) {
+    .focus-home-links {
+        display: none;
+    }
+
+    .focus-figure-pair {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .focus-footer-row .project-links-card .publication-badge {
+        white-space: normal;
+    }
+}

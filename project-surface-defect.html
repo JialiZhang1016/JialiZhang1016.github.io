@@ -6,78 +6,52 @@
     <meta name="description" content="Label-Efficient Surface Defect Detection with Reinforcement Learning and Positive-Unlabeled Learning - Jiali Zhang">
     <title>Label-Efficient Surface Defect Detection - Jiali Zhang</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="project-focus.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
-<body>
-    <div class="page-layout">
-        <!-- Left Sidebar (30%) -->
-        <aside class="sidebar">
-            <div class="sidebar-content">
-                <div class="profile-section">
-                    <div class="profile-image">
-                        <img src="profile.jpg" alt="Jiali Zhang" onerror="this.style.display='none'">
-                    </div>
-                    <h1>Jiali Zhang</h1>
-                    <p class="subtitle">PhD Candidate in Statistics</p>
-                    <div class="research-keywords">
-                        <span class="keyword-tag">Reinforcement Learning in Manufacturing</span>
-                        <span class="keyword-tag">Decision Making</span>
-                        <span class="keyword-tag">Optimization</span>
-                        <span class="keyword-tag">Surface Defect Detection</span>
-                        <span class="keyword-tag">Object Detection</span>
-                        <span class="keyword-tag">Statistical Learning</span>
-                        <span class="keyword-tag">Large Language Models</span>
-                        <span class="keyword-tag">AI Agents</span>
-                    </div>
-
-                    <!-- Contact Icons -->
-                    <div class="contact-links">
-                        <a href="mailto:jztk7@mst.edu" class="contact-item" title="Email: jztk7@mst.edu">
-                            <i class="fas fa-envelope"></i>
-                        </a>
-                        <a href="https://scholar.google.com/citations?user=5T9X91sAAAAJ&hl=zh-CN&oi=sra" class="contact-item" target="_blank" title="Google Scholar">
-                            <i class="fas fa-graduation-cap"></i>
-                        </a>
-                        <a href="https://github.com/JialiZhang1016" class="contact-item" target="_blank" title="GitHub">
-                            <i class="fab fa-github"></i>
-                        </a>
-                        <a href="https://www.linkedin.com/in/jiali-zhang-151379292/" class="contact-item" target="_blank" title="LinkedIn">
-                            <i class="fab fa-linkedin"></i>
-                        </a>
-                    </div>
+<body class="project-focus">
+    <header class="focus-topbar">
+        <div class="focus-topbar-inner">
+            <a href="projects.html" class="back-link"><i class="fas fa-arrow-left"></i> Projects</a>
+            <div class="focus-home">
+                <a href="index.html" class="focus-home-name">Jiali Zhang</a>
+                <div class="focus-home-links">
+                    <a href="mailto:jztk7@mst.edu" title="Email: jztk7@mst.edu"><i class="fas fa-envelope"></i></a>
+                    <a href="https://scholar.google.com/citations?user=5T9X91sAAAAJ&hl=zh-CN&oi=sra" target="_blank" title="Google Scholar"><i class="fas fa-graduation-cap"></i></a>
+                    <a href="https://github.com/JialiZhang1016" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+                    <a href="https://www.linkedin.com/in/jiali-zhang-151379292/" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
                 </div>
-
-                <nav class="sidebar-nav">
-                    <ul>
-                        <li><a href="index.html#about">About</a></li>
-                        <li><a href="index.html#news">News</a></li>
-                        <li><a href="index.html#research">Research</a></li>
-                        <li><a href="index.html#experience">Work Experience</a></li>
-                        <li><a href="index.html#projects" class="active">Projects</a></li>
-                        <li><a href="index.html#publications">Publications</a></li>
-                        <li><a href="index.html#awards">Awards</a></li>
-                        <li><a href="index.html#skills">Skills</a></li>
-                        <li><a href="blog.html">Blog</a></li>
-                    </ul>
-                </nav>
             </div>
-        </aside>
+        </div>
+    </header>
 
-        <!-- Right Main Content (70%) -->
-        <main class="main-content">
-            <section class="section">
-                <div class="projects-page-header">
-                    <a href="projects.html" class="back-link"><i class="fas fa-arrow-left"></i> Back to Projects</a>
-                    <h2>Label-Efficient Surface Defect Detection with Reinforcement Learning</h2>
-                </div>
+    <main class="focus-main">
+        <article class="focus-card">
+            <header class="focus-header">
+                <h1>Label-Efficient Surface Defect Detection with Reinforcement Learning</h1>
                 <p class="project-meta">Nov 2025&ndash;Present &middot; Joint work with the Sensing, Analytics, and Intelligence Lab, UT Arlington</p>
-
                 <div class="project-highlight-banner">
                     Ranked #1 on every dataset and metric across three difficulty levels &mdash; significant in 18/18 paired Wilcoxon comparisons
                 </div>
+            </header>
 
-                <div class="project-image">
-                    <img src="readme_plots/pu_defect_architecture.png" alt="Framework: a reinforcement-learning selector promotes reliable normal samples from the unlabeled pool to refine a Deep SVDD boundary">
+            <!-- Row 1: framework + data figures | problem + method -->
+            <div class="focus-row">
+                <div class="focus-figures">
+                    <figure class="focus-figure">
+                        <img src="readme_plots/pu_defect_architecture.png" alt="Framework: a reinforcement-learning selector promotes reliable normal samples from the unlabeled pool to refine a Deep SVDD boundary">
+                        <figcaption>Framework: the RL selector promotes reliable normal samples from the unlabeled pool to refine the Deep SVDD boundary.</figcaption>
+                    </figure>
+                    <div class="focus-figure-pair">
+                        <figure class="focus-figure">
+                            <img src="readme_plots/pu_pointcloud_normal.png" alt="Point cloud of a normal surface">
+                            <figcaption>Normal surface (point cloud)</figcaption>
+                        </figure>
+                        <figure class="focus-figure">
+                            <img src="readme_plots/pu_pointcloud_defect.png" alt="Point cloud of a defective surface, defect region highlighted in red">
+                            <figcaption>Defective surface (defect region in red)</figcaption>
+                        </figure>
+                    </div>
                 </div>
 
                 <div class="project-detail-content">
@@ -94,28 +68,32 @@
                         <li>The selector and the detector <strong>improve together</strong>: the selector is rewarded by the detector&rsquo;s feedback, so the selection policy is learned rather than hand-crafted.</li>
                         <li>Requires <strong>no estimate of the defect ratio</strong>, removing a fragile step of classical PU learning.</li>
                         <li>Applied to <strong>3D point clouds</strong> of manufactured surfaces, separating normal surfaces from defective ones.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Results: wide chart full width, findings below -->
+            <section class="focus-full">
+                <div class="project-detail-content">
+                    <h3>Results on Synthetic Point-Cloud Data</h3>
+                </div>
+                <figure class="focus-figure">
+                    <img src="readme_plots/pu_defect_results.png" alt="Bar charts of composite score, AUC, and defect-class F1 for our method, Deep SVDD, nnPU, and PULNS at three difficulty levels">
+                    <figcaption>Mean &plusmn; standard deviation over 20 paired seeds. The composite score is the mean of AUC, F1 on the defect class, and F1 on the normal class. Our method is best at every difficulty level and has the smallest spread across runs.</figcaption>
+                </figure>
+                <div class="focus-columns project-detail-content">
+                    <ul>
                         <li>On synthetic 3D point-cloud surfaces at three difficulty levels (20 paired seeds each), <strong>ranked first on every dataset and metric</strong> against Deep SVDD, nnPU, and PULNS, and was <strong>significantly better in 18/18 paired Wilcoxon comparisons</strong>.</li>
+                    </ul>
+                    <ul>
                         <li>On the easiest setting, improved the composite score by <strong>+0.055 over Deep SVDD</strong> with <strong>2.7&times; lower variance</strong> across runs.</li>
                         <li>Ablation: removing either the RL selector or the top-k selection step lowers the composite score by about <strong>0.11</strong> &mdash; both are essential to the method.</li>
                     </ul>
+                </div>
+            </section>
 
-                    <div style="display:flex; gap:16px; flex-wrap:wrap; justify-content:center; margin:18px 0;">
-                        <figure style="flex:1 1 260px; margin:0; text-align:center;">
-                            <img src="readme_plots/pu_pointcloud_normal.png" alt="Point cloud of a normal surface" style="max-width:100%;">
-                            <figcaption style="font-size:0.9em;">Normal surface (point cloud)</figcaption>
-                        </figure>
-                        <figure style="flex:1 1 260px; margin:0; text-align:center;">
-                            <img src="readme_plots/pu_pointcloud_defect.png" alt="Point cloud of a defective surface, defect region highlighted in red" style="max-width:100%;">
-                            <figcaption style="font-size:0.9em;">Defective surface (defect region in red)</figcaption>
-                        </figure>
-                    </div>
-
-                    <h3>Results on Synthetic Point-Cloud Data</h3>
-                    <div class="project-image">
-                        <img src="readme_plots/pu_defect_results.png" alt="Bar charts of composite score, AUC, and defect-class F1 for our method, Deep SVDD, nnPU, and PULNS at three difficulty levels">
-                    </div>
-                    <p style="font-size:0.9em;">Mean &plusmn; standard deviation over 20 paired seeds. The composite score is the mean of AUC, F1 on the defect class, and F1 on the normal class. Our method is best at every difficulty level and has the smallest spread across runs.</p>
-
+            <section class="focus-full">
+                <div class="project-detail-content">
                     <h3>Why It Matters</h3>
                     <ul>
                         <li>Inspection systems can start detecting defects <strong>before a large labeled defect library exists</strong>, and keep improving as new samples arrive.</li>
@@ -123,21 +101,22 @@
                     </ul>
                 </div>
 
-                <div class="tech-stack">
-                    <span class="tech-pill">Python</span>
-                    <span class="tech-pill">PyTorch</span>
-                    <span class="tech-pill">Deep SVDD</span>
-                    <span class="tech-pill">Reinforcement Learning</span>
-                    <span class="tech-pill">PU Learning</span>
-                    <span class="tech-pill">3D Point Clouds</span>
-                </div>
-
-                <div class="project-links-card">
-                    <span class="publication-badge under-review"><i class="fas fa-clock"></i>Manuscript in preparation &mdash; co-first author</span>
+                <div class="focus-footer-row">
+                    <div class="tech-stack">
+                        <span class="tech-pill">Python</span>
+                        <span class="tech-pill">PyTorch</span>
+                        <span class="tech-pill">Deep SVDD</span>
+                        <span class="tech-pill">Reinforcement Learning</span>
+                        <span class="tech-pill">PU Learning</span>
+                        <span class="tech-pill">3D Point Clouds</span>
+                    </div>
+                    <div class="project-links-card">
+                        <span class="publication-badge under-review"><i class="fas fa-clock"></i>Manuscript in preparation &mdash; co-first author</span>
+                    </div>
                 </div>
             </section>
-        </main>
-    </div>
+        </article>
+    </main>
 
     <footer>
         <p>&copy; 2026 Jiali Zhang. Last updated: October 2026.</p>

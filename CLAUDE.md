@@ -47,4 +47,5 @@ profile/
 
 - 不要删除 `theme-switcher.js` 中的 localStorage 逻辑，主题选择依赖它跨页面保持
 - 所有新页面都需要包含完整的 sidebar + theme modal（参考现有页面）
+- 例外：项目详情页可用「专注布局」——`<body class="project-focus">` + 引入 `project-focus.css`，去掉 sidebar 换成顶部细栏，图左文右、窄屏自动堆叠（参考 `project-surface-defect.html`）
 - 项目图片放在 `readme_plots/`，博客图片将来放在 `blog/images/`
