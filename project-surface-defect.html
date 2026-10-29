@@ -10,6 +10,13 @@
     <link rel="stylesheet" href="project-focus.css">
     <link rel="stylesheet" href="project-split.css?v=3">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        @media (min-width: 1100px) {
+            .project-focus .focus-row.surface-defect-overview {
+                grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+            }
+        }
+    </style>
 </head>
 <body class="project-focus project-resizable">
         <aside class="sidebar">
@@ -76,7 +83,7 @@
             </header>
 
             <!-- Row 1: point-cloud examples + framework | problem + method -->
-            <div class="focus-row">
+            <div class="focus-row surface-defect-overview">
                 <div class="focus-figures">
                     <div class="focus-figure-pair">
                         <figure class="focus-figure">
@@ -113,11 +120,15 @@
                 </div>
             </div>
 
-            <!-- Evaluation: synthetic and real data, with their evidence limits -->
+            <!-- Results: current synthetic chart and real-data evidence limits -->
             <section class="focus-full">
                 <div class="project-detail-content">
-                    <h3>Evaluation on Synthetic and Real Point-Cloud Data</h3>
+                    <h3>Results on Synthetic and Real Point-Cloud Data</h3>
                 </div>
+                <figure class="focus-figure">
+                    <img src="readme_plots/pu_defect_results_current.png" alt="Synthetic benchmark: mean and standard deviation of normal-class F1, false omission rate, and normal-class AUC for OCPU and three baselines across easy, medium, and hard defect settings">
+                    <figcaption>Current synthetic benchmark draft: test mean &plusmn; standard deviation over 20 training seeds. Higher F1 and AUC are better; lower false omission rate is better. The difficulty settings were selected during development.</figcaption>
+                </figure>
                 <div class="focus-columns project-detail-content">
                     <ul>
                         <li><strong>Synthetic data:</strong> compared with Deep SVDD, nnPU, and PULNS across three controlled defect settings and 20 training seeds. The method led all three reported metrics in the medium and hard settings; PULNS had a slightly higher AUC in the easy setting.</li>
