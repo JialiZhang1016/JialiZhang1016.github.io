@@ -1,0 +1,91 @@
+/* Draggable boundary for the project index and project detail pages. */
+@media (min-width: 1025px) {
+    .project-resizable .sidebar {
+        overflow-y: auto;
+    }
+
+    .project-resizable .main-content {
+        max-width: var(--project-main-max-width, 1200px);
+        padding: 40px clamp(24px, 8vw, 100px);
+    }
+
+    .project-resize-handle {
+        position: fixed;
+        z-index: 200;
+        top: 0;
+        bottom: 0;
+        left: var(--sidebar-width);
+        width: 24px;
+        transform: translateX(-50%);
+        cursor: col-resize;
+        touch-action: none;
+    }
+
+    .project-resize-handle::before {
+        content: '';
+        position: absolute;
+        left: 50%;
+        top: 0;
+        bottom: 0;
+        width: 2px;
+        transform: translateX(-50%);
+        background: rgba(var(--accent-2-rgb), 0.35);
+    }
+
+    .project-resize-handle:hover::before,
+    .project-resize-handle:focus-visible::before,
+    .project-resize-handle.is-dragging::before {
+        width: 3px;
+        background: var(--accent-2);
+    }
+
+    .project-resize-grip {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 2px;
+        width: 48px;
+        height: 48px;
+        transform: translate(-50%, -50%);
+        border: 1px solid rgba(var(--accent-2-rgb), 0.4);
+        border-radius: 50%;
+        background: #fff;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.14);
+        color: var(--sidebar-text-color);
+        font-size: 11px;
+        font-weight: 700;
+        line-height: 1;
+        pointer-events: none;
+        user-select: none;
+    }
+
+    .project-resize-grip .arrows {
+        font-size: 16px;
+    }
+
+    .project-resize-handle:focus-visible {
+        outline: 2px solid var(--accent-2);
+        outline-offset: 1px;
+    }
+
+    .project-resizable.is-resizing,
+    .project-resizable.is-resizing * {
+        cursor: col-resize !important;
+        user-select: none !important;
+    }
+}
+
+@media (max-width: 1024px) {
+    .project-resizable .main-content {
+        max-width: none;
+        padding: 30px 20px;
+    }
+
+    .project-resize-handle {
+        display: none;
+    }
+}
