@@ -38,9 +38,9 @@
             <section class="focus-full">
                 <figure class="focus-figure">
                     <a href="readme_plots/iflytek-news-to-skyworks-workflow.png" target="_blank" rel="noopener" aria-label="Open the iFlytek and Skyworks workflow diagram at full size">
-                        <img src="readme_plots/iflytek-news-to-skyworks-workflow.png" alt="Two-row workflow. Deployed at iFlytek: collect AI news, deduplicate, analyze with an LLM, apply a score threshold, and distribute a brief. Proposed for Skyworks: frame an engineering question, find and clean papers, assess applicability, then have an engineer review and select tests.">
+                        <img src="readme_plots/iflytek-news-to-skyworks-workflow.png" alt="Two-row workflow. Deployed at iFlytek: collect AI news, deduplicate, analyze with an LLM, apply a score threshold, and distribute a brief. Proposed weekly research scan for Skyworks: set acoustic-device topics, find credible paper sources, access and assess relevant research, then review and select papers for a cited brief.">
                     </a>
-                    <figcaption>Top: the deployed iFlytek news workflow. Bottom: a proposed research scouting workflow for Skyworks. Click to view the full-size diagram.</figcaption>
+                    <figcaption>Top: the deployed iFlytek news workflow. Bottom: a proposed weekly research brief for Skyworks. Click to view the full-size diagram.</figcaption>
                 </figure>
             </section>
 
@@ -50,10 +50,10 @@
                     <ul>
                         <li>Built and deployed a scheduled Python pipeline for iFlytek's Strategy Department. It collects AI news from RSS and web sources, then removes duplicate URLs, similar titles, and items already in local or Feishu history.</li>
                         <li>Used Claude Code, with Codex as a fallback, for source review, relevance scoring, title translation, evidence-based summaries, and classification. Python handles scheduling, deduplication, structured-output parsing, score filtering, and delivery.</li>
-                        <li>Automated a daily brief that had taken about one hour of manual work each day; shortened weekly reporting from two hours to 30 minutes. The briefs reached more than 200 readers across the business.</li>
+                        <li>Automated a daily brief that had taken about one hour of manual work each day; shortened weekly reporting from two hours to 30 minutes. The briefs reached more than 200 readers across the business. For the weekly leadership brief, I checked the AI draft's sources, translations, and priorities before sharing it.</li>
                     </ul>
                     <h3>How I would adapt it for Skyworks</h3>
-                    <p>Starting from an engineering question defined by the team, an agent could search accessible RF and acoustic-device papers, organize candidates, and extract methods, supporting evidence, and limitations with citations. Device engineers would review the shortlist and decide which ideas merit a validation test. This lower workflow is a proposal, not a system I claim to have deployed at Skyworks.</p>
+                    <p>I would build a recurring literature scan around topics the Acoustic Device Group cares about, such as SAW and BAW resonators, RF filter performance, ANN surrogate models, and electromagnetic or multiphysics modeling. The agent could search IEEE Xplore and arXiv, use Crossref DOI metadata to organize and deduplicate papers, then screen abstracts through approved APIs. For promising papers, it would assess methods, data, validation evidence, and limitations from open or properly licensed full text where available. Engineers would check the citations and select items for a concise, cited weekly brief with follow-up questions. This is a proposed workflow, not a system I claim to have deployed at Skyworks.</p>
                 </div>
             </section>
 
