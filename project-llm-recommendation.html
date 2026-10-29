@@ -3,104 +3,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="LLM-Powered Content Recommendation Pipeline - Jiali Zhang">
-    <title>LLM-Powered Content Recommendation - Jiali Zhang</title>
+    <meta name="description" content="AI news agent workflow built for iFlytek and a proposed research scouting adaptation for Skyworks - Jiali Zhang">
+    <title>AI News Agent Workflow - Jiali Zhang</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="project-focus.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
-<body>
-    <div class="page-layout">
-        <!-- Left Sidebar (30%) -->
-        <aside class="sidebar">
-            <div class="sidebar-content">
-                <div class="profile-section">
-                    <div class="profile-image">
-                        <img src="profile.jpg" alt="Jiali Zhang" onerror="this.style.display='none'">
-                    </div>
-                    <h1>Jiali Zhang</h1>
-                    <p class="subtitle">PhD Candidate in Statistics</p>
-                    <div class="research-keywords">
-                        <span class="keyword-tag">Reinforcement Learning in Manufacturing</span>
-                        <span class="keyword-tag">Decision Making</span>
-                        <span class="keyword-tag">Optimization</span>
-                        <span class="keyword-tag">Surface Defect Detection</span>
-                        <span class="keyword-tag">Object Detection</span>
-                        <span class="keyword-tag">Statistical Learning</span>
-                        <span class="keyword-tag">Large Language Models</span>
-                        <span class="keyword-tag">AI Agents</span>
-                    </div>
-
-                    <!-- Contact Icons -->
-                    <div class="contact-links">
-                        <a href="mailto:jztk7@mst.edu" class="contact-item" title="Email: jztk7@mst.edu">
-                            <i class="fas fa-envelope"></i>
-                        </a>
-                        <a href="https://scholar.google.com/citations?user=5T9X91sAAAAJ&hl=zh-CN&oi=sra" class="contact-item" target="_blank" title="Google Scholar">
-                            <i class="fas fa-graduation-cap"></i>
-                        </a>
-                        <a href="https://github.com/JialiZhang1016" class="contact-item" target="_blank" title="GitHub">
-                            <i class="fab fa-github"></i>
-                        </a>
-                        <a href="https://www.linkedin.com/in/jiali-zhang-151379292/" class="contact-item" target="_blank" title="LinkedIn">
-                            <i class="fab fa-linkedin"></i>
-                        </a>
-                    </div>
+<body class="project-focus">
+    <header class="focus-topbar">
+        <div class="focus-topbar-inner">
+            <a href="projects.html" class="back-link"><i class="fas fa-arrow-left"></i> Projects</a>
+            <div class="focus-home">
+                <a href="index.html" class="focus-home-name">Jiali Zhang</a>
+                <div class="focus-home-links">
+                    <a href="mailto:jztk7@mst.edu" title="Email: jztk7@mst.edu"><i class="fas fa-envelope"></i></a>
+                    <a href="https://scholar.google.com/citations?user=5T9X91sAAAAJ&hl=zh-CN&oi=sra" target="_blank" title="Google Scholar"><i class="fas fa-graduation-cap"></i></a>
+                    <a href="https://github.com/JialiZhang1016" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+                    <a href="https://www.linkedin.com/in/jiali-zhang-151379292/" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
                 </div>
-
-                <nav class="sidebar-nav">
-                    <ul>
-                        <li><a href="index.html#about">About</a></li>
-                        <li><a href="index.html#news">News</a></li>
-                        <li><a href="index.html#research">Research</a></li>
-                        <li><a href="index.html#experience">Work Experience</a></li>
-                        <li><a href="index.html#projects" class="active">Projects</a></li>
-                        <li><a href="index.html#publications">Publications</a></li>
-                        <li><a href="index.html#awards">Awards</a></li>
-                        <li><a href="index.html#skills">Skills</a></li>
-                        <li><a href="blog.html">Blog</a></li>
-                    </ul>
-                </nav>
             </div>
-        </aside>
+        </div>
+    </header>
 
-        <!-- Right Main Content (70%) -->
-        <main class="main-content">
-            <section class="section">
-                <div class="projects-page-header">
-                    <a href="projects.html" class="back-link"><i class="fas fa-arrow-left"></i> Back to Projects</a>
-                    <h2>LLM-Powered Content Recommendation Pipeline</h2>
-                </div>
-                <p class="project-meta">Completed | May&ndash;Sep 2025</p>
-
+    <main class="focus-main">
+        <article class="focus-card">
+            <header class="focus-header">
+                <h1>AI News Agent Workflow</h1>
+                <p class="project-meta">iFlytek Strategy Department | Summers 2024&ndash;2026</p>
                 <div class="project-highlight-banner">
-                    95% reduction in manual curation effort, serving 100+ daily users
+                    Automated a daily brief that previously took about one hour of manual work; reached 200+ business readers.
                 </div>
+            </header>
 
+            <section class="focus-full">
+                <figure class="focus-figure">
+                    <a href="readme_plots/iflytek-news-to-skyworks-workflow.png" target="_blank" rel="noopener" aria-label="Open the iFlytek and Skyworks workflow diagram at full size">
+                        <img src="readme_plots/iflytek-news-to-skyworks-workflow.png" alt="Two-row workflow. Deployed at iFlytek: collect AI news, deduplicate, analyze with an LLM, apply a score threshold, and distribute a brief. Proposed for Skyworks: frame an engineering question, find and clean papers, assess applicability, then have an engineer review and select tests.">
+                    </a>
+                    <figcaption>Top: the deployed iFlytek news workflow. Bottom: a proposed research scouting workflow for Skyworks. Click to view the full-size diagram.</figcaption>
+                </figure>
+            </section>
+
+            <section class="focus-full">
                 <div class="project-detail-content">
-                    <h3>Key Contributions</h3>
+                    <h3>What I built</h3>
                     <ul>
-                        <li>Built an end-to-end automated intelligence system aggregating AI/LLM news from 20+ sources (OpenAI blog, Twitter/X, WeChat, Google) for iFlytek's Strategy Department.</li>
-                        <li>Engineered a multi-source ingestion pipeline handling heterogeneous data formats with a 4-stage deduplication funnel (URL &rarr; title similarity &rarr; content hash &rarr; semantic embedding).</li>
-                        <li>Designed a prompt engineering workflow: noise removal &rarr; relevance scoring &rarr; abstractive summarization (&lt;100 words), ensuring high information density per article.</li>
-                        <li>Developed hybrid classification using embeddings and few-shot prompting to auto-tag articles by topic (e.g., &ldquo;Multimodal,&rdquo; &ldquo;Infrastructure,&rdquo; &ldquo;Investment&rdquo;).</li>
-                        <li>Deployed as internal tool generating automated daily digests, reducing analyst research time from 60 min to &lt;3 min.</li>
+                        <li>Built and deployed a scheduled Python pipeline for iFlytek's Strategy Department. It collects AI news from RSS and web sources, then removes duplicate URLs, similar titles, and items already in local or Feishu history.</li>
+                        <li>Used Claude Code, with Codex as a fallback, for source review, relevance scoring, title translation, evidence-based summaries, and classification. Python handles scheduling, deduplication, structured-output parsing, score filtering, and delivery.</li>
+                        <li>Automated a daily brief that had taken about one hour of manual work each day; shortened weekly reporting from two hours to 30 minutes. The briefs reached more than 200 readers across the business.</li>
                     </ul>
-                </div>
-
-                <div class="tech-stack">
-                    <span class="tech-pill">Python</span>
-                    <span class="tech-pill">Claude API</span>
-                    <span class="tech-pill">OpenAI API</span>
-                    <span class="tech-pill">Web Scraping</span>
-                    <span class="tech-pill">NLP</span>
-                    <span class="tech-pill">Prompt Engineering</span>
+                    <h3>How I would adapt it for Skyworks</h3>
+                    <p>Starting from an engineering question defined by the team, an agent could search accessible RF and acoustic-device papers, organize candidates, and extract methods, supporting evidence, and limitations with citations. Device engineers would review the shortlist and decide which ideas merit a validation test. This lower workflow is a proposal, not a system I claim to have deployed at Skyworks.</p>
                 </div>
             </section>
-        </main>
-    </div>
+
+            <div class="focus-footer-row">
+                <div class="tech-stack">
+                    <span class="tech-pill">Python</span>
+                    <span class="tech-pill">RSS / Web Scraping</span>
+                    <span class="tech-pill">Claude Code</span>
+                    <span class="tech-pill">Codex Fallback</span>
+                    <span class="tech-pill">Feishu</span>
+                    <span class="tech-pill">Workflow Automation</span>
+                </div>
+            </div>
+        </article>
+    </main>
 
     <footer>
-        <p>&copy; 2026 Jiali Zhang. Last updated: April 2026.</p>
+        <p>&copy; 2026 Jiali Zhang. Last updated: October 2026.</p>
     </footer>
 
     <!-- Theme Selector Button -->
