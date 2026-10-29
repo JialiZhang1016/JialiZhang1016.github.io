@@ -1,7 +1,6 @@
 /* ============================================
    PROJECT FOCUS LAYOUT
-   Full-width project detail page without the sidebar:
-   figures on the left, text on the right, stacking on narrow screens.
+   Project detail content inside the standard sidebar layout.
    Usage: <body class="project-focus"> + link this file after style.css.
    ============================================ */
 
@@ -201,6 +200,42 @@
 
 .project-focus footer {
     margin-left: 0;
+}
+
+/* Match the right-hand column used by the project index. */
+.project-focus .focus-main {
+    margin: 0 0 0 var(--sidebar-width);
+    width: var(--main-width);
+    max-width: 1200px;
+    padding: 40px 100px;
+}
+
+.project-focus .focus-card {
+    padding: 25px;
+}
+
+.project-focus .focus-row {
+    grid-template-columns: minmax(0, 1fr);
+}
+
+.project-focus .focus-figures {
+    position: static;
+}
+
+.project-focus footer {
+    margin-left: var(--sidebar-width);
+}
+
+@media (max-width: 1024px) {
+    .project-focus .focus-main {
+        margin-left: 0;
+        width: 100%;
+        padding: 30px 20px;
+    }
+
+    .project-focus footer {
+        margin-left: 0;
+    }
 }
 
 /* ---------- Narrow screens: single column, figures first ---------- */

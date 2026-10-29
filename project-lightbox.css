@@ -1,0 +1,116 @@
+.project-zoomable {
+    cursor: zoom-in;
+}
+
+.project-zoomable:hover,
+.project-zoomable:focus-visible {
+    outline: 3px solid var(--accent-2);
+    outline-offset: 3px;
+}
+
+.project-lightbox {
+    width: min(96vw, 1600px);
+    height: min(94vh, 1100px);
+    max-width: none;
+    max-height: none;
+    padding: 0;
+    border: 0;
+    border-radius: 12px;
+    background: #fff;
+    color: #1f2937;
+    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.4);
+    overflow: hidden;
+}
+
+.project-lightbox[open] {
+    display: flex;
+    flex-direction: column;
+}
+
+.project-lightbox::backdrop {
+    background: rgba(8, 23, 40, 0.78);
+}
+
+.project-lightbox-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 16px;
+    border-bottom: 1px solid #dce4eb;
+}
+
+.project-lightbox-caption {
+    min-width: 0;
+    margin-right: auto;
+    font-size: 0.9rem;
+    line-height: 1.35;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.project-lightbox-toolbar button {
+    flex: none;
+    padding: 7px 11px;
+    border: 1px solid #9baab8;
+    border-radius: 6px;
+    background: #fff;
+    color: #1f2937;
+    font: inherit;
+    cursor: pointer;
+}
+
+.project-lightbox-toolbar button:hover,
+.project-lightbox-toolbar button:focus-visible {
+    background: #e8f3fa;
+}
+
+.project-lightbox-viewport {
+    flex: 1;
+    min-height: 0;
+    padding: 12px;
+    overflow: auto;
+    display: grid;
+    place-items: center;
+}
+
+.project-lightbox-image {
+    display: block;
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+}
+
+.project-lightbox.is-actual-size .project-lightbox-viewport {
+    display: block;
+}
+
+.project-lightbox.is-actual-size .project-lightbox-image {
+    max-width: none;
+    max-height: none;
+    margin: auto;
+}
+
+@media (max-width: 600px) {
+    .project-lightbox {
+        width: 100vw;
+        height: 100vh;
+        border-radius: 0;
+    }
+
+    .project-lightbox-toolbar {
+        gap: 6px;
+        padding: 8px;
+    }
+
+    .project-lightbox-caption {
+        font-size: 0.75rem;
+    }
+
+    .project-lightbox-toolbar button {
+        padding: 6px;
+        font-size: 0.8rem;
+    }
+}
