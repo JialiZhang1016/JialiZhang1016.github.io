@@ -118,9 +118,25 @@ body > * {
     color: var(--sidebar-text-color);
     position: fixed;
     height: 100vh;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(var(--accent-2-rgb), 0.4) transparent;
     left: 0;
     top: 0;
+}
+
+.sidebar::-webkit-scrollbar {
+    width: 5px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+    background: rgba(var(--accent-2-rgb), 0.4);
+    border-radius: 999px;
 }
 
 .sidebar-content {
@@ -1194,6 +1210,7 @@ footer p {
         width: 100%;
         position: relative;
         height: auto;
+        overflow: visible;
     }
 
     .sidebar-content {
