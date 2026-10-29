@@ -2,6 +2,11 @@
 @media (min-width: 1025px) {
     .project-resizable .sidebar {
         overflow-y: auto;
+        scrollbar-width: none;
+    }
+
+    .project-resizable .sidebar::-webkit-scrollbar {
+        display: none;
     }
 
     .project-resizable .main-content {
