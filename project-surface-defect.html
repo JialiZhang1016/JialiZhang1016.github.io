@@ -31,17 +31,13 @@
                 <h1>Label-Efficient Surface Defect Detection with Reinforcement Learning</h1>
                 <p class="project-meta">Nov 2025&ndash;Present &middot; Joint work with the Sensing, Analytics, and Intelligence Lab, UT Arlington</p>
                 <div class="project-highlight-banner">
-                    Ranked #1 on every dataset and metric across three difficulty levels &mdash; significant in 18/18 paired Wilcoxon comparisons
+                    Patch-level defect detection for 3D-printed metal surfaces with limited confirmed-normal labels
                 </div>
             </header>
 
-            <!-- Row 1: framework + data figures | problem + method -->
+            <!-- Row 1: point-cloud examples + framework | problem + method -->
             <div class="focus-row">
                 <div class="focus-figures">
-                    <figure class="focus-figure">
-                        <img src="readme_plots/pu_defect_architecture.png" alt="Framework: a reinforcement-learning selector promotes reliable normal samples from the unlabeled pool to refine a Deep SVDD boundary">
-                        <figcaption>Framework: the RL selector promotes reliable normal samples from the unlabeled pool to refine the Deep SVDD boundary.</figcaption>
-                    </figure>
                     <div class="focus-figure-pair">
                         <figure class="focus-figure">
                             <img src="readme_plots/pu_pointcloud_normal.png" alt="Point cloud of a normal surface">
@@ -52,13 +48,18 @@
                             <figcaption>Defective surface (defect region in red)</figcaption>
                         </figure>
                     </div>
+                    <figure class="focus-figure">
+                        <img src="readme_plots/pu_defect_architecture.png" alt="Framework: a reinforcement-learning selector promotes reliable normal samples from the unlabeled pool to refine a Deep SVDD boundary">
+                        <figcaption>Framework: the RL selector promotes reliable normal samples from the unlabeled pool to refine the Deep SVDD boundary.</figcaption>
+                    </figure>
                 </div>
 
                 <div class="project-detail-content">
                     <h3>The Problem</h3>
                     <ul>
-                        <li>In manufacturing inspection, defects are <strong>rare and expensive to label</strong>, while normal parts are abundant.</li>
-                        <li>We frame defect detection as <strong>Positive-Unlabeled (PU) learning</strong>: a small set of confirmed normal samples plus a large unlabeled pool that mixes normal and defective parts.</li>
+                        <li><strong>Dataset:</strong> local 3D point-cloud patches of metal surfaces produced by wire-arc additive manufacturing (WAAM), alongside synthetic point-cloud patches with controlled defects. <strong>One patch is one sample.</strong></li>
+                        <li>In manufacturing inspection, defects are <strong>rare and expensive to label</strong>, while normal surface patches are easier to obtain.</li>
+                        <li>We frame defect detection as <strong>Positive-Unlabeled (PU) learning</strong>: a small set of confirmed normal patches plus an unlabeled pool that mixes normal and defective patches.</li>
                         <li>Classical PU methods either rely on an estimate of the defect ratio (class prior), which is hard to obtain on the shop floor, or on fixed selection rules that cannot adapt.</li>
                     </ul>
 
@@ -67,27 +68,24 @@
                         <li>Combined a one-class <strong>Deep SVDD</strong> model, which learns a compact boundary around normal data, with a <strong>reinforcement-learning selector</strong> that learns which unlabeled samples to promote as reliable normal samples.</li>
                         <li>The selector and the detector <strong>improve together</strong>: the selector is rewarded by the detector&rsquo;s feedback, so the selection policy is learned rather than hand-crafted.</li>
                         <li>Requires <strong>no estimate of the defect ratio</strong>, removing a fragile step of classical PU learning.</li>
-                        <li>Applied to <strong>3D point clouds</strong> of manufactured surfaces, separating normal surfaces from defective ones.</li>
+                        <li>Each patch is represented by an <strong>FPFH descriptor</strong> of its local geometry; the model outputs a <strong>patch-level normality score</strong> to help prioritize suspicious areas for inspection.</li>
                     </ul>
                 </div>
             </div>
 
-            <!-- Results: wide chart full width, findings below -->
+            <!-- Evaluation: synthetic and real data, with their evidence limits -->
             <section class="focus-full">
                 <div class="project-detail-content">
-                    <h3>Results on Synthetic Point-Cloud Data</h3>
+                    <h3>Evaluation on Synthetic and Real Point-Cloud Data</h3>
                 </div>
-                <figure class="focus-figure">
-                    <img src="readme_plots/pu_defect_results.png" alt="Bar charts of composite score, AUC, and defect-class F1 for our method, Deep SVDD, nnPU, and PULNS at three difficulty levels">
-                    <figcaption>Mean &plusmn; standard deviation over 20 paired seeds. The composite score is the mean of AUC, F1 on the defect class, and F1 on the normal class. Our method is best at every difficulty level and has the smallest spread across runs.</figcaption>
-                </figure>
                 <div class="focus-columns project-detail-content">
                     <ul>
-                        <li>On synthetic 3D point-cloud surfaces at three difficulty levels (20 paired seeds each), <strong>ranked first on every dataset and metric</strong> against Deep SVDD, nnPU, and PULNS, and was <strong>significantly better in 18/18 paired Wilcoxon comparisons</strong>.</li>
+                        <li><strong>Synthetic data:</strong> compared with Deep SVDD, nnPU, and PULNS across three controlled defect settings and 20 training seeds. The method led all three reported metrics in the medium and hard settings; PULNS had a slightly higher AUC in the easy setting.</li>
+                        <li>As defects become shallower or measurement noise rises, detection becomes harder. These controlled tests help identify where the method is less reliable.</li>
                     </ul>
                     <ul>
-                        <li>On the easiest setting, improved the composite score by <strong>+0.055 over Deep SVDD</strong> with <strong>2.7&times; lower variance</strong> across runs.</li>
-                        <li>Ablation: removing either the RL selector or the top-k selection step lowers the composite score by about <strong>0.11</strong> &mdash; both are essential to the method.</li>
+                        <li><strong>Real WAAM data:</strong> on one retrospective spatially blocked split, the method had the best mean normal-class F1, false omission rate, and AUC among the four methods. Across five exploratory spatial splits, it led each metric on three of five.</li>
+                        <li>Results are measured per surface patch. Validation uses labeled normal and defective patches; generalization to new production batches has not yet been established.</li>
                     </ul>
                 </div>
             </section>
@@ -96,8 +94,8 @@
                 <div class="project-detail-content">
                     <h3>Why It Matters</h3>
                     <ul>
-                        <li>Inspection systems can start detecting defects <strong>before a large labeled defect library exists</strong>, and keep improving as new samples arrive.</li>
-                        <li>The same idea extends to image-based surface inspection, where defect classes are rare and labeling requires expert time.</li>
+                        <li>The approach is designed to <strong>prioritize suspicious surface patches</strong> when confirmed-normal examples are limited and exhaustive defect labeling is costly.</li>
+                        <li>Using the scores in a production inspection workflow would require independent testing on new prints and review by manufacturing experts.</li>
                     </ul>
                 </div>
 
