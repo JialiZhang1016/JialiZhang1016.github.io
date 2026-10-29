@@ -11,7 +11,7 @@
 
     .project-resizable .main-content {
         max-width: var(--project-main-max-width, 1200px);
-        padding: 40px clamp(24px, 8vw, 100px);
+        padding: 40px clamp(20px, 5vw, 60px);
     }
 
     .project-resize-handle {
