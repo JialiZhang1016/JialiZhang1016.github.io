@@ -79,6 +79,22 @@
                 </div>
             </header>
 
+            <div class="focus-row energy-explainer" id="framework">
+                <div class="focus-figures">
+                    <figure class="focus-figure"><img src="readme_plots/fig1_system_original.png" alt="Factory microgrid with solar, wind, battery storage and grid electricity"><figcaption>The implemented system: factory production supplied by a microgrid.</figcaption></figure>
+                    <figure class="focus-figure"><img src="readme_plots/fig_bilevel_original.png" alt="Genetic scheduling search coupled with PPO dispatch and a neural cost surrogate" loading="lazy"><figcaption>Production scheduling changes the demand seen by the energy dispatcher.</figcaption></figure>
+                </div>
+                <div class="project-detail-content">
+                <h2>Two decision layers, one cost objective</h2>
+                <ul>
+                    <li><strong>GA schedules jobs:</strong> choose job order and start-time offsets, shaping when electricity is needed.</li>
+                    <li><strong>PPO dispatches energy:</strong> allocate solar, wind, battery, and grid supply as conditions evolve.</li>
+                    <li><strong>A neural surrogate accelerates search:</strong> estimate dispatch cost instead of running a full dispatch simulation for every candidate schedule.</li>
+                </ul>
+                <p>PPO learns sequential decisions in simulation; MPC was also evaluated over seven horizons. The choice depends on forecasting, model quality, and computation—not a universal advantage of one algorithm.</p>
+                </div>
+            </div>
+
             <div class="focus-full energy-explainer" id="demand-supply">
                 <h2>Why scheduling and dispatch must be optimized together</h2>
                 <figure class="focus-figure">
@@ -87,20 +103,6 @@
                 </figure>
                 <p><strong>Scheduling changes demand; dispatch chooses how to supply it.</strong> Matching demand to renewable generation alone is not enough: storage, electricity prices, and the dispatcher’s response also affect cost. The bilevel search evaluates schedules through that downstream energy decision.</p>
                 <p><strong>Renewables + time-of-use pricing.</strong> Shift flexible production toward renewable availability and cheaper hours; charge at lower prices and use stored energy during higher-price periods, subject to SOC, efficiency, and operating limits. This supports load shifting and price arbitrage. The figure’s example tariff is $0.06/$0.19/$0.35 per kWh for off-peak/mid-peak/peak periods.</p>
-            </div>
-
-            <div class="focus-full energy-explainer" id="framework">
-                <h2>Two decision layers, one cost objective</h2>
-                <div class="focus-figures">
-                    <figure class="focus-figure"><img src="readme_plots/fig1_system_original.png" alt="Factory microgrid with solar, wind, battery storage and grid electricity"><figcaption>The implemented system: factory production supplied by a microgrid.</figcaption></figure>
-                    <figure class="focus-figure"><img src="readme_plots/fig_bilevel_original.png" alt="Genetic scheduling search coupled with PPO dispatch and a neural cost surrogate" loading="lazy"><figcaption>Production scheduling changes the demand seen by the energy dispatcher.</figcaption></figure>
-                </div>
-                <ul>
-                    <li><strong>GA schedules jobs:</strong> choose job order and start-time offsets, shaping when electricity is needed.</li>
-                    <li><strong>PPO dispatches energy:</strong> allocate solar, wind, battery, and grid supply as conditions evolve.</li>
-                    <li><strong>A neural surrogate accelerates search:</strong> estimate dispatch cost instead of running a full dispatch simulation for every candidate schedule.</li>
-                </ul>
-                <p>PPO learns sequential decisions in simulation; MPC was also evaluated over seven horizons. The choice depends on forecasting, model quality, and computation—not a universal advantage of one algorithm.</p>
             </div>
 
             <div class="focus-full energy-explainer" id="reliability">
