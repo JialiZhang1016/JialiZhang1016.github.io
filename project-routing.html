@@ -17,7 +17,8 @@
 .route-compact .focus-main{max-width:1500px;padding:30px clamp(20px,4vw,65px)}.route-compact .focus-card{padding:clamp(22px,3vw,40px)}
 .route-compact .focus-header h1{font-size:clamp(1.6rem,2.5vw,2.15rem)}.route-compact .project-detail-content h3{margin:0 0 10px}.route-compact .focus-full{margin-top:25px;padding-top:20px}.route-compact .focus-full p{line-height:1.7}
 @media(max-width:1100px){.route-compact .focus-row{grid-template-columns:1fr}.route-compact .focus-main{padding:24px 18px}} 
-.soft-bias-definition{margin:18px 0;padding:12px 16px;border-left:3px solid var(--primary-color);background:rgba(86,148,185,.06)}.soft-bias-equation{font-family:Georgia,serif;font-size:clamp(.95rem,1.4vw,1.12rem);line-height:1.95;overflow-x:auto;padding:4px 0}.soft-bias-key{font-size:.88rem;color:var(--text-light);line-height:1.7}\n</style></head>
+.soft-bias-definition{margin:18px 0;padding:12px 16px;border-left:3px solid var(--primary-color);background:rgba(86,148,185,.06)}.soft-bias-equation{font-family:Georgia,serif;font-size:clamp(.95rem,1.4vw,1.12rem);line-height:1.95;overflow-x:auto;padding:4px 0}.soft-bias-key{font-size:.88rem;color:var(--text-light);line-height:1.7}.route-compact details summary{cursor:pointer;font-weight:600;margin-top:16px}.route-compact .stage-links{font-size:.88rem;line-height:1.8}.route-compact .stage-note{font-size:.88rem;color:var(--text-light)}
+</style></head>
 <body class="project-focus project-resizable route-compact">
         <aside class="sidebar">
             <div class="sidebar-content">
@@ -77,7 +78,9 @@
             <header class="focus-header">
                 <h1>Reinforcement Learning for Time-Constrained Drone and Vehicle Routing</h1>
                 <p class="project-meta">Drone mission planning and time-window routing · Manuscript in preparation</p>
-                <p>A valuable route must leave enough resources to finish the mission. I studied this through joint drone routing and dwell-time decisions—a foundation for reasoning about EV routes, charging stops, and departure readiness.</p>
+                <p>A valuable route must leave enough resources to finish the mission. My research connects drone mission planning with later time-window routing work: selecting valuable tasks while preserving the time and resources needed later.</p>
+                <p class="stage-note">Two research stages: the three figures illustrate the original RAM-DQN drone study; the soft-bias benchmark is subsequent work.</p>
+                <nav class="stage-links" aria-label="Project sections"><a href="#overview">Task</a> · <a href="#method">RAM-DQN</a> · <a href="#soft-penalty">Learned soft bias &amp; results</a> · <a href="#mobility">EV connection</a></nav>
             </header>
             <div class="focus-row" id="overview">
                 <figure class="focus-figure">
@@ -85,7 +88,7 @@
                     <figcaption>Figure 5: Online Map of the RAM-DQN Agent Trajectory and Decisions.<br>Simulation using Yellowstone coordinates. Map © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>.</figcaption>
                 </figure>
                 <div class="project-detail-content">
-                    <h3>Choose the route and the time spent at each stop</h3>
+                    <h3>1. The task: route and dwell time</h3>
                     <p>I modeled a drone visiting sites with different data-collection value under a limited mission budget and weather-dependent travel times. The policy chooses both the next site and its dwell time, while reserving time to return. The map illustrates the simulated task.</p>
                 </div>
             </div>
@@ -95,7 +98,7 @@
                     <figcaption>Figure 1: An Illustration of the Action Masking Mechanism.</figcaption>
                 </figure>
                 <div class="project-detail-content">
-                    <h3>Dynamic action masking</h3>
+                    <h3>2. RAM-DQN: screen infeasible choices</h3>
                     <p>I discretized dwell time and used DQN to score destination–dwell-time choices. A dynamic mask screens revisits and choices whose estimated travel, collection, and return time exceed the remaining budget. The next-state mask also restricts the Q-learning target.</p>
                 </div>
             </div>
@@ -105,28 +108,30 @@
                     <figcaption>Figure 2: Shaping Reward R<sub>shaping</sub> Plot with k = 1.</figcaption>
                 </figure>
                 <div class="project-detail-content">
-                    <h3>Risk-aware reward shaping</h3>
+                    <h3>Preserve a return-time buffer</h3>
                     <p>I added a reward bonus based on expected return time relative to remaining time, encouraging the policy to preserve a buffer. Masking screens choices; shaping guides preferences among them. Because travel is stochastic, an expected-time check still permits failures under larger-than-expected delays.</p>
                 </div>
             </div>
             <div class="focus-full project-detail-content" id="soft-penalty">
-                <h3>Later work: learned soft penalty for time-window routing</h3>
-                <p>A choice that is feasible now can make a later stop infeasible. In subsequent routing work, I used a learned soft bias to adjust action scores using constraint information, rather than relying only on a binary feasibility cutoff. Structurally invalid actions, such as revisits, remain hard-masked.</p>
+                <h3>3. Later work: learn constraint-aware preferences</h3>
+                <p>A stop that is reachable now may leave too little time for a later deadline. In subsequent time-window routing work, I used a small neural network to adjust the base policy’s action scores from time slack, travel distance, prize, and visit status. The signed, bounded adjustment is a <strong>learned soft bias</strong>; structurally invalid actions, such as revisits, remain hard-masked.</p>
+                <details id="soft-bias-formulas"><summary>Technical detail: soft-bias definition and training reward</summary>
                 <div class="soft-bias-definition" aria-label="Definition of the learned soft bias">
                     <div class="soft-bias-equation">f<sub>t,j</sub> = [slack<sub>t,j</sub>, d<sub>t,j</sub>, p<sub>j</sub>, visited<sub>t,j</sub>]</div>
                     <div class="soft-bias-equation">slack<sub>t,j</sub> = l<sub>j</sub> − (t<sub>current</sub> + d<sub>t,j</sub>)</div>
                     <div class="soft-bias-equation"><strong>b<sub>t,j</sub> = α tanh(g<sub>θ</sub>(f<sub>t,j</sub>))</strong>, &nbsp; |b<sub>t,j</sub>| ≤ α</div>
-                    <div class="soft-bias-equation">π<sub>θ</sub>(j | s<sub>t</sub>) = softmax<sub>j</sub>(z<sub>t,j</sub> + b<sub>t,j</sub> + m<sup>struct</sup><sub>t,j</sub>)</div>
+                    <div class="soft-bias-equation">Adjusted score: z̃<sub>t,j</sub> = z<sub>t,j</sub> + b<sub>t,j</sub></div>
                 </div>
-                <p class="soft-bias-key">g<sub>θ</sub> is a small MLP; z is the base decoder score; α bounds the correction. For time windows, l<sub>j</sub> is the latest arrival time and d is travel time/distance in the environment’s normalized units. Prize p<sub>j</sub> is used for OP/OPTW and set to zero in TSPTW. The structural mask m is 0 for allowed actions and −∞ for structurally invalid actions.</p>
+                <p class="soft-bias-key">g<sub>θ</sub> is a small MLP; z is the base decoder score; α bounds the correction. For time windows, l<sub>j</sub> is the latest arrival time and d is travel time/distance in the environment’s normalized units. Prize p<sub>j</sub> is used for OP/OPTW and set to zero in TSPTW. The adjusted scores pass through the policy’s logit processing and masked softmax; structurally invalid actions have zero selection probability.</p>
                 <p><strong>Interpretation:</strong> a negative bias lowers an action’s probability; a positive bias raises its relative score. The network learns this adjustment from constraint features. It is a finite preference adjustment, not a guarantee of feasibility.</p>
                 <p class="soft-bias-key"><strong>Separate training penalty (TSPTW):</strong> R = −(tour length + β · total lateness). Here β weights violations in the training reward; b adjusts action scores during decoding.</p>
-                <p><strong>10,000 TSPTW instances, matched training budget: infeasible routes fell from about 56% to 12%.</strong> This is a later benchmark result, separate from the RAM-DQN illustrations above. Failures remain; in separate OPTW tests, soft bias performed better at 20 locations, while hard masking performed better at 100.</p>
+                </details>
+                <p><strong>Matched-budget result: infeasible routes fell from 56.4% to 11.7%.</strong> Evaluated on 10,000 TSPTW-50 medium instances, with 24 training epochs and three seeds. This comparison is separate from the RAM-DQN figures and does not establish superiority over a fully trained published baseline. Failures remain; in separate OPTW tests, soft bias performed better at 20 locations, while hard masking performed better at 100.</p>
             </div>
             <div class="focus-full project-detail-content" id="mobility">
-                <h3>Connection to vehicle operations</h3>
-                <p>In an EV setting, a route determines where and when charging is possible, while charging duration and battery energy affect which trips are feasible. The common problem is choosing the next task without consuming resources needed later.
-                </p><p>I would extend the formulation with vehicle SOC, charging curves, station availability, and departure requirements, then evaluate completed trips, missed departures, and feasibility alongside cost. The drone study supplies modeling and constraint-handling experience; it does not establish EV deployment performance.
+                <h3>4. EV connection: coordinate trips and charging</h3>
+                <p>In an EV setting, a route determines where and when charging is possible, while charging duration and battery energy affect which trips are feasible. The shared decision is where to go and how long to stay, without compromising the next required trip.
+                </p><p>I would extend the formulation with vehicle SOC, charging curves, station availability, and departure requirements, then evaluate completed trips, missed departures, and feasibility alongside cost. These are proposed EV extensions. My completed work provides simulation, constraint-handling, and failure-analysis experience.
                 </p><p><a href="project-bilevel.html#demand-supply">Related work: coordinating demand, renewables, storage, and ToU prices</a></p>
             </div>
             <div class="tech-stack"><span class="tech-pill">Python</span><span class="tech-pill">Reinforcement Learning</span><span class="tech-pill">DQN</span><span class="tech-pill">Action Masking</span><span class="tech-pill">Learned Soft Bias</span><span class="tech-pill">Simulation</span></div>
@@ -201,3 +206,4 @@
     <script src="project-lightbox.js?v=3b9923a"></script>
 </body>
 </html>
+
