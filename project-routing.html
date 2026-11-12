@@ -77,45 +77,32 @@
         <article class="focus-card">
             <header class="focus-header">
                 <h1>Reinforcement Learning for Time-Constrained Drone and Vehicle Routing</h1>
-                <p class="project-meta">Drone mission planning and time-window routing · Manuscript in preparation</p>
-                <p>A valuable route must leave enough resources to finish the mission. My research connects drone mission planning with later time-window routing work: selecting valuable tasks while preserving the time and resources needed later.</p>
-                <p class="stage-note">Two research stages: the three figures illustrate the original RAM-DQN drone study; the soft-bias benchmark is subsequent work.</p>
-                <nav class="stage-links" aria-label="Project sections"><a href="#overview">Task</a> · <a href="#method">RAM-DQN</a> · <a href="#soft-penalty">Learned soft bias &amp; results</a> · <a href="#mobility">EV connection</a></nav>
+                <p class="project-meta">RAM-DQN · Drone mission planning · Later time-window routing</p>
             </header>
             <div class="focus-row" id="overview">
-                <figure class="focus-figure">
-                    <a href="readme_plots/routing/mission-map.jpg"><img src="readme_plots/routing/mission-map.jpg" alt="RAM-DQN mission map showing priority sites, selected visits, skipped sites, and return to base" width="1295" height="831"></a>
-                    <figcaption>Figure 5: Online Map of the RAM-DQN Agent Trajectory and Decisions.<br>Simulation using Yellowstone coordinates. Map © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>.</figcaption>
-                </figure>
+                <figure class="focus-figure"><a href="readme_plots/routing/mission-map.jpg"><img src="readme_plots/routing/mission-map.jpg" alt="RAM-DQN mission map showing visited and skipped sites and return to base" width="1295" height="831"></a><figcaption>Figure 5: Online Map of the RAM-DQN Agent Trajectory and Decisions.<br>Simulation using Yellowstone coordinates. Map © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>.</figcaption></figure>
                 <div class="project-detail-content">
-                    <h3>1. The task: route and dwell time</h3>
-                    <p>I modeled a drone visiting sites with different data-collection value under a limited mission budget and weather-dependent travel times. The policy chooses both the next site and its dwell time, while reserving time to return. The map illustrates the simulated task.</p>
+                    <h3>Problem: choose valuable stops without running out of time</h3>
+                    <p>For post-disaster drone inspection, the policy chooses which site to visit and how long to collect data under a limited mission budget and random weather. Each decision affects the time left for later tasks and the return to base.</p>
                 </div>
             </div>
             <div class="focus-row" id="method">
-                <figure class="focus-figure">
-                    <a href="readme_plots/routing/action-mask.png"><img src="readme_plots/routing/action-mask.png" alt="Action mask rejecting repeated visits and time-infeasible choices" width="2201" height="800" loading="lazy"></a>
-                    <figcaption>Figure 1: An Illustration of the Action Masking Mechanism.</figcaption>
-                </figure>
-                <div class="project-detail-content">
-                    <h3>2. RAM-DQN: screen infeasible choices</h3>
-                    <p>I discretized dwell time and used DQN to score destination–dwell-time choices. A dynamic mask screens revisits and choices whose estimated travel, collection, and return time exceed the remaining budget. The next-state mask also restricts the Q-learning target.</p>
+                <div class="focus-figures">
+                    <figure class="focus-figure"><a href="readme_plots/routing/action-mask.png"><img src="readme_plots/routing/action-mask.png" alt="Dynamic mask screening repeated visits and time-infeasible actions" width="2201" height="800" loading="lazy"></a><figcaption>Figure 1: An Illustration of the Action Masking Mechanism.</figcaption></figure>
+                    <figure class="focus-figure"><a href="readme_plots/routing/safety-buffer.png"><img src="readme_plots/routing/safety-buffer.png" alt="Reward shaping encouraging a return-time buffer" loading="lazy"></a><figcaption>Figure 2: Shaping Reward R<sub>shaping</sub> Plot with k = 1.</figcaption></figure>
                 </div>
-            </div>
-            <div class="focus-row">
-                <figure class="focus-figure">
-                    <a href="readme_plots/routing/safety-buffer.png"><img src="readme_plots/routing/safety-buffer.png" alt="Shaping reward as a function of expected return time divided by remaining time, with k equal to one" loading="lazy"></a>
-                    <figcaption>Figure 2: Shaping Reward R<sub>shaping</sub> Plot with k = 1.</figcaption>
-                </figure>
                 <div class="project-detail-content">
-                    <h3>Preserve a return-time buffer</h3>
-                    <p>I added a reward bonus based on expected return time relative to remaining time, encouraging the policy to preserve a buffer. Masking screens choices; shaping guides preferences among them. Because travel is stochastic, an expected-time check still permits failures under larger-than-expected delays.</p>
+                    <h3>RAM-DQN: screen actions and preserve a return buffer</h3>
+                    <p>I used DQN to score destination–dwell-time choices. Dynamic action masking screens revisits and choices that exceed the estimated travel, collection, and return-time budget. Reward shaping encourages the policy to preserve a return-time buffer.</p>
+                    <p>Across the broader routing research, I compared four RL methods with OR-Tools and heuristic baselines. The figures here illustrate the original RAM-DQN formulation.</p>
                 </div>
             </div>
             <div class="focus-full project-detail-content" id="soft-penalty">
-                <h3>3. Later work: learn constraint-aware preferences</h3>
-                <p>A stop that is reachable now may leave too little time for a later deadline. In subsequent time-window routing work, I used a small neural network to adjust the base policy’s action scores from time slack, travel distance, prize, and visit status. The signed, bounded adjustment is a <strong>learned soft bias</strong>; structurally invalid actions, such as revisits, remain hard-masked.</p>
-                <details id="soft-bias-formulas"><summary>Technical detail: soft-bias definition and training reward</summary>
+                <h3>Later work: learned soft bias for time-window routing</h3>
+                <p>A stop can be reachable now while making a later deadline impossible. I used a small neural network to adjust action scores from constraint features, while retaining masks for structurally invalid actions.</p>
+                <p><strong>On 10,000 time-window routing instances, our combined soft-bias configuration had about 12% infeasible routes, versus 56% for our internally trained hard-mask baseline, under the same epoch budget.</strong></p>
+                <p class="soft-bias-key">The configurations also used different reward-penalty settings, so this comparison does not isolate the effect of soft bias. It is separate from the RAM-DQN figures above.</p>
+<details id="soft-bias-formulas"><summary>Technical detail: soft-bias definition and training reward</summary>
                 <div class="soft-bias-definition" aria-label="Definition of the learned soft bias">
                     <div class="soft-bias-equation">f<sub>t,j</sub> = [slack<sub>t,j</sub>, d<sub>t,j</sub>, p<sub>j</sub>, visited<sub>t,j</sub>]</div>
                     <div class="soft-bias-equation">slack<sub>t,j</sub> = l<sub>j</sub> − (t<sub>current</sub> + d<sub>t,j</sub>)</div>
@@ -125,16 +112,15 @@
                 <p class="soft-bias-key">g<sub>θ</sub> is a small MLP; z is the base decoder score; α bounds the correction. For time windows, l<sub>j</sub> is the latest arrival time and d is travel time/distance in the environment’s normalized units. Prize p<sub>j</sub> is used for OP/OPTW and set to zero in TSPTW. The adjusted scores pass through the policy’s logit processing and masked softmax; structurally invalid actions have zero selection probability.</p>
                 <p><strong>Interpretation:</strong> a negative bias lowers an action’s probability; a positive bias raises its relative score. The network learns this adjustment from constraint features. It is a finite preference adjustment, not a guarantee of feasibility.</p>
                 <p class="soft-bias-key"><strong>Separate training penalty (TSPTW):</strong> R = −(tour length + β · total lateness). Here β weights violations in the training reward; b adjusts action scores during decoding.</p>
-                </details>
-                <p><strong>Internal configuration comparison: 56.4% vs. 11.7% infeasible routes.</strong> Compared our Attention Model/POMO with one-step hard time-window masking against our learned-soft-bias configuration, on 10,000 TSPTW-50 medium instances, with 24 training epochs and three seeds. The hard configuration used lateness weight β = 5 without a ramp; the soft configuration used β = 100 with a ramp. Because both constraint handling and reward settings changed, this result does not isolate the effect of soft bias. This comparison is separate from the RAM-DQN figures and does not establish superiority over a fully trained published baseline. Failures remain; in separate OPTW tests, soft bias performed better at 20 locations, while hard masking performed better at 100.</p>
+                <p class="soft-bias-key">Comparison setup: Attention Model/POMO, 24 epochs, three seeds, 10,000 TSPTW-50 medium instances. Hard: β = 5 without a ramp; soft: β = 100 with a ramp. This is an internal configuration comparison, not a comparison against the fully trained published PIP-D model. In separate OPTW tests, soft bias performed better at 20 locations, while hard masking performed better at 100.</p></details>
             </div>
             <div class="focus-full project-detail-content" id="mobility">
-                <h3>4. EV connection: coordinate trips and charging</h3>
-                <p>In an EV setting, a route determines where and when charging is possible, while charging duration and battery energy affect which trips are feasible. The shared decision is where to go and how long to stay, without compromising the next required trip.
-                </p><p>I would extend the formulation with vehicle SOC, charging curves, station availability, and departure requirements, then evaluate completed trips, missed departures, and feasibility alongside cost. These are proposed EV extensions. My completed work provides simulation, constraint-handling, and failure-analysis experience.
-                </p><p><a href="project-bilevel.html#demand-supply">Related work: coordinating demand, renewables, storage, and ToU prices</a></p>
+                <h3>Connection to vehicle routes and charging stops</h3>
+                <p>An EV must decide where to go and how long to charge without compromising its next trip. This shares the same coupling between route choices, stop duration, and future resources. An EV extension would add SOC, charging curves, station availability, and departure-energy requirements.</p>
+                <p><a href="project-bilevel.html">Related work: coordinating production demand and microgrid dispatch</a>.</p>
             </div>
-            <div class="tech-stack"><span class="tech-pill">Python</span><span class="tech-pill">Reinforcement Learning</span><span class="tech-pill">DQN</span><span class="tech-pill">Action Masking</span><span class="tech-pill">Learned Soft Bias</span><span class="tech-pill">Simulation</span></div>
+            <div class="tech-stack"><span class="tech-pill">Python</span><span class="tech-pill">DQN</span><span class="tech-pill">Action Masking</span><span class="tech-pill">Learned Soft Bias</span><span class="tech-pill">OR-Tools</span><span class="tech-pill">Simulation</span></div>
+
         </article>
     </main>
     <footer><p>&copy; 2026 Jiali Zhang. Updated November 2026.</p></footer>
@@ -206,4 +192,5 @@
     <script src="project-lightbox.js?v=3b9923a"></script>
 </body>
 </html>
+
 
