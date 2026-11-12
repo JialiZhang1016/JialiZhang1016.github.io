@@ -13,7 +13,7 @@
 <style>
 .route-compact .focus-row{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:28px;align-items:center;margin-top:30px}
 .route-compact .focus-figures{position:static}.route-compact .focus-figure img{width:100%;max-height:360px;object-fit:contain;box-shadow:none;border:1px solid var(--border-color)}
-.route-compact .focus-figure figcaption{font-size:.82rem;line-height:1.5;text-align:left}.route-compact .project-detail-content p{line-height:1.7;margin-bottom:10px}.route-compact .zh{font-size:.9rem;color:var(--text-light)}
+.route-compact .focus-figure figcaption{font-size:.82rem;line-height:1.5;text-align:left}.route-compact .project-detail-content p{line-height:1.7;margin-bottom:10px}
 .route-compact .focus-main{max-width:1500px;padding:30px clamp(20px,4vw,65px)}.route-compact .focus-card{padding:clamp(22px,3vw,40px)}
 .route-compact .focus-header h1{font-size:clamp(1.6rem,2.5vw,2.15rem)}.route-compact .project-detail-content h3{margin:0 0 10px}.route-compact .focus-full{margin-top:25px;padding-top:20px}.route-compact .focus-full p{line-height:1.7}
 @media(max-width:1100px){.route-compact .focus-row{grid-template-columns:1fr}.route-compact .focus-main{padding:24px 18px}} 
@@ -77,6 +77,7 @@
             <header class="focus-header">
                 <h1>Reinforcement Learning for Time-Constrained Drone and Vehicle Routing</h1>
                 <p class="project-meta">RAM-DQN · Manuscript in preparation</p>
+                <p>A valuable route must leave enough resources to finish the mission. I studied this through joint drone routing and dwell-time decisions—a foundation for reasoning about EV routes, charging stops, and departure readiness.</p>
             </header>
             <div class="focus-row" id="overview">
                 <figure class="focus-figure">
@@ -84,9 +85,8 @@
                     <figcaption>Figure 5: Online Map of the RAM-DQN Agent Trajectory and Decisions.<br>Simulation using Yellowstone coordinates. Map © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>.</figcaption>
                 </figure>
                 <div class="project-detail-content">
-                    <h3>The task</h3>
-                    <p>Choose which sites to visit and how long to collect data, balancing site value with a limited mission time and weather-dependent travel delays. The drone must preserve time to return to base.</p>
-                    <p class="zh" lang="zh-CN">同时决定访问哪些地点、停留多久采集数据，在有限时间和随机天气延误下权衡任务价值，并为返航预留时间。</p>
+                    <h3>Choose the route and the time spent at each stop</h3>
+                    <p>I modeled a drone visiting sites with different data-collection value under a limited mission budget and weather-dependent travel times. The policy chooses both the next site and its dwell time, while reserving time to return. The map illustrates the simulated task.</p>
                 </div>
             </div>
             <div class="focus-row" id="method">
@@ -96,8 +96,7 @@
                 </figure>
                 <div class="project-detail-content">
                     <h3>Dynamic action masking</h3>
-                    <p>DQN scores destination–dwell-time choices. A state-dependent mask excludes revisits and choices whose estimated travel, dwell, and return time exceed the remaining budget.</p>
-                    <p class="zh" lang="zh-CN">DQN为“目的地—停留时间”组合评分。动态掩码排除重复访问，以及预计去程、停留和返程总时间超出剩余预算的动作。</p>
+                    <p>I discretized dwell time and used DQN to score destination–dwell-time choices. A dynamic mask screens revisits and choices whose estimated travel, collection, and return time exceed the remaining budget. The next-state mask also restricts the Q-learning target.</p>
                 </div>
             </div>
             <div class="focus-row">
@@ -107,14 +106,14 @@
                 </figure>
                 <div class="project-detail-content">
                     <h3>Risk-aware reward shaping</h3>
-                    <p>A bonus based on the ratio of expected return time to remaining time encourages a larger time buffer. It complements action masking; expected-time checks still allow failures under unexpected delays.</p>
-                    <p class="zh" lang="zh-CN">根据“预计返程时间／剩余时间”的比例给予奖励，鼓励保留时间余量，与动作掩码配合。按期望时间检查，仍可能在意外延误下失败。</p>
+                    <p>I added a reward bonus based on expected return time relative to remaining time, encouraging the policy to preserve a buffer. Masking screens choices; shaping guides preferences among them. Because travel is stochastic, an expected-time check still permits failures under larger-than-expected delays.</p>
                 </div>
             </div>
             <div class="focus-full project-detail-content" id="mobility">
                 <h3>Connection to vehicle operations</h3>
-                <p>The transferable idea is to coordinate routing and resource allocation around operational requirements—such as charging duration, energy reserves, and readiness for the next trip.</p>
-                <p class="zh" lang="zh-CN">可迁移的核心是围绕运行要求协调路径与资源分配，例如充电时长、能源余量和下一次出车的就绪要求。</p>
+                <p>In an EV setting, a route determines where and when charging is possible, while charging duration and battery energy affect which trips are feasible. The common problem is choosing the next task without consuming resources needed later.
+                </p><p>I would extend the formulation with vehicle SOC, charging curves, station availability, and departure requirements, then evaluate completed trips, missed departures, and feasibility alongside cost. The drone study supplies modeling and constraint-handling experience; it does not establish EV deployment performance.
+                </p><p><a href="project-bilevel.html#demand-supply">Related work: coordinating demand, renewables, storage, and ToU prices</a></p>
             </div>
             <div class="tech-stack"><span class="tech-pill">Python</span><span class="tech-pill">Reinforcement Learning</span><span class="tech-pill">DQN</span><span class="tech-pill">Action Masking</span><span class="tech-pill">Simulation</span></div>
         </article>

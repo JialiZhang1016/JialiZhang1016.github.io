@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="project-split.css?v=3">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <style>
-.energy-explainer h2{font-size:1.4rem;color:var(--primary-color);margin:0 0 16px}.energy-explainer p{line-height:1.75;margin:14px 0}.energy-explainer .energy-zh,.energy-symbols{font-size:.9rem;color:var(--text-light)}
+.energy-explainer h2{font-size:1.4rem;color:var(--primary-color);margin:0 0 16px}.energy-explainer p{line-height:1.75;margin:14px 0}.energy-symbols{font-size:.9rem;color:var(--text-light)}
 .energy-explainer .focus-figure img{box-shadow:none;border:1px solid var(--border-color)}.energy-explainer figcaption{text-align:left;font-size:.84rem}.energy-equations{display:grid;grid-template-columns:1fr;gap:15px;margin:20px 0}.energy-equations>div{padding:13px 17px;background:rgba(86,148,185,.07);border-left:3px solid var(--primary-color)}.eq-label{font-size:.8rem;color:var(--text-light)}.energy-eq{font-family:Georgia,serif;font-size:clamp(.95rem,1.5vw,1.2rem);line-height:1.9;overflow-x:auto;padding:5px 0}.energy-penalty{padding:12px 16px;border:1px solid var(--border-color);border-radius:7px}.energy-penalty summary{cursor:pointer;font-weight:600}.energy-explainer{scroll-margin-top:24px}
 </style></head>
 <body class="project-focus project-resizable">
@@ -72,51 +72,45 @@
         <article class="focus-card">
             <header class="focus-header">
                 <h1>Bilevel Optimization for Joint Flowshop Scheduling and Microgrid Energy Management</h1>
-                <p class="project-meta">2024&ndash;2026</p>
+                <p class="project-meta">2024&ndash;2026 · Simulation, optimization, and reinforcement learning</p>
+                <p>When work can be scheduled flexibly, its energy demand becomes a decision—not just an input. I jointly optimized factory jobs and microgrid dispatch, a structure relevant to coordinating EV trips with charging and renewable availability.</p>
                 <div class="project-highlight-banner">
                     13&ndash;25% lower electricity cost than a rule-based controller across five production scenarios (simulation)
                 </div>
             </header>
 
-            <div class="focus-row">
-                <div class="focus-figures">
-                    <figure class="focus-figure">
-                        <img src="readme_plots/fig1_system_original.png" alt="Flowshop-Microgrid System Architecture">
-                    </figure>
-                    <figure class="focus-figure">
-                        <img src="readme_plots/fig_bilevel_original.png" alt="Bilevel Optimization Framework">
-                    </figure>
-                </div>
-                <div class="project-detail-content">
-                    <h3>Key Contributions</h3>
-                    <ul>
-                        <li>Designed a bilevel optimization framework coupling Genetic Algorithm (production scheduling) with PPO (energy dispatch), bridging two traditionally siloed optimization problems into a single co-optimization loop.</li>
-                        <li>Built a custom OpenAI Gym environment modeling real solar/wind/battery/grid energy flows with physical constraints &mdash; SOC limits, charging/discharging efficiency losses, and time-of-use pricing from 3 real-world locations.</li>
-                        <li>Invented a &ldquo;factory-first&rdquo; action space that eliminates suboptimal RL behaviors by construction &mdash; the agent was selling renewable energy for short-term gain then buying expensive grid power; the new design prevents this structurally.</li>
-                        <li>Engineered a 5-stage training pipeline: demand pool generation &rarr; multi-demand behavioral cloning &rarr; PPO pretraining &rarr; surrogate model initialization &rarr; bilevel co-optimization.</li>
-                        <li>Evaluated on real solar, wind, and price inputs from three locations; electricity cost was 13&ndash;25% lower than a rule-based controller across five production scenarios. These are simulation results.</li>
-                        <li>Checked surrogate ranking and bias, corrected the terminal battery-energy valuation, and benchmarked against MPC over seven planning horizons.</li>
-                    </ul>
-                </div>
-            </div>
-
-
             <div class="focus-full energy-explainer" id="demand-supply">
-                <h2>Match the production demand to the energy system</h2>
+                <h2>Why scheduling and dispatch must be optimized together</h2>
                 <figure class="focus-figure">
                     <img src="readme_plots/energy/sequence-effect-S.png" alt="Three job schedules create different demand profiles against the same solar and wind generation; the time-of-use tariff is shown below" loading="lazy">
-                    <figcaption>Effect of job sequencing on demand and cost: S-instance with the same RBC dispatcher. Original slide figure; costs shown are for this example.</figcaption>
+                    <figcaption>Same renewables and RBC dispatcher; different job schedules. In this S-instance illustration: NEH $77, renewable-matching GA $48, bilevel GA $34.</figcaption>
                 </figure>
-                <p><strong>Scheduling changes demand; dispatch chooses how to supply it.</strong> The GA adjusts job order and start-time offsets. PPO coordinates solar, wind, battery storage, and grid purchases; a neural surrogate estimates dispatch cost so the GA can compare schedules efficiently.</p>
-                <p class="energy-zh" lang="zh-CN">排程改变需求曲线，能源调度决定如何满足需求。GA调整任务顺序和开始时间，PPO协调太阳能、风能、电池与电网；神经替代模型估计调度成本，让GA能高效比较排程。</p>
-                <p><strong>Renewables + time-of-use pricing.</strong> Shift flexible production toward renewable availability and cheaper hours; charge at lower prices and use stored energy during higher-price periods, subject to SOC, efficiency, and operating limits. This supports load shifting and price arbitrage.</p>
-                <p class="energy-zh" lang="zh-CN">结合可再生能源与分时电价，把可调整的生产安排到风光充足或电价较低的时段；在SOC、效率和运行限制下低价充电、高价时使用储能，实现移峰与价差套利。图中示例电价为低谷$0.06、平段$0.19、高峰$0.35/kWh。</p>
+                <p><strong>Scheduling changes demand; dispatch chooses how to supply it.</strong> Matching demand to renewable generation alone is not enough: storage, electricity prices, and the dispatcher’s response also affect cost. The bilevel search evaluates schedules through that downstream energy decision.</p>
+                <p><strong>Renewables + time-of-use pricing.</strong> Shift flexible production toward renewable availability and cheaper hours; charge at lower prices and use stored energy during higher-price periods, subject to SOC, efficiency, and operating limits. This supports load shifting and price arbitrage. The figure’s example tariff is $0.06/$0.19/$0.35 per kWh for off-peak/mid-peak/peak periods.</p>
             </div>
 
+            <div class="focus-full energy-explainer" id="framework">
+                <h2>Two decision layers, one cost objective</h2>
+                <div class="focus-figures">
+                    <figure class="focus-figure"><img src="readme_plots/fig1_system_original.png" alt="Factory microgrid with solar, wind, battery storage and grid electricity"><figcaption>The implemented system: factory production supplied by a microgrid.</figcaption></figure>
+                    <figure class="focus-figure"><img src="readme_plots/fig_bilevel_original.png" alt="Genetic scheduling search coupled with PPO dispatch and a neural cost surrogate" loading="lazy"><figcaption>Production scheduling changes the demand seen by the energy dispatcher.</figcaption></figure>
+                </div>
+                <ul>
+                    <li><strong>GA schedules jobs:</strong> choose job order and start-time offsets, shaping when electricity is needed.</li>
+                    <li><strong>PPO dispatches energy:</strong> allocate solar, wind, battery, and grid supply as conditions evolve.</li>
+                    <li><strong>A neural surrogate accelerates search:</strong> estimate dispatch cost instead of running a full dispatch simulation for every candidate schedule.</li>
+                </ul>
+                <p>PPO learns sequential decisions in simulation; MPC was also evaluated over seven horizons. The choice depends on forecasting, model quality, and computation—not a universal advantage of one algorithm.</p>
+            </div>
+
+            <div class="focus-full energy-explainer" id="reliability">
+                <h2>Make lower cost operationally meaningful</h2>
+                <p>I modeled SOC limits and efficiency losses, and designed a factory-first action space that rules out selling renewables and then buying grid electricity to meet factory demand. This encodes a specific operating rule directly in the choices available to the policy.</p>
+                <p>I checked surrogate rankings and bias, and corrected how remaining battery energy was valued at the end of an episode. These checks help avoid selecting the wrong schedule or reporting savings caused by inconsistent final battery inventories.</p>
+            </div>
             <div class="focus-full energy-explainer" id="reward-shaping">
-                <h2>Potential-based reward shaping</h2>
-                <p>Charging can cost money now and save money later. The reward adds a stored-energy value signal and a renewable-waste penalty to the immediate cost.</p>
-                <p class="energy-zh" lang="zh-CN">充电当下有成本，收益却可能在未来才出现。奖励函数在即时成本之外，加入储能价值信号与可再生能源浪费惩罚。</p>
+                <h2>Help the policy learn the value of charging now</h2>
+                <p>Charging incurs an immediate cost but may reduce purchases at a later peak price. I used potential-based reward shaping to make that delayed value more informative during training, alongside a penalty for renewable waste.</p>
                 <div class="energy-equations" aria-label="Reward function from the project slides">
                     <div><span class="eq-label">Total reward</span><div class="energy-eq">r<sub>t</sub> = −C<sub>t</sub> + F(s<sub>t</sub>, s<sub>t+1</sub>) − W<sup>pen</sup><sub>t</sub></div></div>
                     <div><span class="eq-label">Potential difference</span><div class="energy-eq">F(s<sub>t</sub>, s<sub>t+1</sub>) = Φ(s<sub>t+1</sub>) − Φ(s<sub>t</sub>)</div></div>
@@ -124,13 +118,19 @@
                     <div><span class="eq-label">Price-spread signal</span><div class="energy-eq">v<sup>arb</sup><sub>t</sub> = ρ<sub>max</sub> + η max(0, ρ<sub>max</sub> − ρ<sub>t</sub>)</div></div>
                 </div>
                 <p class="energy-symbols">C<sub>t</sub>: grid purchase cost − renewable export revenue + battery cycling cost. ρ<sub>t</sub>: current buy price; ρ<sub>max</sub> = max<sub>τ≥t</sub> ρ<sub>τ</sub> from the known ToU schedule. B<sub>cap</sub>: battery capacity; β, η: calibration coefficients.</p>
-                <details class="energy-penalty"><summary>Renewable-waste penalty</summary><div class="energy-eq">W<sup>pen</sup><sub>t</sub> = κ ρ<sub>t</sub> max(0, R<sub>t</sub> − D<sub>t</sub><sup>(σ,δ)</sup> − B<sub>room,t</sub>)</div><p>R<sub>t</sub> is solar + wind generation; D<sub>t</sub><sup>(σ,δ)</sup> is schedule-dependent demand; B<sub>room,t</sub> is available battery headroom. The penalty encourages preserving room for renewable energy.</p><p class="energy-zh" lang="zh-CN">R为太阳能与风能供给，D为排程决定的需求，B<sub>room</sub>为电池剩余容量；惩罚项鼓励为可再生能源保留储能空间。</p></details>
+                <details class="energy-penalty"><summary>Renewable-waste penalty</summary><div class="energy-eq">W<sup>pen</sup><sub>t</sub> = κ ρ<sub>t</sub> max(0, R<sub>t</sub> − D<sub>t</sub><sup>(σ,δ)</sup> − B<sub>room,t</sub>)</div><p>R<sub>t</sub> is solar + wind generation; D<sub>t</sub><sup>(σ,δ)</sup> is schedule-dependent demand; B<sub>room,t</sub> is available battery headroom. The penalty encourages preserving room for renewable energy.</p></details>
             </div>
 
             <div class="focus-full energy-explainer" id="mobility-connection">
                 <h2>From job scheduling to EV route and charging planning</h2>
-                <p>In an EV application, routes and departure times shape charging demand, while renewable generation, ToU prices, and charger capacity shape the charging plan. The same coupled approach could coordinate both—while preserving enough energy for the next trip.</p>
-                <p class="energy-zh" lang="zh-CN">迁移到EV场景，路径和出发时间决定充电需求，可再生能源、分时电价和充电容量共同影响充电计划。可以用相同的耦合思路协调两者，同时保证下一次行程所需电量。这是应用迁移方向，原实验为工厂微电网仿真。</p>
+                <p>For an EV fleet, trip assignments and departure times shape charging demand, while renewable generation, ToU prices, and shared charger capacity shape the charging plan. This is the same coupling between an operational schedule and energy decisions that I studied in the factory system.
+                </p><p>To transfer the approach, I would add vehicle connection windows, required energy at departure, and charger limits, then evaluate energy cost together with vehicle readiness and constraint violations. My implemented results are from factory microgrid simulations; the EV formulation is a proposed extension.
+                </p><p><a href="project-routing.html">Related work: routing and mission-resource decisions</a></p>
+            </div>
+
+            <div class="focus-full energy-explainer" id="results">
+                <h2>Evidence and scope</h2>
+                <p>Using real solar, wind, and price inputs from three locations, electricity cost was 13–25% lower than a rule-based controller across five production scenarios. These are simulation results; the headline is not a comparison against MPC or evidence of EV fleet deployment.</p>
             </div>
 
             <div class="focus-footer-row">
