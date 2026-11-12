@@ -1,0 +1,98 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="Jiali Zhang’s research on constraint-aware reinforcement learning for drone missions and vehicle routing with time windows."><title>Reinforcement Learning for Time-Constrained Drone and Vehicle Routing | Jiali Zhang</title><link rel="stylesheet" href="style.css"><link rel="stylesheet" href="project-focus.css"><link rel="stylesheet" href="project-routing.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"></head><body class="project-focus routing-page"><header class="focus-topbar"><div class="focus-topbar-inner"><a href="projects.html" class="back-link">All projects</a><a class="focus-home-name" href="index.html">Jiali Zhang</a></div></header>
+<nav class="route-nav" aria-label="Project sections"><a href="#overview">Problem</a><a href="#method">Method</a><a href="#results">Results</a><a href="#mobility">Mobility connection</a><a href="#walkthrough">Walkthrough</a></nav>
+<main class="focus-main"><article class="focus-card"><header class="focus-header"><h1>Reinforcement Learning for Time-Constrained Drone and Vehicle Routing</h1><p class="project-meta">Jiali Zhang · Research project · Manuscript in preparation</p>
+<p class="route-intro">How can a routing policy choose valuable tasks while preserving enough time and resources to finish the mission?</p><p class="zh" lang="zh-CN">怎样让路径策略选择有价值的任务，同时留足完成任务所需的时间与资源？</p></header>
+<section id="overview"><h2>Route choice and resource allocation belong together</h2><div class="route-pair"><figure><a href="readme_plots/routing/mission-map.jpg" target="_blank" rel="noopener"><img src="readme_plots/routing/mission-map.jpg" width="1295" height="831" alt="Original manuscript map showing a simulated route through high- and low-priority sites in Yellowstone"></a><figcaption>Original RAM-DQN manuscript illustration: a simulated mission using Yellowstone coordinates. Map data © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>. This is a simulation example, not a field flight or an EV experiment.<br><span lang="zh-CN">论文原图：基于黄石公园地理坐标的仿真任务，用于说明路径与任务优先级；不是实地飞行或EV实验。</span></figcaption></figure>
+<div><p>The original UAV problem couples <strong>where to go next</strong> with <strong>how long to collect data</strong>. Longer dwell time can collect more valuable information, but leaves less time for travel and return. Weather makes travel time uncertain.</p><p class="zh" lang="zh-CN">原始无人机问题同时决定“下一站去哪”和“停留多久采集数据”。更长停留可以获得更多数据价值，但会压缩飞行和返航时间；天气又使旅行时间不确定。</p><p>The research developed from this mission-planning formulation toward learned constraint handling in routing with time windows. The two stages share a decision-making theme, but use different environments and experiments.</p><p class="zh" lang="zh-CN">这条研究从无人机任务规划发展到时间窗路径问题中的学习式约束处理。两阶段有共同的决策主线，但环境和实验不同。</p></div></div>
+<div class="table-scroll"><table><caption>What the original drone policy must reason about</caption><thead><tr><th>Element</th><th>Meaning</th><th>Why it matters</th></tr></thead><tbody>
+<tr><td>State 状态</td><td>Current location, remaining time, visited sites, weather</td><td>Decisions depend on the mission’s current condition.</td></tr>
+<tr><td>Action 动作</td><td>Next destination and dwell-time choice</td><td>Routing and time allocation consume the same budget.</td></tr>
+<tr><td>Operating requirements 运行要求</td><td>Time budget, dwell bounds, no repeated target visits, return to base</td><td>A valuable visit is useful only within a viable mission.</td></tr>
+<tr><td>Uncertainty 不确定性</td><td>Weather-dependent travel time</td><td>Expected-time feasibility does not guarantee on-time completion.</td></tr>
+</tbody></table></div></section>
+<section id="method"><h2>Represent feasibility in the decision process</h2><div class="route-pair"><figure><a href="readme_plots/routing/action-mask.png" target="_blank" rel="noopener"><img src="readme_plots/routing/action-mask.png" width="2201" height="800" alt="Original action-mask diagram rejecting a previously visited target and an action failing the time constraint" loading="lazy"></a><figcaption>Original manuscript figure: dynamic action masking. Its role is to screen candidate decisions under the modeled rules.<br><span lang="zh-CN">论文原图：动态动作掩码，根据建模规则筛选候选动作。</span></figcaption></figure><div><h3>Original formulation: RAM-DQN</h3><p>A DQN scores destination–dwell-time pairs after dwell time is discretized. A dynamic mask screens revisits and checks whether the trip, collection time, and estimated return fit the remaining budget. The next-state mask also restricts the actions used in the Q-learning target.</p><p class="zh" lang="zh-CN">将停留时间离散化后，DQN为“目的地—停留时间”组合评分。动态掩码排除重复访问，并检查去程、采集和预计返程能否放进剩余预算；计算Q学习目标时也使用下一状态的有效动作集合。</p></div></div>
+<div class="route-note"><strong>The central limitation:</strong> a check based on expected travel time can still fail when the realized delay is larger. Masking is a mechanism for handling modeled constraints, not a blanket safety guarantee.<br><span class="zh" lang="zh-CN">核心局限：按期望旅行时间进行检查，仍可能因实际延误超出预期而失败。掩码处理的是建模约束，不能直接等同于安全保证。</span></div>
+<div class="route-method"><div><h3>Encourage a return-time buffer</h3><p>The original design adds a shaping bonus based on the ratio of estimated return time to remaining time. It encourages a buffer alongside the base task reward and time cost.</p><p class="zh" lang="zh-CN">原设计根据“预计返程时间／剩余时间”的比例加入塑形奖励，在任务收益和时间成本之外鼓励保留余量。</p><div class="route-equation">r<sub>shaping</sub> = k · max(0, 1 − T<sub>return</sub> / T<sub>remaining</sub>)</div><p class="route-source">A heuristic bonus from the original formulation; no policy-invariance or worst-case safety guarantee is claimed.</p></div><figure><a href="readme_plots/routing/safety-buffer.png" target="_blank" rel="noopener"><img src="readme_plots/routing/safety-buffer.png" alt="Original conceptual plot of the return-time safety-ratio shaping function" loading="lazy"></a><figcaption>Original conceptual function plot; not an experimental performance curve.<br><span lang="zh-CN">原稿中的函数示意图，不是实验性能曲线。</span></figcaption></figure></div>
+<h3>Later work: learned soft action bias</h3><p>For time-window routing, a locally admissible move can still make a later stop infeasible. The later approach generalizes hard feasibility masks in a POMO-style policy into a learned soft bias that downweights risky actions. This is a separate method stage from the original DQN and reward-shaping design.</p><p class="zh" lang="zh-CN">在时间窗路径问题中，当前看似可行的动作仍可能导致后续站点不可行。后续方法把POMO式策略中的硬可行性掩码扩展为学习到的软偏置，降低风险动作的权重。这与原始DQN和奖励塑形属于不同方法阶段。</p></section>
+<section id="results"><h2>Evaluate feasible decisions, not just reward</h2><p>The table below reports the later <strong>time-window routing benchmark</strong>, not the original RAM-DQN drone experiment. The comparison used 10,000 TSPTW instances from the PIP-D benchmark, a matched 24-epoch training budget, and three seeds.</p><p class="zh" lang="zh-CN">下表来自后续时间窗路径基准，不是原始RAM-DQN无人机实验。比较使用PIP-D基准的10,000个TSPTW实例，两组均为24个训练epoch、三个种子。</p>
+<svg class="route-chart" viewBox="0 0 700 230" role="img" aria-labelledby="chart-title chart-desc"><title id="chart-title">Infeasible-route rate in the later TSPTW experiment</title><desc id="chart-desc">Hard masking 56.4 percent, learned soft bias 11.7 percent. Lower is better. Rates are mean values over three seeds at a matched training budget.</desc><text x="0" y="27" font-family="sans-serif" font-size="16" fill="#17354b">Infeasible routes · lower is better</text><text x="0" y="80" font-family="sans-serif" font-size="15" fill="#17354b">Hard mask</text><rect x="165" y="54" width="395" height="38" rx="4" fill="#73899b"/><text x="570" y="80" font-family="sans-serif" font-size="18" fill="#17354b">56.4%</text><text x="0" y="142" font-family="sans-serif" font-size="15" fill="#17354b">Learned soft bias</text><rect x="165" y="116" width="82" height="38" rx="4" fill="#187264"/><text x="259" y="142" font-family="sans-serif" font-size="18" fill="#17354b">11.7%</text><text x="165" y="193" font-family="sans-serif" font-size="14" fill="#466275">10,000 instances · 24 epochs per arm · 3 seeds</text></svg>
+<div class="table-scroll"><table><caption>Later TSPTW experiment: matched-budget internal comparison</caption><thead><tr><th>Method</th><th>Infeasible-route rate</th><th>Tour length on feasible routes</th></tr></thead><tbody><tr><td>Hard mask</td><td>0.564 ± 0.067</td><td>24.489 ± 0.991</td></tr><tr><td>Learned soft bias</td><td>0.117 ± 0.069</td><td>22.791 ± 0.964</td></tr></tbody></table></div>
+<p class="route-source">Mean and reported seed-to-seed variation across three seeds, as recorded in the later experiment analysis. The headline rounds these rates to 56% and 12%; tour length is conditional on feasibility. This is not a claim of outperforming the published PIP-D model.</p>
+<div class="route-note"><strong>Scope matters.</strong> About 12% of routes remain infeasible in this setting. In separate OPTW experiments, soft bias performed better at 20 locations, while hard masking performed better at 100 locations. The benefit depends on problem structure, scale, and training budget.<br><span class="zh" lang="zh-CN">结果边界：这个设置下仍约有12%的路线不可行。在另一个OPTW实验中，20站点时软偏置更好，100站点时硬掩码更好。收益取决于问题结构、规模和训练预算。</span></div>
+<p class="route-source">Version note: the earlier drone environment was revised. Pre-revision drone performance numbers and learning curves are excluded here; the original figures above explain the formulation only. Current results are taken from the later July 2026 routing experiment records.</p><p class="zh" lang="zh-CN">版本说明：早期无人机环境曾修正，本页不使用修正前的性能数字或训练曲线；上面的原图只解释问题与方法。结果取自后续2026年7月路径实验记录。</p></section>
+<section id="mobility"><h2>Connection to vehicle and energy services</h2><p>These are transferable research ideas for mobility applications. The experiments above concern simulated drone missions and routing benchmarks; they do not establish performance on a deployed vehicle fleet.</p><p class="zh" lang="zh-CN">下面是对出行场景的迁移思路。上述实验是无人机仿真与路径基准，尚不能说明真实车队部署效果。</p><div class="table-scroll"><table><caption>From mission planning to vehicle operations</caption><thead><tr><th>Research element</th><th>Possible mobility counterpart</th><th>What needs validation</th></tr></thead><tbody>
+<tr><td>Return-time buffer<br>返航时间余量</td><td>Energy reserve and vehicle readiness before the next trip</td><td>Energy-consumption uncertainty and operational reserve requirements</td></tr>
+<tr><td>Destination and dwell time<br>目的地与停留时间</td><td>Route selection and charging/service duration</td><td>Charging curves, queueing, service windows and charger access</td></tr>
+<tr><td>Random travel time<br>随机旅行时间</td><td>Traffic, changing trip demand and uncertain energy use</td><td>Realistic data, forecasts and stress scenarios</td></tr>
+<tr><td>Feasibility-aware decisions<br>考虑可行性的决策</td><td>Coordinate routing and charging under shared constraints</td><td>Explicit operational checks and a fallback when no feasible plan exists</td></tr>
+</tbody></table></div><p>For Nissan’s EV &amp; Energy Services context, the connection is coordinating decisions around operating needs: a charging plan should leave a vehicle ready for its next task, just as a mission plan should preserve the ability to finish and return. Cost, task completion, and failure behavior should be assessed together.</p><p class="zh" lang="zh-CN">与日产EV &amp; Energy Services工作的联系，是围绕运行需求协调决策：充电安排要让车辆能执行下一项任务，就像任务规划要保留完成与返航能力。成本、任务完成情况和失败表现需要一起评价。</p><p class="route-source">Application connection informed by Nissan’s public <a href="https://www.youtube.com/watch?v=mjQn_4HlFMk" target="_blank" rel="noopener">intelligent charging</a> and <a href="https://www.youtube.com/watch?v=SVuDHCUhXqs" target="_blank" rel="noopener">V2G case-study</a> videos. This is an application mapping, not a description of Nissan’s internal algorithms or a Nissan-sponsored project.</p></section>
+<section id="walkthrough"><h2>A short project walkthrough</h2><p>My routing research started with a drone mission under a limited time budget and uncertain weather. The policy needed to decide both where to go and how long to collect data, while preserving enough time to return. I used action masking to represent operating rules and explored reward shaping to encourage a time buffer. A key lesson was that passing an expected-time check does not guarantee that a mission will succeed under random delays. In later time-window routing work, I investigated learned soft biases for decisions whose feasibility depends on future stops. At a matched training budget, the infeasible-route rate fell from about 56% to 12% on 10,000 benchmark instances, with clear limitations at larger scales. For vehicle operations, I would bring the same focus on constraints and failure analysis, then validate the additional energy, charging, and service requirements.</p><p class="zh" lang="zh-CN">我的路径研究最初是一个时间预算有限、天气不确定的无人机任务。策略需要同时决定去哪、采集多久，并留足返航时间。我用动作掩码表示运行规则，也探索了鼓励时间余量的奖励塑形。一个关键认识是：通过期望时间检查，不保证任务在随机延误下成功。后续时间窗路径研究中，我探索学习式软偏置，处理可行性取决于未来站点的决策。在相同训练预算下，10,000个基准实例上的不可行率从约56%降到12%，同时存在明确的规模局限。对于车辆运营，我会延续对约束与失败分析的重视，再验证新增的能源、充电和服务要求。</p></section>
+</article></main><footer><p>© 2026 Jiali Zhang · Updated November 2026</p></footer>
+    <!-- Theme Selector Button -->
+    <button id="theme-toggle" class="theme-toggle-btn" title="Change Theme">
+        <i class="fas fa-palette"></i>
+    </button>
+
+    <!-- Theme Selector Modal -->
+    <div id="theme-modal" class="theme-modal">
+        <div class="theme-modal-content">
+            <div class="theme-modal-header">
+                <h3>Choose Your Theme</h3>
+                <button class="theme-modal-close">&times;</button>
+            </div>
+            <div class="theme-options">
+                <div class="theme-category">
+                    <h4>Color Theme</h4>
+                    <div class="theme-grid">
+                        <button class="theme-option" data-theme="pearl-blue">
+                            <div class="theme-preview" style="background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 50%, #bae6fd 100%);"></div>
+                            <span>Pearl Blue</span>
+                        </button>
+                        <button class="theme-option" data-theme="mst-green">
+                            <div class="theme-preview" style="background: linear-gradient(135deg, #E6F0EC 0%, #D4E5DD 50%, #C2DACE 100%);"></div>
+                            <span>MST Green</span>
+                        </button>
+                        <button class="theme-option" data-theme="light-academic">
+                            <div class="theme-preview" style="background: linear-gradient(135deg, #E8F0FE 0%, #D0E2FF 50%, #B8D4FE 100%);"></div>
+                            <span>Light Academic</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="theme-category">
+                    <h4>Background Pattern</h4>
+                    <div class="theme-grid">
+                        <button class="pattern-option" data-pattern="none">
+                            <div class="theme-preview" style="background: #f5f5f5;"></div>
+                            <span>None</span>
+                        </button>
+                        <button class="pattern-option" data-pattern="topographic">
+                            <div class="theme-preview pattern-demo-topo"></div>
+                            <span>Topographic</span>
+                        </button>
+                        <button class="pattern-option" data-pattern="dots">
+                            <div class="theme-preview pattern-demo-dots"></div>
+                            <span>Dot Grid</span>
+                        </button>
+                        <button class="pattern-option" data-pattern="waves">
+                            <div class="theme-preview pattern-demo-waves"></div>
+                            <span>Waves</span>
+                        </button>
+                        <button class="pattern-option" data-pattern="hexagons">
+                            <div class="theme-preview pattern-demo-hex"></div>
+                            <span>Hexagons</span>
+                        </button>
+                        <button class="pattern-option" data-pattern="grid">
+                            <div class="theme-preview pattern-demo-grid"></div>
+                            <span>Grid</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="theme-switcher.js"></script>
+    <script src="project-split.js?v=1"></script>
+    <script src="project-lightbox.js?v=3b9923a"></script>
+</body>
+</html>
