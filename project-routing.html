@@ -17,7 +17,7 @@
 .route-compact .focus-main{max-width:1500px;padding:30px clamp(20px,4vw,65px)}.route-compact .focus-card{padding:clamp(22px,3vw,40px)}
 .route-compact .focus-header h1{font-size:clamp(1.6rem,2.5vw,2.15rem)}.route-compact .project-detail-content h3{margin:0 0 10px}.route-compact .focus-full{margin-top:25px;padding-top:20px}.route-compact .focus-full p{line-height:1.7}
 @media(max-width:1100px){.route-compact .focus-row{grid-template-columns:1fr}.route-compact .focus-main{padding:24px 18px}} 
-</style></head>
+.soft-bias-definition{margin:18px 0;padding:12px 16px;border-left:3px solid var(--primary-color);background:rgba(86,148,185,.06)}.soft-bias-equation{font-family:Georgia,serif;font-size:clamp(.95rem,1.4vw,1.12rem);line-height:1.95;overflow-x:auto;padding:4px 0}.soft-bias-key{font-size:.88rem;color:var(--text-light);line-height:1.7}\n</style></head>
 <body class="project-focus project-resizable route-compact">
         <aside class="sidebar">
             <div class="sidebar-content">
@@ -112,6 +112,15 @@
             <div class="focus-full project-detail-content" id="soft-penalty">
                 <h3>Later work: learned soft penalty for time-window routing</h3>
                 <p>A choice that is feasible now can make a later stop infeasible. In subsequent routing work, I used a learned soft bias to adjust action scores using constraint information, rather than relying only on a binary feasibility cutoff. Structurally invalid actions, such as revisits, remain hard-masked.</p>
+                <div class="soft-bias-definition" aria-label="Definition of the learned soft bias">
+                    <div class="soft-bias-equation">f<sub>t,j</sub> = [slack<sub>t,j</sub>, d<sub>t,j</sub>, p<sub>j</sub>, visited<sub>t,j</sub>]</div>
+                    <div class="soft-bias-equation">slack<sub>t,j</sub> = l<sub>j</sub> − (t<sub>current</sub> + d<sub>t,j</sub>)</div>
+                    <div class="soft-bias-equation"><strong>b<sub>t,j</sub> = α tanh(g<sub>θ</sub>(f<sub>t,j</sub>))</strong>, &nbsp; |b<sub>t,j</sub>| ≤ α</div>
+                    <div class="soft-bias-equation">π<sub>θ</sub>(j | s<sub>t</sub>) = softmax<sub>j</sub>(z<sub>t,j</sub> + b<sub>t,j</sub> + m<sup>struct</sup><sub>t,j</sub>)</div>
+                </div>
+                <p class="soft-bias-key">g<sub>θ</sub> is a small MLP; z is the base decoder score; α bounds the correction. For time windows, l<sub>j</sub> is the latest arrival time and d is travel time/distance in the environment’s normalized units. Prize p<sub>j</sub> is used for OP/OPTW and set to zero in TSPTW. The structural mask m is 0 for allowed actions and −∞ for structurally invalid actions.</p>
+                <p><strong>Interpretation:</strong> a negative bias lowers an action’s probability; a positive bias raises its relative score. The network learns this adjustment from constraint features. It is a finite preference adjustment, not a guarantee of feasibility.</p>
+                <p class="soft-bias-key"><strong>Separate training penalty (TSPTW):</strong> R = −(tour length + β · total lateness). Here β weights violations in the training reward; b adjusts action scores during decoding.</p>
                 <p><strong>10,000 TSPTW instances, matched training budget: infeasible routes fell from about 56% to 12%.</strong> This is a later benchmark result, separate from the RAM-DQN illustrations above. Failures remain; in separate OPTW tests, soft bias performed better at 20 locations, while hard masking performed better at 100.</p>
             </div>
             <div class="focus-full project-detail-content" id="mobility">
