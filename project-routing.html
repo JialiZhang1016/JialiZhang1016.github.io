@@ -76,7 +76,7 @@
         <article class="focus-card">
             <header class="focus-header">
                 <h1>Reinforcement Learning for Time-Constrained Drone and Vehicle Routing</h1>
-                <p class="project-meta">RAM-DQN · Manuscript in preparation</p>
+                <p class="project-meta">Drone mission planning and time-window routing · Manuscript in preparation</p>
                 <p>A valuable route must leave enough resources to finish the mission. I studied this through joint drone routing and dwell-time decisions—a foundation for reasoning about EV routes, charging stops, and departure readiness.</p>
             </header>
             <div class="focus-row" id="overview">
@@ -109,13 +109,18 @@
                     <p>I added a reward bonus based on expected return time relative to remaining time, encouraging the policy to preserve a buffer. Masking screens choices; shaping guides preferences among them. Because travel is stochastic, an expected-time check still permits failures under larger-than-expected delays.</p>
                 </div>
             </div>
+            <div class="focus-full project-detail-content" id="soft-penalty">
+                <h3>Later work: learned soft penalty for time-window routing</h3>
+                <p>A choice that is feasible now can make a later stop infeasible. In subsequent routing work, I used a learned soft bias to adjust action scores using constraint information, rather than relying only on a binary feasibility cutoff. Structurally invalid actions, such as revisits, remain hard-masked.</p>
+                <p><strong>10,000 TSPTW instances, matched training budget: infeasible routes fell from about 56% to 12%.</strong> This is a later benchmark result, separate from the RAM-DQN illustrations above. Failures remain; in separate OPTW tests, soft bias performed better at 20 locations, while hard masking performed better at 100.</p>
+            </div>
             <div class="focus-full project-detail-content" id="mobility">
                 <h3>Connection to vehicle operations</h3>
                 <p>In an EV setting, a route determines where and when charging is possible, while charging duration and battery energy affect which trips are feasible. The common problem is choosing the next task without consuming resources needed later.
                 </p><p>I would extend the formulation with vehicle SOC, charging curves, station availability, and departure requirements, then evaluate completed trips, missed departures, and feasibility alongside cost. The drone study supplies modeling and constraint-handling experience; it does not establish EV deployment performance.
                 </p><p><a href="project-bilevel.html#demand-supply">Related work: coordinating demand, renewables, storage, and ToU prices</a></p>
             </div>
-            <div class="tech-stack"><span class="tech-pill">Python</span><span class="tech-pill">Reinforcement Learning</span><span class="tech-pill">DQN</span><span class="tech-pill">Action Masking</span><span class="tech-pill">Simulation</span></div>
+            <div class="tech-stack"><span class="tech-pill">Python</span><span class="tech-pill">Reinforcement Learning</span><span class="tech-pill">DQN</span><span class="tech-pill">Action Masking</span><span class="tech-pill">Learned Soft Bias</span><span class="tech-pill">Simulation</span></div>
         </article>
     </main>
     <footer><p>&copy; 2026 Jiali Zhang. Updated November 2026.</p></footer>
